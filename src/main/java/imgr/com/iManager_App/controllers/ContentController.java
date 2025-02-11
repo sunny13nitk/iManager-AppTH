@@ -9,7 +9,7 @@ public class ContentController
     @GetMapping("/")
     public String home()
     {
-        return "home";
+        return "homeM";
     }
 
     @GetMapping("/home")
@@ -21,7 +21,7 @@ public class ContentController
     @GetMapping("/login")
     public String login()
     {
-        return "login";
+        return "loginbs";
     }
 
     @GetMapping("/admin/home")

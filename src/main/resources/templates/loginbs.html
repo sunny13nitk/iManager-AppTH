@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>iManager - Login Page</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Metro 4 -->
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/5.0.6/metro.css">
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/current/icons.css">
+
+    <style>
+        .login-form {
+            width: 440px;
+            height: auto;
+            background-color: #F9F9FA
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+
+        <div class="grid" style="padding-top: 200px;">
+
+
+            <div class="row flex-align-center">
+                <form th:action="@{/login}" method="POST" class="login-form  p-6 mx-auto border bd-default win-shadow"
+                    data-on-error-form="invalidForm" data-on-validate-form="validateForm">
+
+                    <!-- Place for messages: error, alert etc ... -->
+                    <div class="form-group">
+                        <div class="col-xs-15">
+                            <div>
+
+                                <!-- Check for login error -->
+
+                                <div th:if="${param.error}">
+
+                                    <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                                        Invalid username and password.</div>
+
+                                </div>
+
+                                <!-- Check for logout -->
+
+                                <div th:if="${param.logout}">
+
+                                    <div class="alert alert-success col-xs-offset-1 col-xs-10">
+                                        You have been logged out.</div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <span class="mif-vpn-lock mif-4x place-right fg-darkGray" style="margin-top: -10px;"></span>
+                    <h2 class="text-light">Login to iManager</h2>
+                    <hr class="thin mt-4 mb-4 bg-white">
+                    <div class="form-group">
+                        <input type="text" data-role="input" name="username" placeholder="username"
+                            data-prepend="<span class='mif-user'>">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" data-role="input" name="password" data-prepend="<span class='mif-key'>"
+                            placeholder="Enter your password..." data-validate="required minlength=6">
+                    </div>
+                    <div class="form-group mt-10">
+
+                        <button class="button" type="submit"
+                            style="background-color: #DFE1E4; color: black">Logon</button>
+
+                        <a th:href="@{/register}" class="button" style="background-color: #C3C7CD; color: black">
+                            Register New User </a>
+
+
+                    </div>
+
+
+
+
+
+
+                </form>
+
+            </div>
+
+
+
+        </div>
+
+
+        <!-- Login Form -->
+
+
+    </div>
+
+    <script>
+        function invalidForm()
+        {
+            var form = $(this);
+            form.addClass("ani-ring");
+            setTimeout(function ()
+            {
+                form.removeClass("ani-ring");
+            }, 1000);
+        }
+
+        function validateForm()
+        {
+            $(".login-form").animate({
+                opacity: 0
+            });
+        }
+    </script>
+
+
+    <script src="https://cdn.metroui.org.ua/5.0.6/metro.js"></script>
+
+
+</body>
+
+</html>

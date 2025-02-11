@@ -48,9 +48,9 @@ public class AppSecurityConfig
                                                                     .loginPage("/login")
                                                                     .defaultSuccessUrl("/", true)  // Redirect to home after successful login
                                                                     .permitAll())
-                                                .logout((logout) -> logout.logoutUrl("/logout")
+                                                .logout( logout -> logout.logoutUrl("/logout")
                                                 .logoutSuccessUrl("/login?logout")  // Redirect to login page after logout
-                                                .permitAll());
+                                                .permitAll() );
 
         return httpSecurity.build();
                 

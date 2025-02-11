@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>iManager</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Metro 4 -->
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/5.0.6/metro.css">
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/current/icons.css">
+
+
+</head>
+
+<body>
+    <div class="container-fluid" th:fragment="iMgrAppBar">
+        <div data-role="appbar" data-expand-point="lg">
+            <a href="#" class="brand no-hover">
+                <span style="width: 55px;" class="p-2 border bd-dark border-radius">
+                    <img th:src="@{/images/iMgr.png}" src="../../static/images/iMgr.png" width="40" height="25"
+                        style="margin-left: 1px;">
+
+                </span>
+            </a>
+
+            <ul class="app-bar-menu" style="margin-left: 10px; background-color: transparent;">
+
+                <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
+                    <a href="#" class="dropdown-toggle">Administrators</a>
+                    <ul class="d-menu" data-role="dropdown">
+                        <li>
+                            <a>
+                                <span class="icon">
+                                    <span class="mif-cogs fg-darkGray" style="margin-right:5px;"></span>
+                                </span>
+                                Maintain Watchlist
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                <span class="icon">
+                                    <span class="mif-supervised_user_circle fg-darkGray" style="margin-right:5px;"></span>
+                                </span>
+                                Manage Token(s)
+                            </a>
+                        </li>
+                        <li class="divider bg-lightGray"></li>
+                        <li>
+                            <a th:href="@{/wl/db}">
+                                <span class="icon">
+                                    <span class="mif-dashboard fg-darkGray" style="margin-right:5px;"></span>
+                                </span>
+                                Watchlist Dashboard
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="#">Profile</a></li>
+
+            </ul>
+        </div>
+
+        <script src="https://cdn.metroui.org.ua/5.0.6/metro.js"></script>
+
+    </div>
+</body>
+
+</html>
