@@ -37,7 +37,7 @@ public class AppSecurityConfig
                                     authorize -> {
                                                         // Permit access to static resources and login, home, and error pages    
                                                         authorize.requestMatchers("/css/**", "/js/**", "/images/**").permitAll();
-                                                        authorize.requestMatchers("/login", "/error/**", "/logout", "/", "/home").permitAll();
+                                                        authorize.requestMatchers("/login", "/error/**", "/logout",  "/home").permitAll();
                                                         // Restrict access to admin and user pages based on roles
                                                         authorize.requestMatchers("/admin/**").hasAuthority("ADMIN");
                                                         authorize.requestMatchers("/user/**").hasAuthority("GENERAL_USER");
@@ -46,7 +46,7 @@ public class AppSecurityConfig
 
                                                 .formLogin((form) -> form
                                                                     .loginPage("/login")
-                                                                    .defaultSuccessUrl("/", true)  // Redirect to home after successful login
+                                                                    .defaultSuccessUrl("/", false)  // Redirect to home after successful login
                                                                     .permitAll())
                                                 .logout( logout -> logout.logoutUrl("/logout")
                                                 .logoutSuccessUrl("/login?logout")  // Redirect to login page after logout

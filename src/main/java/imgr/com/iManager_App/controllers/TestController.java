@@ -2,12 +2,12 @@ package imgr.com.iManager_App.controllers;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -27,7 +27,7 @@ public class TestController
 
     @GetMapping("/db")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String prepareWLDB(Authentication auth) throws IOException, URISyntaxException
+    public String prepareWLDB(Authentication auth, Model model) throws IOException, URISyntaxException
     {
 
         String jsonString = "[\r\n" + //
@@ -1557,128 +1557,16 @@ public class TestController
             if (wlDBResp != null)
             {
                 log.info("Bound");
+                model.addAttribute("wlList", wlDBResp);
             }
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
-        // final String url2 =
-        // "http://localhost:8085/watchlist/db?cookie=csrftoken=msgOrxu4h6XfiUCuEOpxrHrxlIHHXHzE;
-        // sessionid=p42yn1ai6d45r589gsd008k67f7j7sou";
-        // final String url1 = "http://localhost:8085/authenticate";
-        // if (auth != null)
-        // {
-        // log.info(auth.toString());
 
-        // }
-        // String token = null;
-        // HttpClient httpclient = HttpClients.createDefault();
-        // HttpResponse response = null;
-        // CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        return "watchlistdashboard";
 
-        // HttpPost httpPost = new HttpPost(url1);
-        // httpPost.addHeader("Content-Type", "application/json");
-        // TY_Credentials usrCredentials = new TY_Credentials("admin", "admin-pwd");
-        // ObjectMapper objMapper = new ObjectMapper();
-
-        // try
-        // {
-        // String requestBody = objMapper.writeValueAsString(usrCredentials);
-        // log.info(requestBody);
-
-        // StringEntity entity = new StringEntity(requestBody,
-        // ContentType.APPLICATION_JSON);
-        // httpPost.setEntity(entity);
-
-        // // Get JWT Bearer
-        // try
-        // {
-        // // Fire the Url
-        // response = httpclient.execute(httpPost);
-        // // verify the valid error code first
-        // int statusCode = response.getStatusLine().getStatusCode();
-        // if (statusCode != HttpStatus.SC_OK)
-        // {
-        // throw new RuntimeException("Failed with HTTP error code : " + statusCode);
-        // }
-
-        // // Try and Get Entity from Response
-        // HttpEntity entityResp = response.getEntity();
-        // String apiOutput = EntityUtils.toString(entityResp);
-
-        // // Conerting to JSON
-        // ObjectMapper mapper = new ObjectMapper();
-        // JsonNode jsonNode = mapper.readTree(apiOutput);
-
-        // if (jsonNode != null)
-        // {
-        // token = JSONUtility.readPropertyValue(jsonNode.toString(), "/token");
-        // if (StringUtils.hasText(token))
-        // {
-        // log.info(token);
-
-        // // Now le's trigger the WL DB Call
-        // URL url = new URL(url2);
-        // URI uri = new URI(url.getProtocol(), url.getUserInfo(),
-        // IDN.toASCII(url.getHost()),
-        // url.getPort(), url.getPath(), url.getQuery(), url.getRef());
-        // String correctEncodedURL = uri.toASCIIString();
-
-        // HttpGet httpGet = new HttpGet(correctEncodedURL);
-        // httpGet.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
-        // httpGet.addHeader("accept", "application/json");
-
-        // // Trigger WL API here
-        // // Fire the Url
-        // response = httpClient.execute(httpGet);
-        // // verify the valid error code first
-        // int statusCodeWLDB = response.getStatusLine().getStatusCode();
-        // if (statusCodeWLDB != org.apache.http.HttpStatus.SC_OK)
-        // {
-        // return null;
-
-        // }
-        // else if (statusCodeWLDB == org.apache.http.HttpStatus.SC_OK)
-        // {
-        // log.info("WL DB succ executed....");
-        // HttpEntity entityWLDB = response.getEntity();
-        // apiOutput = EntityUtils.toString(entityWLDB);
-        // log.info(apiOutput);
-        // mapper = new ObjectMapper();
-        // TY_WLDBList wlDBResp = mapper.readValue(apiOutput, TY_WLDBList.class);
-        // if (wlDBResp != null)
-        // {
-        // if (CollectionUtils.isNotEmpty(wlDBResp.getWlDB()))
-        // {
-        // log.info("# WL Entries: " + wlDBResp.getWlDB().size());
-        // }
-        // }
-
-        // jsonNode = mapper.readTree(apiOutput);
-        // }
-
-        // }
-        // }
-        // }
-
-        // catch (IOException e)
-        // {
-        // log.error(e.getLocalizedMessage());
-        // }
-
-        // }
-        // catch (JsonProcessingException e)
-        // {
-        // log.error(e.getLocalizedMessage());
-        // }
-
-        // finally
-        // {
-        // httpClient.close();
-        // }
-
-        return new String();
     }
 
 }
