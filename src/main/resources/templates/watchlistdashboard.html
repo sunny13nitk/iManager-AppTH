@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" class="scrollbar-type-1 sb-steel">
 
 <head>
 
@@ -12,6 +12,61 @@
     <link rel="stylesheet" href="https://cdn.metroui.org.ua/5.0.6/metro.css">
     <link rel="stylesheet" href="https://cdn.metroui.org.ua/current/icons.css">
 
+    <!-- <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4.3.2/css/metro-all.min.css"> -->
+
+    <style>
+        table.scrolldown {
+            width: 100%;
+
+            /* border-collapse: collapse; */
+            border-spacing: 0;
+            border: 2px solid black;
+        }
+
+        /* To display the block as level element */
+        table.scrolldown tbody,
+        table.scrolldown thead {
+            display: block;
+        }
+
+        thead tr th {
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+        }
+
+        table.scrolldown tbody {
+
+            /* Set the height of table body */
+            height: 630px;
+
+            /* Set vertical scroll */
+            overflow-y: auto;
+
+            /* Hide the horizontal scroll */
+            overflow-x: hidden;
+        }
+
+        tbody {
+            border-top: 2px solid black;
+        }
+
+        tbody td,
+
+        thead th {
+            width: 100px;
+            border-right: 2px solid black;
+            text-align: center;
+        }
+
+        th {
+            text-align: center;
+        }
+
+        td {
+            text-align: center;
+        }
+    </style>
 
 </head>
 
@@ -20,33 +75,31 @@
     <div th:replace="~{fragments/menubar :: iMgrAppBar}"></div>
     <!-- Table Row  -->
 
-    <div class="row flex-align-center" style="padding: 5px; overflow: auto;" th:if="${wlList !=null}">
+    <div class="row flex-align-center" style="padding: 10px; overflow:scroll;" th:if="${wlList !=null}">
         <div class="cell-md-auto">
-            <table class="table subcompact striped table-border cell-border row-hover " id="t-inspector"
-                data-role="table" data-show-search="true" data-show-rows-steps="false"
-                data-table-search-title="Search :" data-search-min-length="1" data-search-threshold="300" data-rows="-1"
-                data-search-fields="sccode" data-horizontal-scroll="true" data-thousand-separator=",">
+            <table class="table subcompact striped table-border cell-border row-hover scrolldown" data-role="table"
+                data-rows='-1' data-horizontal-scroll="true">
                 <thead>
                     <tr>
 
                         <th data-name="scrip" align="left" class="sortable-column sort-asc"
                             data-cls-column=" text-left">Scrip</th>
 
-                        <th data-name="rating" data-sortable="true" data-cls-column="text-center">Rating</th>
+                        <th data-name="rating" class="sortable-column" data-cls-column="text-center">Rating</th>
 
-                        <th data-name="avgReturns" data-sortable="true" data-format="float"
+                        <th data-name="avgReturns" class="sortable-column " data-format="float"
                             data-cls-column=" text-center; fg-darkBlue ; ">ERR</th>
 
 
-                        <th data-name="mcapCr" data-sortable="true" data-format="number" data-cls-column=" text-center">
+                        <th data-name="mcapCr" class="sortable-column pl-6" data-format="number"
+                            data-cls-column=" text-center">
                             Mkt. Cap</th>
 
-                        <th data-name="longEPSCAGR" data-sortable="true" data-format="number"
+                        <th data-name="longEPSCAGR" class="sortable-column" data-format="number"
                             data-cls-column=" text-center">
                             Span</th>
 
-                        <th data-name="dailyPL" data-sortable="true" data-format="number"
-                            data-cls-column=" text-center">Day P&L</th>
+                        <th data-name="dailyPL" data-format="number" data-cls-column=" text-center">Day P&L</th>
 
                         <th data-name="price2StrongBuy" data-format="money" data-cls-column=" text-center">Best Buy
                         </th>
@@ -91,33 +144,31 @@
                             PAT GR-TTM</th>
 
                         <th data-name="baseCaseEPSCAGR" data-sortable="true" data-format="float"
-                            data-cls-column=" text-center bg-#F7F0F8">
+                            data-cls-column=" text-center bg-lightLime">
                             Base EPS CAGR</th>
-                        <th data-name="baseCaseTermPE" data-format="float" data-cls-column=" text-center bg-#F7F0F8">
+
+                        <th data-name="baseCaseTermPE" data-format="float" data-cls-column=" text-center bg-lightLime">
                             Base-Term. PE</th>
-                        <th data-name="baseCaseTP" data-format="money" data-cls-column=" text-center bg-#F7F0F8">
+                        <th data-name="baseCaseTP" data-format="money" data-cls-column=" text-center bg-lightLime">
                             Base-Target</th>
-                        <th data-name="baseCaseRetCAGR" data-format="float" data-cls-column=" text-center bg-#F7F0F8">
+                        <th data-name="baseCaseRetCAGR" data-format="float" data-sortable="true"
+                            data-cls-column=" text-center bg-lightLime">
                             Base-CAGR Returns</th>
 
                         <th data-name="bullCaseEPSCAGR" data-sortable="true" data-format="float"
-                            data-cls-column=" text-center bg-#EEF5EB">
+                            data-cls-column=" text-center bg-lightEmerald">
                             Bull EPS CAGR</th>
-                        <th data-name="bullCaseTermPE" data-format="float" data-cls-column=" text-center bg-#EEF5EB">
+                        <th data-name="bullCaseTermPE" data-format="float"
+                            data-cls-column=" text-center bg-lightEmerald">
                             Bull-Term. PE</th>
-                        <th data-name="bullCaseTP" data-format="money" data-cls-column=" text-center bg-#EEF5EB">
+                        <th data-name="bullCaseTP" data-format="money" data-cls-column=" text-center bg-lightEmerald">
                             Bull-Target</th>
-                        <th data-name="bullCaseRetCAGR" data-format="float" data-cls-column=" text-center bg-#EEF5EB">
+                        <th data-name="bullCaseRetCAGR" data-format="float"
+                            data-cls-column=" text-center bg-lightEmerald" data-sortable="true">
                             Bull-CAGR Returns</th>
 
-                        <th data-name="bullwtRatio" data-format="float" data-cls-column=" text-center">
+                        <th data-name="bullwtRatio" data-format="float" data-cls-column=" text-center bg-lightMauve">
                             Bull Wt.</th>
-
-
-
-
-
-
                     </tr>
                 </thead>
 
@@ -207,6 +258,15 @@
                         <td th:text="${wl.revgr3y}"></td>
                         <td th:text="${wl.patgr3y}"></td>
                         <td th:text="${wl.ttmpatgr}"></td>
+                        <td th:text="${wl.baseCaseEPSCAGR}"></td>
+                        <td th:text="${wl.baseCaseTermPE}"></td>
+                        <td th:text="${wl.baseCaseTP}"></td>
+                        <td th:text="${wl.baseCaseRetCAGR}"></td>
+                        <td th:text="${wl.bullCaseEPSCAGR}"></td>
+                        <td th:text="${wl.bullCaseTermPE}"></td>
+                        <td th:text="${wl.bullCaseTP}"></td>
+                        <td th:text="${wl.bullCaseRetCAGR}"></td>
+                        <td th:text="${wl.bullwtRatio}"></td>
 
                     </tr>
 
@@ -215,7 +275,9 @@
         </div>
 
     </div>
-
+    <!-- Metro 4 -->
+    <script src="https://cdn.metroui.org.ua/5.0.6/metro.js"></script>
+    <!-- <script src="https://cdn.metroui.org.ua/v4.3.2/js/metro.min.js"></script> -->
 </body>
 
 </html>

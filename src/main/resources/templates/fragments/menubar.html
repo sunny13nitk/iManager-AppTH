@@ -10,6 +10,7 @@
 
     <!-- Metro 4 -->
     <link rel="stylesheet" href="https://cdn.metroui.org.ua/5.0.6/metro.css">
+    <!-- <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4.3.2/css/metro-all.min.css"> -->
     <link rel="stylesheet" href="https://cdn.metroui.org.ua/current/icons.css">
 
 
@@ -40,9 +41,10 @@
                             </a>
                         </li>
                         <li>
-                            <a>
+                            <a th:href="@{/wl/token}">
                                 <span class="icon">
-                                    <span class="mif-supervised_user_circle fg-darkGray" style="margin-right:5px;"></span>
+                                    <span class="mif-supervised_user_circle fg-darkGray"
+                                        style="margin-right:5px;"></span>
                                 </span>
                                 Manage Token(s)
                             </a>
@@ -58,14 +60,41 @@
                         </li>
                     </ul>
                 </li>
-                <li><a href="#">Profile</a></li>
+
+                <li th:if="${#authorization.expression('isAuthenticated()')}">
+                    <a href="#" class="dropdown-toggle">Profile</a>
+                    <ul class="d-menu" data-role="dropdown">
+                        <li>
+                            <a>
+                                <span class="icon">
+                                    <span class="mif-user fg-darkGray" style="margin-right:5px;"></span>
+                                </span>
+                                <label sec:authentication="name"></label>
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{/test/cases}">
+                                <span class="icon">
+                                    <span class="mif-exit fg-darkGray" style="margin-right:5px;"></span>
+                                </span>
+                                Logout
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+
+
+
+
 
             </ul>
         </div>
 
-        <script src="https://cdn.metroui.org.ua/5.0.6/metro.js"></script>
+
 
     </div>
+    <script src="https://cdn.metroui.org.ua/5.0.6/metro.js"></script>
 </body>
 
 </html>

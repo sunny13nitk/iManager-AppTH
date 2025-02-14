@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 
+import imgr.com.iManager_App.ui.pojos.TY_Cases;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
 import lombok.extern.slf4j.Slf4j;
 
@@ -1566,6 +1567,94 @@ public class TestController
         }
 
         return "watchlistdashboard";
+
+    }
+
+    @GetMapping("/cases")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String showCases(Authentication auth, Model model) throws IOException, URISyntaxException
+    {
+        // String jsonString = "[\r\n" + //
+        // "\t\r\n" + //
+        // "\t{\r\n" + //
+        // "\t\t\"caseid\":\"54465\",\r\n" + //
+        // "\t\t\"status\": \"Open\",\r\n" + //
+        // "\t\t\"subject\": \"Detailed Analysis\"\r\n" + //
+        // "\t},\r\n" + //
+        // "\t{\r\n" + //
+        // "\t\t\"caseid\":\"54465\",\r\n" + //
+        // "\t\t\"status\": \"Closed\",\r\n" + //
+        // "\t\t\"subject\": \"Detailed Analysis\"\r\n" + //
+        // "\t},\r\n" + //
+        // "\t\r\n" + //
+        // "\t{\r\n" + //
+        // "\t\t\"caseid\":\"54465\",\r\n" + //
+        // "\t\t\"status\": \"Completed\",\r\n" + //
+        // "\t\t\"subject\": \"Detailed Analysis\"\r\n" + //
+        // "\t},\r\n" + //
+        // "\t{\r\n" + //
+        // "\t\t\"caseid\":\"54465\",\r\n" + //
+        // "\t\t\"status\": \"On Hold\",\r\n" + //
+        // "\t\t\"subject\": \"Detailed Analysis\"\r\n" + //
+        // "\t}\r\n" + //
+        // "\t\r\n" + //
+        // "\t\r\n" + //
+        // "]";
+
+        String jsonString = "[\r\n" + //
+                "\t\r\n" + //
+                "\t{\r\n" + //
+                "\t\t\"caseid\":\"54465\",\r\n" + //
+                "\t\t\"status\": \"Open\",\r\n" + //
+                "\t\t\"subject\": \"Detailed Analysis\",\r\n" + //
+                "\t\t\"exitKeyVals\": [\r\n" + //
+                "\t\t\t{\r\n" + //
+                "\t\t\t\t\"key\": \"peg\",\r\n" + //
+                "\t\t\t\t\"value\":4.0\r\n" + //
+                "\t\t\t}\r\n" + //
+                "\t\t]\r\n" + //
+                "\t},\r\n" + //
+                "\t{\r\n" + //
+                "\t\t\"caseid\":\"54465\",\r\n" + //
+                "\t\t\"status\": \"Closed\",\r\n" + //
+                "\t\t\"subject\": \"Detailed Analysis\",\r\n" + //
+                "\t\t\"exitKeyVals\": []\r\n" + //
+                "\t},\r\n" + //
+                "\t\r\n" + //
+                "\t{\r\n" + //
+                "\t\t\"caseid\":\"54465\",\r\n" + //
+                "\t\t\"status\": \"Completed\",\r\n" + //
+                "\t\t\"subject\": \"Detailed Analysis\",\r\n" + //
+                "\t\t\"exitKeyVals\": []\r\n" + //
+                "\t},\r\n" + //
+                "\t{\r\n" + //
+                "\t\t\"caseid\":\"54465\",\r\n" + //
+                "\t\t\"status\": \"OnHold\",\r\n" + //
+                "\t\t\"subject\": \"Detailed Analysis\",\r\n" + //
+                "\t\t\"exitKeyVals\": []\r\n" + //
+                "\t}\r\n" + //
+                "\t\r\n" + //
+                "\t\r\n" + //
+                "]";
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        try
+        {
+            TypeFactory typeFactory = objectMapper.getTypeFactory();
+            CollectionType collectionType = typeFactory.constructCollectionType(List.class, TY_Cases.class);
+            List<TY_Cases> cases = objectMapper.readValue(jsonString, collectionType);
+            if (cases != null)
+            {
+                log.info("Bound");
+                model.addAttribute("cases", cases);
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        return "wldb2";
 
     }
 
