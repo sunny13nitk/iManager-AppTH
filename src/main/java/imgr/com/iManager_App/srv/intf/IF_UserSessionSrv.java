@@ -1,6 +1,5 @@
 package imgr.com.iManager_App.srv.intf;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.security.core.Authentication;
@@ -11,7 +10,7 @@ import imgr.com.iManager_App.ui.pojos.TY_WLDB;
 
 public interface IF_UserSessionSrv
 {
-    public void initialize(Authentication auth);
+    public void initialize(Authentication auth) throws Exception;
 
     public TY_UserSessionInfo getUserSessionInformation();
 
@@ -20,6 +19,10 @@ public interface IF_UserSessionSrv
     public String getScreenerToken();
 
     public void setWLDB(List<TY_WLDB> wlDbList);
+
+    public void encryptSessionKey(String toencrypt) throws Exception;
+
+    public String getDecryptedKey() throws Exception;
 
     public List<TY_WLDB> getWlDB();
 

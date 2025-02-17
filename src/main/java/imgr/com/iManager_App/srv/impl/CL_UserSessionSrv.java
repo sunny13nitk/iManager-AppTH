@@ -19,6 +19,7 @@ import imgr.com.iManager_App.ui.model.entity.TY_SCToken;
 import imgr.com.iManager_App.ui.model.repo.RepoSCToken;
 import imgr.com.iManager_App.ui.pojos.TY_DestinationsSuffix;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
+import imgr.com.iManager_App.utilities.EncryptUtility;
 import imgr.com.iManager_App.utilities.StringsUtility;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +40,7 @@ public class CL_UserSessionSrv implements IF_UserSessionSrv
     private final MessageSource msgSrc;
 
     @Override
-    public void initialize(Authentication auth)
+    public void initialize(Authentication auth) throws Exception
     {
         if (auth != null)
         {
@@ -48,6 +49,8 @@ public class CL_UserSessionSrv implements IF_UserSessionSrv
                 userInfo = new TY_UserSessionInfo();
                 userInfo.setUserName(auth.getName());
                 userInfo.setScToken(repoSCToken.findAll().get(0));
+                userInfo.setKey(EncryptUtility.generateKey(128));
+                userInfo.setIvParameterSpec(EncryptUtility.generateIv());
 
             }
         }
@@ -107,6 +110,31 @@ public class CL_UserSessionSrv implements IF_UserSessionSrv
     public List<TY_WLDB> getWlDB()
     {
         return userInfo.getWlDBList();
+    }
+
+    @Override
+    public void encryptSessionKey(String toencrypt) throws Exception
+    {
+        // Only once per session
+        if (StringUtils.hasText(toencrypt) && userInfo.getCipher() == null)
+        {
+            userInfo.setCipher(EncryptUtility.encrypt(GC_Constants.algorithm, toencrypt, userInfo.getKey(),
+                    userInfo.getIvParameterSpec()));
+            // #Test
+            log.info("Cipher Set : " + userInfo.getCipher());
+        }
+    }
+
+    @Override
+    public String getDecryptedKey() throws Exception
+    {
+        String key = null;
+        if (StringUtils.hasText(userInfo.getCipher()))
+        {
+            EncryptUtility.decrypt(GC_Constants.algorithm, userInfo.getCipher(), userInfo.getKey(),
+                    userInfo.getIvParameterSpec());
+        }
+        return key;
     }
 
 }

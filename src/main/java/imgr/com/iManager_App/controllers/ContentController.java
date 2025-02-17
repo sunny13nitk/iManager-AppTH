@@ -17,7 +17,7 @@ public class ContentController
     private final IF_UserSessionSrv userSessSrv;
 
     @GetMapping("/")
-    public String home(Authentication auth)
+    public String home(Authentication auth) throws Exception
     {
         if (auth.isAuthenticated())
         {

@@ -32,13 +32,15 @@ public class WatchlistController
     private final IF_WatchlistSrvClient wlSrv;
 
     @GetMapping("/db")
-    public String showWlDB(Model model)
+    public String showWlDB(Model model) throws Exception
     {
         if (userSessSrv != null && wlSrv != null)
         {
             String token = userSessSrv.getScreenerToken();
             if (StringUtils.hasText(token))
             {
+                // TEst
+                userSessSrv.encryptSessionKey("admin-db");
                 model.addAttribute("wlList", wlSrv.getWatchlistDb(token));
             }
         }
@@ -76,6 +78,7 @@ public class WatchlistController
 
             try
             {
+                repoSCToken.deleteAll();
                 repoSCToken.save(tokenInfo);
                 userSessSrv.resetScreenerToken(tokenInfo);
                 mv = new ModelAndView((VWNamesDirectory.getViewName(EnumVWNames.Home, true)));

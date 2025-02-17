@@ -41,11 +41,11 @@ public class StringsUtility
                 String[] allparts = baseString.split(separator);
 
                 int i = 0;
-                for (i = 0; i < (allparts.length - 1); i++)
+                for (i = 0; i < (allparts.length ); i++)
                 {
                     parsedUrl = parsedUrl + allparts[i] + replStrings[i];
                 }
-                if (i <= allparts.length)
+                if (i <= (allparts.length -1))
                 {
                     parsedUrl += allparts[i]; // Final Part
                 }

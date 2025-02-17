@@ -6,5 +6,5 @@ import imgr.com.iManager_App.ui.pojos.TY_WLDB;
 
 public interface IF_WatchlistSrvClient
 {
-    public List<TY_WLDB> getWatchlistDb(String token);
+    public List<TY_WLDB> getWatchlistDb(String token) throws Exception;
 }

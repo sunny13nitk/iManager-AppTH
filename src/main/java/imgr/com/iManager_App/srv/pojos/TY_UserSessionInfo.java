@@ -3,6 +3,9 @@ package imgr.com.iManager_App.srv.pojos;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
+
 import imgr.com.iManager_App.ui.model.entity.TY_SCToken;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
 import lombok.AllArgsConstructor;
@@ -17,4 +20,8 @@ public class TY_UserSessionInfo
     private String userName;
     private TY_SCToken scToken;
     private List<TY_WLDB> wlDBList = new ArrayList<TY_WLDB>();
+    private SecretKey key;
+    private IvParameterSpec ivParameterSpec;
+    private String cipher;
+
 }

@@ -9,7 +9,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 
 @Configuration
 @PropertySources(
-{ @PropertySource("classpath:messages.properties"), @PropertySource("classpath:appconfig.properties") })
+{ @PropertySource("classpath:messages.properties") })
 public class PropertyConfig
 {
 
