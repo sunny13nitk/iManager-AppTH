@@ -18,6 +18,7 @@ public class VWNamesDirectory
         ArrayList<TY_ViewMappings> viewsDescMap = new ArrayList<TY_ViewMappings>();
 
         viewsDescMap.add(new TY_ViewMappings(EnumVWNames.Home, "/", "homeM"));
+        viewsDescMap.add(new TY_ViewMappings(EnumVWNames.Principal, "/pp", "pp"));
         viewsDescMap.add(new TY_ViewMappings(EnumVWNames.Login, "/login", "loginbs"));
         viewsDescMap.add(new TY_ViewMappings(EnumVWNames.Tokens, "/wl/token", "tokens"));
         viewsDescMap.add(new TY_ViewMappings(EnumVWNames.WatchlistDashboard, "/wl/db", "watchlistdashboard"));

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 
+import imgr.com.iManager_App.ui.enums.EnumVWNames;
 import imgr.com.iManager_App.ui.model.entity.TY_SCToken;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
 import lombok.AllArgsConstructor;
@@ -23,5 +24,6 @@ public class TY_UserSessionInfo
     private SecretKey key;
     private IvParameterSpec ivParameterSpec;
     private String cipher;
-
+    private EnumVWNames vwName;
+    private String bearer;
 }

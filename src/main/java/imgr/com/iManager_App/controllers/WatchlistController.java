@@ -36,13 +36,23 @@ public class WatchlistController
     {
         if (userSessSrv != null && wlSrv != null)
         {
-            String token = userSessSrv.getScreenerToken();
-            if (StringUtils.hasText(token))
+
+            if (!StringUtils.hasText(userSessSrv.getDecryptedKey()))
             {
-                // TEst
-                userSessSrv.encryptSessionKey("admin-db");
-                model.addAttribute("wlList", wlSrv.getWatchlistDb(token));
+                // Navigate to Principal Propogation View
+                userSessSrv.setParentView4Navigation(EnumVWNames.WatchlistDashboard);
+                return VWNamesDirectory.getViewName(EnumVWNames.Principal, true);
+
             }
+            else
+            {
+                String token = userSessSrv.getScreenerToken();
+                if (StringUtils.hasText(token))
+                {
+                    model.addAttribute("wlList", wlSrv.getWatchlistDb(token));
+                }
+            }
+
         }
         return VWNamesDirectory.getViewName(EnumVWNames.WatchlistDashboard, false);
     }

@@ -15,6 +15,8 @@ import imgr.com.iManager_App.exceptions.handler.EX_UserSession;
 import imgr.com.iManager_App.srv.intf.IF_UserSessionSrv;
 import imgr.com.iManager_App.srv.pojos.TY_UserSessionInfo;
 import imgr.com.iManager_App.ui.constants.GC_Constants;
+import imgr.com.iManager_App.ui.constants.VWNamesDirectory;
+import imgr.com.iManager_App.ui.enums.EnumVWNames;
 import imgr.com.iManager_App.ui.model.entity.TY_SCToken;
 import imgr.com.iManager_App.ui.model.repo.RepoSCToken;
 import imgr.com.iManager_App.ui.pojos.TY_DestinationsSuffix;
@@ -120,8 +122,7 @@ public class CL_UserSessionSrv implements IF_UserSessionSrv
         {
             userInfo.setCipher(EncryptUtility.encrypt(GC_Constants.algorithm, toencrypt, userInfo.getKey(),
                     userInfo.getIvParameterSpec()));
-            // #Test
-            log.info("Cipher Set : " + userInfo.getCipher());
+           
         }
     }
 
@@ -131,10 +132,33 @@ public class CL_UserSessionSrv implements IF_UserSessionSrv
         String key = null;
         if (StringUtils.hasText(userInfo.getCipher()))
         {
-            EncryptUtility.decrypt(GC_Constants.algorithm, userInfo.getCipher(), userInfo.getKey(),
+            key = EncryptUtility.decrypt(GC_Constants.algorithm, userInfo.getCipher(), userInfo.getKey(),
                     userInfo.getIvParameterSpec());
         }
         return key;
+    }
+
+    @Override
+    public void setParentView4Navigation(EnumVWNames vwName)
+    {
+        userInfo.setVwName(vwName);
+    }
+
+    @Override
+    public String getRedirectedParentView()
+    {
+        String redVW = VWNamesDirectory.getViewName(userInfo.getVwName(), true);
+        userInfo.setVwName(null);
+        return redVW;
+    }
+
+    @Override
+    public void setAccessBearer(String bearer)
+    {
+        if(StringUtils.hasText(bearer))
+        {
+            userInfo.setBearer(bearer);
+        }
     }
 
 }
