@@ -38,7 +38,7 @@
         table.scrolldown tbody {
 
             /* Set the height of table body */
-            height: 630px;
+            height: 570px;
 
             /* Set vertical scroll */
             overflow-y: auto;
@@ -75,13 +75,13 @@
     <div th:replace="~{fragments/menubar :: iMgrAppBar}"></div>
     <!-- Table Row  -->
 
-    <div class="row flex-align-center" style="padding: 10px; overflow:scroll;" th:if="${wlList !=null}">
+    <div class="row" style="padding: 10px;margin-top: 50px; overflow: auto;" th:if="${wlList !=null}">
         <div class="cell-md-auto">
             <table class="table subcompact striped table-border cell-border row-hover scrolldown" data-role="table"
                 data-rows='-1' data-horizontal-scroll="true">
                 <thead>
                     <tr>
-
+                        <th data-cls-column="text-center" align="center">Actions</th>
                         <th data-name="scrip" align="left" class="sortable-column sort-asc"
                             data-cls-column=" text-left">Scrip</th>
 
@@ -176,6 +176,28 @@
 
 
                     <tr th:each="wl : ${wlList}">
+
+
+                        <td style="text-align: center;"><a class="button rounded mini outline"
+                                th:href="@{'/wl/db/'+${wl.scrip}}" style="color: black; background: transparent"
+                                data-role="hint" data-hint-position="top" data-cls-hint="bg-LightGreen fg-black"
+                                data-hint-text="Details"><span class="mif-news icon"
+                                    style="margin-left: 0px"></span></a>
+                            <a class="button rounded mini outline" th:href="@{'/wl/fm/'+${wl.scrip}}"
+                                style="color: black; background: transparent" data-role="hint" data-hint-position="top"
+                                data-cls-hint="bg-LightGreen fg-black" data-hint-text="Maintain"><span
+                                    class="mif-codescan icon" style="margin-left: 0px"></span></a>
+                            <a class="button rounded mini outline" th:href="@{'/wl/fm/notes/'+${wl.scrip}}"
+                                style="color: black; background: transparent" data-role="hint" data-hint-position="top"
+                                data-cls-hint="bg-LightGreen fg-black" data-hint-text="Notes"><span class="mif-list2"
+                                    style="margin-left: 0px"></span></a>
+
+
+                        </td>
+
+                        </td>
+
+
                         <td> <span class="tally"
                                 style="font-weight: bold; background-color: #FAFAFA; color: rgb(93, 93, 93);"
                                 th:text="${wl.scrip}"></span></td>

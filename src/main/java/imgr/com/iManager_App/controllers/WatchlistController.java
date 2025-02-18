@@ -1,5 +1,7 @@
 package imgr.com.iManager_App.controllers;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -16,6 +18,7 @@ import imgr.com.iManager_App.ui.constants.VWNamesDirectory;
 import imgr.com.iManager_App.ui.enums.EnumVWNames;
 import imgr.com.iManager_App.ui.model.entity.TY_SCToken;
 import imgr.com.iManager_App.ui.model.repo.RepoSCToken;
+import imgr.com.iManager_App.ui.pojos.TY_WLDB;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -49,7 +52,10 @@ public class WatchlistController
                 String token = userSessSrv.getScreenerToken();
                 if (StringUtils.hasText(token))
                 {
+                    List<TY_WLDB> wlDBList = wlSrv.getWatchlistDb(token);
+
                     model.addAttribute("wlList", wlSrv.getWatchlistDb(token));
+                    userSessSrv.setWLDB(wlDBList);
                 }
             }
 

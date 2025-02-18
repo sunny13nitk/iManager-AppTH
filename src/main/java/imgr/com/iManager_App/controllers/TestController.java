@@ -15,16 +15,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 
+import imgr.com.iManager_App.srv.intf.IF_UserSessionSrv;
 import imgr.com.iManager_App.ui.pojos.TY_Cases;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/test")
+@RequiredArgsConstructor
 @Slf4j
 public class TestController
 {
     private final String token = "";
+    private final IF_UserSessionSrv userSessSrv;
 
     @GetMapping("/db")
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -1558,6 +1562,7 @@ public class TestController
             if (wlDBResp != null)
             {
                 log.info("Bound");
+                userSessSrv.setWLDB(wlDBResp);
                 model.addAttribute("wlList", wlDBResp);
             }
         }
