@@ -3,6 +3,7 @@ package imgr.com.iManager_App.srv.intf;
 import java.util.List;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.web.servlet.ModelAndView;
 
 import imgr.com.iManager_App.srv.pojos.TY_UserSessionInfo;
 import imgr.com.iManager_App.ui.enums.EnumVWNames;
@@ -32,5 +33,9 @@ public interface IF_UserSessionSrv
     public String getRedirectedParentView();
 
     public void setAccessBearer(String bearer);
+
+    public void setParentViewModel4Navigation(ModelAndView mv);
+
+    public ModelAndView getRedirectedParentViewModel();
 
 }

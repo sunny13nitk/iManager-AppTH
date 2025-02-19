@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -61,6 +62,19 @@ public class WatchlistController
 
         }
         return VWNamesDirectory.getViewName(EnumVWNames.WatchlistDashboard, false);
+    }
+
+    @GetMapping("/db/{scrip}")
+    public String showWLScripDetails(Model model, @RequestParam String scrip) throws Exception
+    {
+        if (StringUtils.hasText(scrip) && userSessSrv != null)
+        {
+            // Get details for Selected Scrip from session
+
+            // Add WL Model view to User Session
+
+        }
+        return VWNamesDirectory.getViewName(EnumVWNames.WLDetailsScreener, false);
     }
 
     @GetMapping("/token")

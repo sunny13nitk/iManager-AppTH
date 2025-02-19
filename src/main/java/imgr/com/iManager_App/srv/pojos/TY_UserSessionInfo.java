@@ -6,6 +6,8 @@ import java.util.List;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 
+import org.springframework.web.servlet.ModelAndView;
+
 import imgr.com.iManager_App.ui.enums.EnumVWNames;
 import imgr.com.iManager_App.ui.model.entity.TY_SCToken;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
@@ -26,4 +28,5 @@ public class TY_UserSessionInfo
     private String cipher;
     private EnumVWNames vwName;
     private String bearer;
+    private ModelAndView mv;
 }

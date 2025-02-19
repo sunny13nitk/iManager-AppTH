@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.annotation.SessionScope;
+import org.springframework.web.servlet.ModelAndView;
 
 import imgr.com.iManager_App.exceptions.handler.EX_UserSession;
 import imgr.com.iManager_App.srv.intf.IF_UserSessionSrv;
@@ -122,7 +123,7 @@ public class CL_UserSessionSrv implements IF_UserSessionSrv
         {
             userInfo.setCipher(EncryptUtility.encrypt(GC_Constants.algorithm, toencrypt, userInfo.getKey(),
                     userInfo.getIvParameterSpec()));
-           
+
         }
     }
 
@@ -155,10 +156,22 @@ public class CL_UserSessionSrv implements IF_UserSessionSrv
     @Override
     public void setAccessBearer(String bearer)
     {
-        if(StringUtils.hasText(bearer))
+        if (StringUtils.hasText(bearer))
         {
             userInfo.setBearer(bearer);
         }
+    }
+
+    @Override
+    public void setParentViewModel4Navigation(ModelAndView mv)
+    {
+        userInfo.setMv(mv);
+    }
+
+    @Override
+    public ModelAndView getRedirectedParentViewModel()
+    {
+        return userInfo.getMv();
     }
 
 }
