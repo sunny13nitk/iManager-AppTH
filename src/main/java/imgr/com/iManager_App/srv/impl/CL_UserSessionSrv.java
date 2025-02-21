@@ -21,6 +21,8 @@ import imgr.com.iManager_App.ui.enums.EnumVWNames;
 import imgr.com.iManager_App.ui.model.entity.TY_SCToken;
 import imgr.com.iManager_App.ui.model.repo.RepoSCToken;
 import imgr.com.iManager_App.ui.pojos.TY_DestinationsSuffix;
+import imgr.com.iManager_App.ui.pojos.TY_SCCMP;
+import imgr.com.iManager_App.ui.pojos.TY_ScripCMPResponse;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
 import imgr.com.iManager_App.utilities.EncryptUtility;
 import imgr.com.iManager_App.utilities.StringsUtility;
@@ -172,6 +174,24 @@ public class CL_UserSessionSrv implements IF_UserSessionSrv
     public ModelAndView getRedirectedParentViewModel()
     {
         return userInfo.getMv();
+    }
+
+    @Override
+    public List<TY_WLDB> updateWatchlistwithCMP(TY_ScripCMPResponse wlCMPList)
+    {
+
+        if (wlCMPList != null)
+        {
+            if (CollectionUtils.isNotEmpty(wlCMPList.getScCMPs()))
+            {
+                for (TY_SCCMP scCMP : wlCMPList.getScCMPs())
+                {
+                    
+                }
+            }
+        }
+
+        return this.getWlDB();
     }
 
 }

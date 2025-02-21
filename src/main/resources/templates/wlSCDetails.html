@@ -29,10 +29,11 @@
                     th:text="${wlItem.scrip}">ABB</span>
 
                 <span
-                    style="color: #155C89; font-weight: bold; font-size: 1.15em; margin-left: 10px; font-style: italic;" ">Rs. </span>
+                    style="color: #155C89; font-weight: bold; font-size: 1.15em; margin-left: 10px; font-style: italic;">Rs.
+                </span>
 
                 <span style=" color: #155C89; font-weight: bold; font-size: 1.15em; margin-left: -2px; font-style:
-                    italic;" th:text="${wlItem.scrip}">1857</span>
+                    italic;" th:text="${wlItem.cmp}">1857</span>
 
 
                 <span class="tally" th:if="!${#strings.startsWith(wlItem.dailyPL,'-')}"
@@ -47,23 +48,42 @@
 
                 <span class="tally" th:if="${wlItem.rating == 'Buy'}"
                     style="font-weight: bolder; background-color: #E9F7F0; color: darkgreen; margin-left: 10px; margin-bottom: 4px;"
-                    th:text="${wlItem.rating} : ${wlItem.avgReturns}%"></span>
+                    th:text="${wlItem.rating} "></span>
+
+                <span class="tally" th:if="${wlItem.rating == 'Buy'}"
+                    style="font-weight: bolder; background-color: #E9F7F0; color: darkgreen; margin-left: 10px; margin-bottom: 4px;"
+                    th:text="${wlItem.avgReturns}"></span>
 
                 <span class="tally" th:if="${wlItem.rating == 'Accumulate'}"
                     style="font-weight: bolder; background-color: #f6f6d6; color: darkgoldenrod;margin-left: 10px; margin-bottom: 4px;"
-                    th:text="${wlItem.rating} : ${wlItem.avgReturns}%">Accumulate : 16.8%</span>
+                    th:text="${wlItem.rating}">Accumulate : 16.8%</span>
+
+                <span class="tally" th:if="${wlItem.rating == 'Accumulate'}"
+                    style="font-weight: bolder; background-color: #f6f6d6; color: darkgoldenrod;margin-left: 10px; margin-bottom: 4px;"
+                    th:text="${wlItem.avgReturns}">Accumulate : 16.8%</span>
 
                 <span class="tally" th:if="${wlItem.rating == 'StrongBuy'}"
                     style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);margin-left: 10px; margin-bottom: 4px;"
-                    th:text="${wlItem.rating} : ${wlItem.avgReturns}%"></span>
+                    th:text="${wlItem.rating}"> : </span>
+                <span class="tally" th:if="${wlItem.rating == 'StrongBuy'}"
+                    style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);margin-left: 10px; margin-bottom: 4px;"
+                    th:text=" ${wlItem.avgReturns}"></span>
 
                 <span class="tally" th:if="${wlItem.rating == 'Hold'}"
                     style="font-weight: bolder; background-color: #e1feff; color: darkblue;margin-left: 10px; margin-bottom: 4px;"
-                    th:text="${wlItem.rating} : ${wlItem.avgReturns}%"></span>
+                    th:text="${wlItem.rating} "></span>
+
+                <span class="tally" th:if="${wlItem.rating == 'Hold'}"
+                    style="font-weight: bolder; background-color: #e1feff; color: darkblue;margin-left: 10px; margin-bottom: 4px;"
+                    th:text="${wlItem.avgReturns}"></span>
 
                 <span class="tally" th:if="${wlItem.rating == 'Sell'}"
                     style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);margin-left: 10px; margin-bottom: 4px;"
-                    th:text="${wlItem.rating} : ${wlItem.avgReturns}%"></span>
+                    th:text="${wlItem.rating} "></span>
+
+                <span class="tally" th:if="${wlItem.rating == 'Sell'}"
+                    style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);margin-left: 10px; margin-bottom: 4px;"
+                    th:text="${wlItem.avgReturns}"></span>
 
                 <!-- <span class="row flex-justify-end" style="padding-right: 20px; padding-top: -50px; padding-bottom: -50px"> -->
                 <a href="#" class="button primary rounded outline mini" th:href="@{/mv/back2Wl}" role="button"
@@ -75,291 +95,321 @@
             </h6>
 
             <div class="grid">
-                <div class="row ">
-                    <div class="cell-md-3">
-                        <div class="row">
-                            <div class="cell-md-12">
-                                <span style="color:  #239EE3; padding: 10px; font-weight:500;">Market
-                                    Cap
-                                    (Cr.) : </span>
-                                <span style="color:  #647277; padding: 10px; font-weight:500;"
-                                    th:text="${wlItem.mcapCr}">125000</span>
+                <div data-role="panel" data-title-caption="Expected Returns Perspective" data-collapsed="false"
+                    data-collapsible="true" data-cls-title="bg-white fg-cyan" data-cls-panel="bd-lightCyan padding:5px">
+
+
+                    <div class="row ">
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Market
+                                        Cap
+                                        (Cr.) : </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlItem.mcapCr}">125000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Market
+                                        Cap to Sales : </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlItem.mcap2sales}">7.8</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Market
+                                        Cap to Sales avg. last 3 years : </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlItem.mcap2sales3y}">7.8</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">EPS TTM : </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlItem.epsttm}">7.8</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row ">
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Current PE : </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlItem.currpe}">56.6</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">PE avg. last 5 years
+                                        :
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlItem.pe5y}">45.6</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">PEG Ratio : </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlItem.peg}">2.4</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Longevity EPS Growth
+                                        (years) :
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlItem.longEPSCAGR}">5</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="row ">
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Sales Growth 3 yrs
+                                        CAGR :
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlItem.revgr3y}">34.3%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">PAT Growth 3 yrs CAGR
+                                        :
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlItem.patgr3y}">55%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">TTM PAT Growth :
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlItem.ttmpatgr}">27.3%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Bull weight ratio :
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlItem.bullwtRatio}">.8</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                    <p style="color:  #128C43; background-color: #F9FEFB;padding: 2px; font-size: 1.15em"><u> Strong Buy
+                            Trigger</u></p>
+                    <div class="row" style="padding-top: 10px;">
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Strong Buy Price :
+                                    </span>
+                                    <span
+                                        style="color: #128C43; font-weight: bold; font-size: 1.15em;  font-style: italic;">Rs.
+                                    </span>
+                                    <span style=" color: #128C43; padding: -3px; font-weight:500;font-style: italic;"
+                                        th:text="${wlItem.price2StrongBuy}">1678</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Price Delta from CMP
+                                        to
+                                        Strong Buy :
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlItem.deltaStrongBuyCMP}">-18.6%</span>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="cell-md-3">
-                        <div class="row">
-                            <div class="cell-md-12">
-                                <span style="color:  #239EE3; padding: 10px; font-weight:500;">Market
-                                    Cap to Sales : </span>
-                                <span style="color:  #647277; padding: 10px; font-weight:500;"
-                                    th:text="${wlItem.mcap2sales}">7.8</span>
+                    <p style="color:  #CFC809; background-color: #FFFEE7;padding: 2px; font-size: 1.15em"><u> Base Case
+                            Simulation</u></p>
+
+                    <div class="row " style="padding-top: 10px;">
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Base Case EPS CAGR :
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlItem.baseCaseEPSCAGR}">25%</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="cell-md-3">
-                        <div class="row">
-                            <div class="cell-md-12">
-                                <span style="color:  #239EE3; padding: 10px; font-weight:500;">Market
-                                    Cap to Sales avg. last 3 years : </span>
-                                <span style="color:  #647277; padding: 10px; font-weight:500;"
-                                    th:text="${wlItem.mcap2sales3y}">7.8</span>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Base Case Terminal PE
+                                        :
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlItem.baseCaseTermPE}">34</span>
+                                </div>
                             </div>
                         </div>
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Base Case Target :
+                                    </span>
+                                    <span
+                                        style="color: #CFC809; font-weight: bold; font-size: 1.15em;  font-style: italic;">Rs.
+                                    </span>
+                                    <span style=" color: #CFC809; padding: -3px; font-weight:500;font-style: italic;"
+                                        th:text="${wlItem.baseCaseTP}">3476.6</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Base Case Returns
+                                        CAGR :
+                                    </span>
+
+                                    <span
+                                        style="color:  #CFC809; background-color: #FFFEE7;padding: 4px; font-weight: 500;"
+                                        th:text="${wlItem.baseCaseRetCAGR}">14.6%</span>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
-                    <div class="cell-md-3">
-                        <div class="row">
-                            <div class="cell-md-12">
-                                <span style="color:  #239EE3; padding: 10px; font-weight:500;">EPS TTM : </span>
-                                <span style="color:  #647277; padding: 10px; font-weight:500;"
-                                    th:text="${wlItem.epsttm}">7.8</span>
-                            </div>
-                        </div>
-                    </div>
+                    <p style="color:  #6B629D; background-color: #F8F7FD;padding: 2px; font-size: 1.15em"><u> Bull Case
+                            Simulation</u></p>
 
-                </div>
+                    <div class="row " style="padding-top: 10px;">
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Bull Case EPS CAGR :
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlItem.bullCaseEPSCAGR}">35%</span>
+                                </div>
+                            </div>
+                        </div>
 
-                <div class="row ">
-                    <div class="cell-md-3">
-                        <div class="row">
-                            <div class="cell-md-12">
-                                <span style="color:  #239EE3; padding: 10px; font-weight:500;">Current PE : </span>
-                                <span style="color:  #647277; padding: 10px; font-weight:500;"
-                                    th:text="${wlItem.currpe}">56.6</span>
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Bull Case Terminal PE
+                                        :
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlItem.bullCaseTermPE}">40</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Bull Case Target :
+                                    </span>
+                                    <span
+                                        style="color: #6B629D; font-weight: bold; font-size: 1.15em;  font-style: italic;">Rs.
+                                    </span>
+                                    <span style=" color: #6B629D; padding: -3px; font-weight:500;font-style: italic;"
+                                        th:text="${wlItem.bullCaseTP}">6476.6</span>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div class="cell-md-3">
-                        <div class="row">
-                            <div class="cell-md-12">
-                                <span style="color:  #239EE3; padding: 10px; font-weight:500;">PE avg. last 5 years :
-                                </span>
-                                <span style="color:  #647277; padding: 10px; font-weight:500;"
-                                    th:text="${wlItem.pe5y}">45.6</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cell-md-3">
-                        <div class="row">
-                            <div class="cell-md-12">
-                                <span style="color:  #239EE3; padding: 10px; font-weight:500;">PEG Ratio : </span>
-                                <span style="color:  #647277; padding: 10px; font-weight:500;"
-                                    th:text="${wlItem.peg}">2.4</span>
-                            </div>
-                        </div>
-                    </div>
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Bull Case Returns
+                                        CAGR :
+                                    </span>
 
-                    <div class="cell-md-3">
-                        <div class="row">
-                            <div class="cell-md-12">
-                                <span style="color:  #239EE3; padding: 10px; font-weight:500;">Longevity EPS Growth
-                                    (years) :
-                                </span>
-                                <span style="color:  #647277; padding: 10px; font-weight:500;"
-                                    th:text="${wlItem.longEPSCAGR}">5</span>
+                                    <span
+                                        style="color: #6B629D; background-color: #F8F7FD;padding: 4px; font-weight: 500;"
+                                        th:text="${wlItem.bullCaseRetCAGR}">24.6%</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-
-                </div>
-
-                <div class="row ">
-                    <div class="cell-md-3">
-                        <div class="row">
-                            <div class="cell-md-12">
-                                <span style="color:  #239EE3; padding: 10px; font-weight:500;">Sales Growth 3 yrs CAGR :
-                                </span>
-                                <span style="color:  #647277; padding: 10px; font-weight:500;"
-                                    th:text="${wlItem.revgr3y}%">34.3%</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="cell-md-3">
-                        <div class="row">
-                            <div class="cell-md-12">
-                                <span style="color:  #239EE3; padding: 10px; font-weight:500;">PAT Growth 3 yrs CAGR :
-                                </span>
-                                <span style="color:  #647277; padding: 10px; font-weight:500;"
-                                    th:text="${wlItem.patgr3y}%">55%</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cell-md-3">
-                        <div class="row">
-                            <div class="cell-md-12">
-                                <span style="color:  #239EE3; padding: 10px; font-weight:500;">TTM PAT Growth : </span>
-                                <span style="color:  #647277; padding: 10px; font-weight:500;"
-                                    th:text="${wlItem.ttmpatgr}%">27.3%</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cell-md-3">
-                        <div class="row">
-                            <div class="cell-md-12">
-                                <span style="color:  #239EE3; padding: 10px; font-weight:500;">Bull weight ratio :
-                                </span>
-                                <span style="color:  #647277; padding: 10px; font-weight:500;"
-                                    th:text="${wlItem.bullwtRatio}">.8</span>
-                            </div>
-                        </div>
                     </div>
 
 
-
-                </div>
-
-                <p style="color:  #128C43; background-color: #F9FEFB;padding: 2px; font-size: 1.15em"><u> Strong Buy
-                        Trigger</u></p>
-                <div class="row" style="padding-top: 10px;">
-                    <div class="cell-md-3">
-                        <div class="row">
-                            <div class="cell-md-12">
-                                <span style="color:  #239EE3; padding: 10px; font-weight:500;">Strong Buy Price :
-                                </span>
-                                <span style="color: #128C43; font-weight: bold; font-size: 1.15em;  font-style: italic;" ">Rs. </span>
-                                <span style=" color: #128C43; padding: -3px; font-weight:500;font-style: italic;"
-                                    th:text="${wlItem.price2StrongBuy}">1678</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="cell-md-3">
-                        <div class="row">
-                            <div class="cell-md-12">
-                                <span style="color:  #239EE3; padding: 10px; font-weight:500;">Price Delta from CMP to
-                                    Strong Buy :
-                                </span>
-                                <span style="color:  #647277; padding: 10px; font-weight:500;"
-                                    th:text="${wlItem.deltaStrongBuyCMP}%">-18.6%</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <p style="color:  #CFC809; background-color: #FFFEE7;padding: 2px; font-size: 1.15em"><u> Base Case
-                        Simulation</u></p>
-
-                <div class="row " style="padding-top: 10px;">
-                    <div class="cell-md-3">
-                        <div class="row">
-                            <div class="cell-md-12">
-                                <span style="color:  #239EE3; padding: 10px; font-weight:500;">Base Case EPS CAGR :
-                                </span>
-                                <span style="color:  #647277; padding: 10px; font-weight:500;"
-                                    th:text="${wlItem.baseCaseEPSCAGR}%">25%</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="cell-md-3">
-                        <div class="row">
-                            <div class="cell-md-12">
-                                <span style="color:  #239EE3; padding: 10px; font-weight:500;">Base Case Terminal PE :
-                                </span>
-                                <span style="color:  #647277; padding: 10px; font-weight:500;"
-                                    th:text="${wlItem.baseCaseTermPE}">34</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cell-md-3">
-                        <div class="row">
-                            <div class="cell-md-12">
-                                <span style="color:  #239EE3; padding: 10px; font-weight:500;">Base Case Target :
-                                </span>
-                                <span style="color: #CFC809; font-weight: bold; font-size: 1.15em;  font-style: italic;" ">Rs. </span>
-                        <span style=" color: #CFC809; padding: -3px; font-weight:500;font-style: italic;"
-                                    th:text="${wlItem.baseCaseTP}">3476.6</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="cell-md-3">
-                        <div class="row">
-                            <div class="cell-md-12">
-                                <span style="color:  #239EE3; padding: 10px; font-weight:500;">Base Case Returns CAGR :
-                                </span>
-
-                                <span style="color:  #CFC809; background-color: #FFFEE7;padding: 4px; font-weight: 500;"
-                                    th:text="${wlItem.baseCaseRetCAGR}%">14.6%</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <p style="color:  #6B629D; background-color: #F8F7FD;padding: 2px; font-size: 1.15em"><u> Bull Case
-                        Simulation</u></p>
-
-                <div class="row " style="padding-top: 10px;">
-                    <div class="cell-md-3">
-                        <div class="row">
-                            <div class="cell-md-12">
-                                <span style="color:  #239EE3; padding: 10px; font-weight:500;">Base Case EPS CAGR :
-                                </span>
-                                <span style="color:  #647277; padding: 10px; font-weight:500;"
-                                    th:text="${wlItem.bullCaseEPSCAGR}%">35%</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="cell-md-3">
-                        <div class="row">
-                            <div class="cell-md-12">
-                                <span style="color:  #239EE3; padding: 10px; font-weight:500;">Base Case Terminal PE :
-                                </span>
-                                <span style="color:  #647277; padding: 10px; font-weight:500;"
-                                    th:text="${wlItem.bullCaseTermPE}">40</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cell-md-3">
-                        <div class="row">
-                            <div class="cell-md-12">
-                                <span style="color:  #239EE3; padding: 10px; font-weight:500;">Bull Case Target :
-                                </span>
-                                <span style="color: #6B629D; font-weight: bold; font-size: 1.15em;  font-style: italic;" ">Rs. </span>
-                    <span style=" color: #6B629D; padding: -3px; font-weight:500;font-style: italic;"
-                                    th:text="${wlItem.bullCaseTP}">6476.6</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="cell-md-3">
-                        <div class="row">
-                            <div class="cell-md-12">
-                                <span style="color:  #239EE3; padding: 10px; font-weight:500;">Base Case Returns CAGR :
-                                </span>
-
-                                <span style="color: #6B629D; background-color: #F8F7FD;padding: 4px; font-weight: 500;"
-                                    th:text="${wlItem.bullCaseRetCAGR}%">24.6%</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+                    <div class="col-xs-15" style="margin-top: 20px;">
+                        <div th:if="${wlItem.exitKeyVals != null}">
+                            <!-- Check for Form error -->
+                            <div th:if="${wlItem.exitKeyVals.size() > 0}" data-role="panel"
+                                data-title-caption="Exit Triggers" data-collapsed="false" data-collapsible="true"
+                                data-cls-title="bg-white fg-cyan" data-cls-panel="bd-lightCyan">
+                                <div class="cell-11">
+                                    <table class="table subcompact striped table-border cell-border row-hover">
+                                        <thead>
+                                            <tr>
+                                                <th data-cls-column="text-center" align="center">Criteria</th>
+                                                <th data-cls-column="text-center" align="center">Value</th>
+                                            </tr>
 
 
-                <div class="col-xs-15" style="margin-top: 20px;">
-                    <div th:if="${wlItem.exitKeyVals != null}">
-                        <!-- Check for Form error -->
-                        <div th:if="${wlItem.exitKeyVals.size() > 0}" data-role="panel"
-                            data-title-caption="Exit Triggers" data-collapsed="false" data-collapsible="true"
-                            data-cls-panel="shadow-3" data-cls-title="bg-lightGray fg-black"
-                            data-cls-content="bg-white fg-black">
-                            <div class="cell-11">
-                                <table class="table  table compact">
-                                    <tbody>
-                                        <tr th:each="msg : ${wlItem.exitKeyVals}">
-                                            <td style="text-align: left; padding: 8px;" th:text="${msg}">
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                        <tbody>
+                                            <tr th:each="msg : ${wlItem.exitKeyVals}">
+                                                <td style="text-align: left; padding: 8px;" th:text="${msg.key}">
+                                                </td>
+                                                <td style="text-align: left; padding: 8px;" th:text="${msg.value}">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

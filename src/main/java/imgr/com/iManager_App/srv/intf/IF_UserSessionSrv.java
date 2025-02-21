@@ -8,6 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 import imgr.com.iManager_App.srv.pojos.TY_UserSessionInfo;
 import imgr.com.iManager_App.ui.enums.EnumVWNames;
 import imgr.com.iManager_App.ui.model.entity.TY_SCToken;
+import imgr.com.iManager_App.ui.pojos.TY_ScripCMPResponse;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
 
 public interface IF_UserSessionSrv
@@ -37,5 +38,7 @@ public interface IF_UserSessionSrv
     public void setParentViewModel4Navigation(ModelAndView mv);
 
     public ModelAndView getRedirectedParentViewModel();
+
+    public List<TY_WLDB> updateWatchlistwithCMP(TY_ScripCMPResponse wlCMPList);
 
 }

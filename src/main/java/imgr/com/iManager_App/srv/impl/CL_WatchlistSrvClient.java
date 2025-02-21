@@ -10,6 +10,9 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPatch;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
@@ -25,6 +28,7 @@ import imgr.com.iManager_App.srv.intf.IF_UserSessionSrv;
 import imgr.com.iManager_App.srv.intf.IF_WatchlistSrvClient;
 import imgr.com.iManager_App.ui.pojos.TY_Credentials;
 import imgr.com.iManager_App.ui.pojos.TY_DestinationsSuffix;
+import imgr.com.iManager_App.ui.pojos.TY_ScripCMPResponse;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -112,6 +116,170 @@ public class CL_WatchlistSrvClient implements IF_WatchlistSrvClient
             }
 
         }
+        return wlDB;
+    }
+
+    @Override
+    public TY_ScripCMPResponse getCMP4WLScrips(String token) throws Exception
+    {
+        TY_ScripCMPResponse resp = null;
+
+        HttpResponse response = null;
+        String bearer = null;
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        if (dS != null && userSessionSrv != null)
+        {
+            String key = userSessionSrv.getDecryptedKey();
+            if (StringUtils.hasText(key)
+                    && StringUtils.hasText(userSessionSrv.getUserSessionInformation().getUserName())
+                    && StringUtils.hasText(dS.getBaseurl()) && StringUtils.hasText(dS.getAuthurl())
+                    && StringUtils.hasText(dS.getWatchlistcmpurl()) && apiSrv != null)
+            {
+                if (!StringUtils.hasText(userSessionSrv.getUserSessionInformation().getBearer()))
+                {
+                    bearer = apiSrv
+                            .getAuthToken(new TY_Credentials(userSessionSrv.getUserSessionInformation().getUserName(),
+                                    userSessionSrv.getDecryptedKey()));
+                }
+                else
+                {
+                    bearer = userSessionSrv.getUserSessionInformation().getBearer();
+                }
+                if (StringUtils.hasText(bearer))
+                {
+
+                    String wlUrl = dS.getBaseurl() + dS.getWatchlistdburl() + token;
+                    // Now le's trigger the WL DB Call
+                    URL url = new URL(wlUrl);
+                    URI uri = new URI(url.getProtocol(), url.getUserInfo(), IDN.toASCII(url.getHost()), url.getPort(),
+                            url.getPath(), url.getQuery(), url.getRef());
+                    String correctEncodedURL = uri.toASCIIString();
+                    HttpGet httpGet = new HttpGet(correctEncodedURL);
+                    httpGet.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + bearer);
+                    httpGet.addHeader("accept", "application/json");
+                    // Fire the Url
+                    response = httpClient.execute(httpGet);
+                    int statusCodeWLDB = response.getStatusLine().getStatusCode();
+                    if (statusCodeWLDB != org.apache.http.HttpStatus.SC_OK)
+                    {
+                        return null;
+                    }
+
+                    else if (statusCodeWLDB == org.apache.http.HttpStatus.SC_OK)
+                    {
+                        log.info("WL CMP succ executed....");
+                        HttpEntity entityWLDB = response.getEntity();
+                        String apiOutput = EntityUtils.toString(entityWLDB);
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        try
+                        {
+                            // TypeFactory typeFactory = objectMapper.getTypeFactory();
+                            // CollectionType collectionType =
+                            // typeFactory.constructCollectionType(List.class,
+                            // TY_WLDB.class);
+                            resp = objectMapper.readValue(apiOutput, TY_ScripCMPResponse.class);
+                            if (resp != null)
+                            {
+                                log.info("Wl CMP Node Bound with ... " + resp.getScCMPs().size() + " entities...");
+
+                            }
+                        }
+                        catch (IOException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+
+            }
+
+        }
+
+        return resp;
+    }
+
+    @Override
+    public List<TY_WLDB> refreshWatchlistDb(List<TY_WLDB> exsWLDB, String token) throws Exception
+    {
+        List<TY_WLDB> wlDB = null;
+        HttpResponse response = null;
+        String bearer = null;
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        if (dS != null && userSessionSrv != null)
+        {
+            String key = userSessionSrv.getDecryptedKey();
+            if (StringUtils.hasText(key)
+                    && StringUtils.hasText(userSessionSrv.getUserSessionInformation().getUserName())
+                    && StringUtils.hasText(dS.getBaseurl()) && StringUtils.hasText(dS.getAuthurl())
+                    && StringUtils.hasText(dS.getWatchlistdburl()) && apiSrv != null)
+            {
+                if (!StringUtils.hasText(userSessionSrv.getUserSessionInformation().getBearer()))
+                {
+                    bearer = apiSrv
+                            .getAuthToken(new TY_Credentials(userSessionSrv.getUserSessionInformation().getUserName(),
+                                    userSessionSrv.getDecryptedKey()));
+                }
+                else
+                {
+                    bearer = userSessionSrv.getUserSessionInformation().getBearer();
+                }
+                if (StringUtils.hasText(bearer))
+                {
+                    String wlUrl = dS.getBaseurl() + dS.getWatchlistdburl() + token;
+                    // Now le's trigger the WL DB Call
+                    URL url = new URL(wlUrl);
+                    URI uri = new URI(url.getProtocol(), url.getUserInfo(), IDN.toASCII(url.getHost()), url.getPort(),
+                            url.getPath(), url.getQuery(), url.getRef());
+                    String correctEncodedURL = uri.toASCIIString();
+                    HttpPatch httpPatch = new HttpPatch(correctEncodedURL);
+                    httpPatch.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + bearer);
+                    httpPatch.addHeader("accept", "application/json");
+
+                    ObjectMapper objMapper = new ObjectMapper();
+
+                    String requestBody = objMapper.writeValueAsString(exsWLDB);
+                    log.info(requestBody);
+
+                    StringEntity entity = new StringEntity(requestBody, ContentType.APPLICATION_JSON);
+                    httpPatch.setEntity(entity);
+
+                    // Fire the Url
+                    response = httpClient.execute(httpPatch);
+                    int statusCodeWLDB = response.getStatusLine().getStatusCode();
+                    if (statusCodeWLDB != org.apache.http.HttpStatus.SC_OK)
+                    {
+                        return null;
+                    }
+
+                    else if (statusCodeWLDB == org.apache.http.HttpStatus.SC_OK)
+                    {
+                        log.info("WL DB succ executed....");
+                        HttpEntity entityWLDB = response.getEntity();
+                        String apiOutput = EntityUtils.toString(entityWLDB);
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        try
+                        {
+                            TypeFactory typeFactory = objectMapper.getTypeFactory();
+                            CollectionType collectionType = typeFactory.constructCollectionType(List.class,
+                                    TY_WLDB.class);
+                            wlDB = objectMapper.readValue(apiOutput, collectionType);
+                            if (wlDB != null)
+                            {
+                                log.info("Wl Node Bound with ... " + wlDB.size() + " entities...");
+
+                            }
+                        }
+                        catch (IOException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+
+        }
+
         return wlDB;
     }
 }

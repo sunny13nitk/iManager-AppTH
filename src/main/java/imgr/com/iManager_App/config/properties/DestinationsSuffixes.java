@@ -17,11 +17,12 @@ public class DestinationsSuffixes
     @Bean
     // @Autowired // For PropertySourcesPlaceholderConfigurer
     public TY_DestinationsSuffix Destinations(@Value("${baseurl}") final String baseurl,
-            @Value("${watchlistdburl}") final String watchlistdburl, @Value("${csrfsess}") final String csrfsess,
+            @Value("${watchlistdburl}") final String watchlistdburl,
+            @Value("${watchlistcmpurl}") final String watchlistcmpurl, @Value("${csrfsess}") final String csrfsess,
             @Value("${authenticate}") final String authurl)
     {
-        TY_DestinationsSuffix destinationsSuffixes = new TY_DestinationsSuffix(baseurl, watchlistdburl, csrfsess,
-                authurl);
+        TY_DestinationsSuffix destinationsSuffixes = new TY_DestinationsSuffix(baseurl, watchlistdburl, watchlistcmpurl,
+                csrfsess, authurl);
         return destinationsSuffixes;
     }
 }

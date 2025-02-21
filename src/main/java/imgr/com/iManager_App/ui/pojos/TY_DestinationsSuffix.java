@@ -11,6 +11,7 @@ public class TY_DestinationsSuffix
 {
     private String baseurl;
     private String watchlistdburl;
+    private String watchlistcmpurl;
     private String csrfsess;
     private String authurl;
 }

@@ -1,15 +1,17 @@
 package imgr.com.iManager_App.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -20,6 +22,7 @@ import imgr.com.iManager_App.ui.enums.EnumVWNames;
 import imgr.com.iManager_App.ui.model.entity.TY_SCToken;
 import imgr.com.iManager_App.ui.model.repo.RepoSCToken;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
+import imgr.com.iManager_App.utilities.TestUtility;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -53,9 +56,19 @@ public class WatchlistController
                 String token = userSessSrv.getScreenerToken();
                 if (StringUtils.hasText(token))
                 {
-                    List<TY_WLDB> wlDBList = wlSrv.getWatchlistDb(token);
+                    List<TY_WLDB> wlDBList = null;
 
-                    model.addAttribute("wlList", wlSrv.getWatchlistDb(token));
+                    if (CollectionUtils.isNotEmpty(userSessSrv.getWlDB()))
+                    {
+                        wlDBList = wlSrv.refreshWatchlistDb(userSessSrv.getWlDB(), token);
+                    }
+                    else // Only complete Load if WLlist not present is session
+                    {
+                        wlDBList = wlSrv.getWatchlistDb(token);
+                        // wlDBList = TestUtility.getWLDB4mJSON();
+
+                    }
+                    model.addAttribute("wlList", wlDBList);
                     userSessSrv.setWLDB(wlDBList);
                 }
             }
@@ -65,13 +78,26 @@ public class WatchlistController
     }
 
     @GetMapping("/db/{scrip}")
-    public String showWLScripDetails(Model model, @RequestParam String scrip) throws Exception
+    public String showWLScripDetails(Model model, @PathVariable String scrip) throws Exception
     {
         if (StringUtils.hasText(scrip) && userSessSrv != null)
         {
             // Get details for Selected Scrip from session
+            if (CollectionUtils.isNotEmpty(userSessSrv.getWlDB()))
+            {
+                Optional<TY_WLDB> wlItemO = userSessSrv.getWlDB().stream().filter(w -> w.getScrip().equals(scrip))
+                        .findFirst();
+                if (wlItemO.isPresent())
+                {
+                    model.addAttribute("wlItem", wlItemO.get());
+                }
+
+            }
 
             // Add WL Model view to User Session
+            ModelAndView mvNav = new ModelAndView(VWNamesDirectory.getViewName(EnumVWNames.WatchlistDashboard, false));
+            mvNav.addObject("wlList", userSessSrv.getWlDB());
+            userSessSrv.setParentViewModel4Navigation(mvNav);
 
         }
         return VWNamesDirectory.getViewName(EnumVWNames.WLDetailsScreener, false);
