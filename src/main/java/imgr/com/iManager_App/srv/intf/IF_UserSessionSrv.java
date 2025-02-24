@@ -39,6 +39,5 @@ public interface IF_UserSessionSrv
 
     public ModelAndView getRedirectedParentViewModel();
 
-    public List<TY_WLDB> updateWatchlistwithCMP(TY_ScripCMPResponse wlCMPList);
 
 }

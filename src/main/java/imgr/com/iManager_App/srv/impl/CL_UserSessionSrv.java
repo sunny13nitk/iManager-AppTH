@@ -176,22 +176,4 @@ public class CL_UserSessionSrv implements IF_UserSessionSrv
         return userInfo.getMv();
     }
 
-    @Override
-    public List<TY_WLDB> updateWatchlistwithCMP(TY_ScripCMPResponse wlCMPList)
-    {
-
-        if (wlCMPList != null)
-        {
-            if (CollectionUtils.isNotEmpty(wlCMPList.getScCMPs()))
-            {
-                for (TY_SCCMP scCMP : wlCMPList.getScCMPs())
-                {
-                    
-                }
-            }
-        }
-
-        return this.getWlDB();
-    }
-
 }

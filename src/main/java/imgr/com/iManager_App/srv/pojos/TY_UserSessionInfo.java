@@ -23,6 +23,7 @@ public class TY_UserSessionInfo
     private String userName;
     private TY_SCToken scToken;
     private List<TY_WLDB> wlDBList = new ArrayList<TY_WLDB>();
+    
     private SecretKey key;
     private IvParameterSpec ivParameterSpec;
     private String cipher;

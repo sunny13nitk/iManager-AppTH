@@ -23,7 +23,7 @@
 
     <!-- Token ocnfig - Starts  -->
     <div class="colspan-10" style="margin-top: 50px;padding: 20px;">
-        <div class="card bg-white bd-lightCyan" style="padding: 20px; width:100%;">
+        <div class=" card bg-white bd-lightCyan" style="padding: 20px; width:100%;">
             <h6 style="color:  #239EE3; background-color: #F7FCFE;padding: 10px; ">Watchlist Scrip Details -
                 <span style="color: #1880BB; font-weight: bold; font-size: 1.15em; margin-left: 2px"
                     th:text="${wlItem.scrip}">ABB</span>
@@ -94,9 +94,17 @@
 
             </h6>
 
-            <div class="grid">
+            <ul data-app-bar="true" data-role="tabs" data-expand="true" data-tabs-type="group">
+                <li><a href="#_target_1">Expected Returns</a></li>
+                <li><a href="#_target_2">Fundamentals</a></li>
+                <li><a href="#_target_3">Theises</a></li>
+            </ul>
+
+
+            <div class="grid" id="_target_1">
                 <div data-role="panel" data-title-caption="Expected Returns Perspective" data-collapsed="false"
-                    data-collapsible="true" data-cls-title="bg-white fg-cyan" data-cls-panel="bd-lightCyan padding:5px">
+                    data-collapsible="true" data-cls-title="bg-white fg-cyan"
+                    data-cls-panel="bd-lightCyan padding:5px">
 
 
                     <div class="row ">
@@ -136,7 +144,8 @@
                         <div class="cell-md-3">
                             <div class="row">
                                 <div class="cell-md-12">
-                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">EPS TTM : </span>
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">EPS TTM :
+                                    </span>
                                     <span style="color:  #647277; padding: 10px; font-weight:500;"
                                         th:text="${wlItem.epsttm}">7.8</span>
                                 </div>
@@ -149,7 +158,8 @@
                         <div class="cell-md-3">
                             <div class="row">
                                 <div class="cell-md-12">
-                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Current PE : </span>
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Current PE :
+                                    </span>
                                     <span style="color:  #647277; padding: 10px; font-weight:500;"
                                         th:text="${wlItem.currpe}">56.6</span>
                                 </div>
@@ -159,7 +169,8 @@
                         <div class="cell-md-3">
                             <div class="row">
                                 <div class="cell-md-12">
-                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">PE avg. last 5 years
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">PE avg. last
+                                        5 years
                                         :
                                     </span>
                                     <span style="color:  #647277; padding: 10px; font-weight:500;"
@@ -170,7 +181,8 @@
                         <div class="cell-md-3">
                             <div class="row">
                                 <div class="cell-md-12">
-                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">PEG Ratio : </span>
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">PEG Ratio :
+                                    </span>
                                     <span style="color:  #647277; padding: 10px; font-weight:500;"
                                         th:text="${wlItem.peg}">2.4</span>
                                 </div>
@@ -180,7 +192,8 @@
                         <div class="cell-md-3">
                             <div class="row">
                                 <div class="cell-md-12">
-                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Longevity EPS Growth
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Longevity EPS
+                                        Growth
                                         (years) :
                                     </span>
                                     <span style="color:  #647277; padding: 10px; font-weight:500;"
@@ -196,7 +209,8 @@
                         <div class="cell-md-3">
                             <div class="row">
                                 <div class="cell-md-12">
-                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Sales Growth 3 yrs
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Sales Growth
+                                        3 yrs
                                         CAGR :
                                     </span>
                                     <span style="color:  #647277; padding: 10px; font-weight:500;"
@@ -208,7 +222,8 @@
                         <div class="cell-md-3">
                             <div class="row">
                                 <div class="cell-md-12">
-                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">PAT Growth 3 yrs CAGR
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">PAT Growth 3
+                                        yrs CAGR
                                         :
                                     </span>
                                     <span style="color:  #647277; padding: 10px; font-weight:500;"
@@ -219,7 +234,8 @@
                         <div class="cell-md-3">
                             <div class="row">
                                 <div class="cell-md-12">
-                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">TTM PAT Growth :
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">TTM PAT
+                                        Growth :
                                     </span>
                                     <span style="color:  #647277; padding: 10px; font-weight:500;"
                                         th:text="${wlItem.ttmpatgr}">27.3%</span>
@@ -229,7 +245,8 @@
                         <div class="cell-md-3">
                             <div class="row">
                                 <div class="cell-md-12">
-                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Bull weight ratio :
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Bull weight
+                                        ratio :
                                     </span>
                                     <span style="color:  #647277; padding: 10px; font-weight:500;"
                                         th:text="${wlItem.bullwtRatio}">.8</span>
@@ -241,18 +258,21 @@
 
                     </div>
 
-                    <p style="color:  #128C43; background-color: #F9FEFB;padding: 2px; font-size: 1.15em"><u> Strong Buy
+                    <p style="color:  #128C43; background-color: #F9FEFB;padding: 2px; font-size: 1.15em"><u>
+                            Strong Buy
                             Trigger</u></p>
                     <div class="row" style="padding-top: 10px;">
                         <div class="cell-md-3">
                             <div class="row">
                                 <div class="cell-md-12">
-                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Strong Buy Price :
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Strong Buy
+                                        Price :
                                     </span>
                                     <span
                                         style="color: #128C43; font-weight: bold; font-size: 1.15em;  font-style: italic;">Rs.
                                     </span>
-                                    <span style=" color: #128C43; padding: -3px; font-weight:500;font-style: italic;"
+                                    <span
+                                        style=" color: #128C43; padding: -3px; font-weight:500;font-style: italic;"
                                         th:text="${wlItem.price2StrongBuy}">1678</span>
                                 </div>
                             </div>
@@ -261,7 +281,8 @@
                         <div class="cell-md-3">
                             <div class="row">
                                 <div class="cell-md-12">
-                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Price Delta from CMP
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Price Delta
+                                        from CMP
                                         to
                                         Strong Buy :
                                     </span>
@@ -272,14 +293,16 @@
                         </div>
                     </div>
 
-                    <p style="color:  #CFC809; background-color: #FFFEE7;padding: 2px; font-size: 1.15em"><u> Base Case
+                    <p style="color:  #CFC809; background-color: #FFFEE7;padding: 2px; font-size: 1.15em"><u>
+                            Base Case
                             Simulation</u></p>
 
                     <div class="row " style="padding-top: 10px;">
                         <div class="cell-md-3">
                             <div class="row">
                                 <div class="cell-md-12">
-                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Base Case EPS CAGR :
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Base Case EPS
+                                        CAGR :
                                     </span>
                                     <span style="color:  #647277; padding: 10px; font-weight:500;"
                                         th:text="${wlItem.baseCaseEPSCAGR}">25%</span>
@@ -290,7 +313,8 @@
                         <div class="cell-md-3">
                             <div class="row">
                                 <div class="cell-md-12">
-                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Base Case Terminal PE
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Base Case
+                                        Terminal PE
                                         :
                                     </span>
                                     <span style="color:  #647277; padding: 10px; font-weight:500;"
@@ -301,12 +325,14 @@
                         <div class="cell-md-3">
                             <div class="row">
                                 <div class="cell-md-12">
-                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Base Case Target :
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Base Case
+                                        Target :
                                     </span>
                                     <span
                                         style="color: #CFC809; font-weight: bold; font-size: 1.15em;  font-style: italic;">Rs.
                                     </span>
-                                    <span style=" color: #CFC809; padding: -3px; font-weight:500;font-style: italic;"
+                                    <span
+                                        style=" color: #CFC809; padding: -3px; font-weight:500;font-style: italic;"
                                         th:text="${wlItem.baseCaseTP}">3476.6</span>
                                 </div>
                             </div>
@@ -315,7 +341,8 @@
                         <div class="cell-md-3">
                             <div class="row">
                                 <div class="cell-md-12">
-                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Base Case Returns
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Base Case
+                                        Returns
                                         CAGR :
                                     </span>
 
@@ -328,14 +355,16 @@
 
                     </div>
 
-                    <p style="color:  #6B629D; background-color: #F8F7FD;padding: 2px; font-size: 1.15em"><u> Bull Case
+                    <p style="color:  #6B629D; background-color: #F8F7FD;padding: 2px; font-size: 1.15em"><u>
+                            Bull Case
                             Simulation</u></p>
 
                     <div class="row " style="padding-top: 10px;">
                         <div class="cell-md-3">
                             <div class="row">
                                 <div class="cell-md-12">
-                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Bull Case EPS CAGR :
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Bull Case EPS
+                                        CAGR :
                                     </span>
                                     <span style="color:  #647277; padding: 10px; font-weight:500;"
                                         th:text="${wlItem.bullCaseEPSCAGR}">35%</span>
@@ -346,7 +375,8 @@
                         <div class="cell-md-3">
                             <div class="row">
                                 <div class="cell-md-12">
-                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Bull Case Terminal PE
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Bull Case
+                                        Terminal PE
                                         :
                                     </span>
                                     <span style="color:  #647277; padding: 10px; font-weight:500;"
@@ -357,12 +387,14 @@
                         <div class="cell-md-3">
                             <div class="row">
                                 <div class="cell-md-12">
-                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Bull Case Target :
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Bull Case
+                                        Target :
                                     </span>
                                     <span
                                         style="color: #6B629D; font-weight: bold; font-size: 1.15em;  font-style: italic;">Rs.
                                     </span>
-                                    <span style=" color: #6B629D; padding: -3px; font-weight:500;font-style: italic;"
+                                    <span
+                                        style=" color: #6B629D; padding: -3px; font-weight:500;font-style: italic;"
                                         th:text="${wlItem.bullCaseTP}">6476.6</span>
                                 </div>
                             </div>
@@ -371,7 +403,8 @@
                         <div class="cell-md-3">
                             <div class="row">
                                 <div class="cell-md-12">
-                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Bull Case Returns
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Bull Case
+                                        Returns
                                         CAGR :
                                     </span>
 
@@ -389,8 +422,9 @@
                         <div th:if="${wlItem.exitKeyVals != null}">
                             <!-- Check for Form error -->
                             <div th:if="${wlItem.exitKeyVals.size() > 0}" data-role="panel"
-                                data-title-caption="Exit Triggers" data-collapsed="false" data-collapsible="true"
-                                data-cls-title="bg-white fg-cyan" data-cls-panel="bd-lightCyan">
+                                data-title-caption="Exit Triggers" data-collapsed="false"
+                                data-collapsible="true" data-cls-title="bg-white fg-cyan"
+                                data-cls-panel="bd-lightCyan">
                                 <div class="cell-11">
                                     <table class="table subcompact striped table-border cell-border row-hover">
                                         <thead>
@@ -402,9 +436,11 @@
 
                                         <tbody>
                                             <tr th:each="msg : ${wlItem.exitKeyVals}">
-                                                <td style="text-align: left; padding: 8px;" th:text="${msg.key}">
+                                                <td style="text-align: left; padding: 8px;"
+                                                    th:text="${msg.key}">
                                                 </td>
-                                                <td style="text-align: left; padding: 8px;" th:text="${msg.value}">
+                                                <td style="text-align: left; padding: 8px;"
+                                                    th:text="${msg.value}">
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -415,6 +451,7 @@
                     </div>
                 </div>
             </div>
+
 
 
         </div>
