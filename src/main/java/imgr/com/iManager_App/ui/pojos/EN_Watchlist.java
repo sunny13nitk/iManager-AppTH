@@ -9,8 +9,6 @@ import org.hibernate.validator.constraints.Range;
 import imgr.com.iManager_App.ui.enums.EnumCS;
 import imgr.com.iManager_App.ui.enums.EnumLevels;
 import imgr.com.iManager_App.ui.enums.EnumWLStatus;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,7 +29,7 @@ public class EN_Watchlist
     private EnumWLStatus status;
     private List<EN_SCReferences> references = new ArrayList<EN_SCReferences>();
     private List<EN_SCTriggers> triggers = new ArrayList<EN_SCTriggers>();
-    @Enumerated(EnumType.STRING)
+
     private EnumCS cusSegment;
     private int size;
     private EnumLevels growth;

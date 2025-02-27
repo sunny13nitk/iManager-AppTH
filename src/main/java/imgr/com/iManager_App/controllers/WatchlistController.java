@@ -17,10 +17,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import imgr.com.iManager_App.srv.intf.IF_UserSessionSrv;
 import imgr.com.iManager_App.srv.intf.IF_WatchlistSrvClient;
+import imgr.com.iManager_App.srv.pojos.TY_SCToken;
 import imgr.com.iManager_App.ui.constants.VWNamesDirectory;
 import imgr.com.iManager_App.ui.enums.EnumVWNames;
-import imgr.com.iManager_App.ui.model.entity.TY_SCToken;
-import imgr.com.iManager_App.ui.model.repo.RepoSCToken;
 import imgr.com.iManager_App.ui.pojos.EN_Watchlist;
 import imgr.com.iManager_App.ui.pojos.TY_ScripAnalysisData;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
@@ -33,8 +32,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/wl")
 public class WatchlistController
 {
-
-    private final RepoSCToken repoSCToken;
 
     private final IF_UserSessionSrv userSessSrv;
 
@@ -157,24 +154,6 @@ public class WatchlistController
             RedirectAttributes attributes)
     {
         ModelAndView mv = null;
-        if (tokenInfo != null && repoSCToken != null && userSessSrv != null)
-        {
-
-            try
-            {
-                repoSCToken.deleteAll();
-                repoSCToken.save(tokenInfo);
-                userSessSrv.resetScreenerToken(tokenInfo);
-                mv = new ModelAndView((VWNamesDirectory.getViewName(EnumVWNames.Home, true)));
-            }
-            catch (Exception e)
-            {
-                attributes.addFlashAttribute("message", e.getMessage());
-                attributes.addFlashAttribute("tokenInfo", tokenInfo);
-                mv = new ModelAndView(VWNamesDirectory.getViewName(EnumVWNames.Tokens, true));
-            }
-
-        }
 
         return mv;
     }

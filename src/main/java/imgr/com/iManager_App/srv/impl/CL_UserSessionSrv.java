@@ -14,18 +14,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import imgr.com.iManager_App.exceptions.handler.EX_UserSession;
 import imgr.com.iManager_App.srv.intf.IF_UserSessionSrv;
+import imgr.com.iManager_App.srv.pojos.TY_SCToken;
 import imgr.com.iManager_App.srv.pojos.TY_UserSessionInfo;
 import imgr.com.iManager_App.ui.constants.GC_Constants;
 import imgr.com.iManager_App.ui.constants.VWNamesDirectory;
 import imgr.com.iManager_App.ui.enums.EnumVWNames;
-import imgr.com.iManager_App.ui.model.entity.TY_SCToken;
-import imgr.com.iManager_App.ui.model.repo.RepoSCToken;
 import imgr.com.iManager_App.ui.pojos.EN_Watchlist;
-import imgr.com.iManager_App.ui.pojos.IF_ScripAnalysisData;
 import imgr.com.iManager_App.ui.pojos.TY_DestinationsSuffix;
-import imgr.com.iManager_App.ui.pojos.TY_SCCMP;
 import imgr.com.iManager_App.ui.pojos.TY_ScripAnalysisData;
-import imgr.com.iManager_App.ui.pojos.TY_ScripCMPResponse;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
 import imgr.com.iManager_App.utilities.EncryptUtility;
 import imgr.com.iManager_App.utilities.StringsUtility;
@@ -41,8 +37,6 @@ public class CL_UserSessionSrv implements IF_UserSessionSrv
 
     private TY_UserSessionInfo userInfo;
 
-    private final RepoSCToken repoSCToken;
-
     private final TY_DestinationsSuffix dS;
 
     private final MessageSource msgSrc;
@@ -52,15 +46,15 @@ public class CL_UserSessionSrv implements IF_UserSessionSrv
     {
         if (auth != null)
         {
-            if (auth.isAuthenticated() && repoSCToken != null)
-            {
-                userInfo = new TY_UserSessionInfo();
-                userInfo.setUserName(auth.getName());
-                userInfo.setScToken(repoSCToken.findAll().get(0));
-                userInfo.setKey(EncryptUtility.generateKey(128));
-                userInfo.setIvParameterSpec(EncryptUtility.generateIv());
+            // if (auth.isAuthenticated() && repoSCToken != null)
+            // {
+            // userInfo = new TY_UserSessionInfo();
+            // userInfo.setUserName(auth.getName());
+            // userInfo.setScToken(repoSCToken.findAll().get(0));
+            // userInfo.setKey(EncryptUtility.generateKey(128));
+            // userInfo.setIvParameterSpec(EncryptUtility.generateIv());
 
-            }
+            // }
         }
     }
 

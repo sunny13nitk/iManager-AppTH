@@ -9,7 +9,6 @@ import javax.crypto.spec.IvParameterSpec;
 import org.springframework.web.servlet.ModelAndView;
 
 import imgr.com.iManager_App.ui.enums.EnumVWNames;
-import imgr.com.iManager_App.ui.model.entity.TY_SCToken;
 import imgr.com.iManager_App.ui.pojos.EN_Watchlist;
 import imgr.com.iManager_App.ui.pojos.TY_ScripAnalysisData;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
