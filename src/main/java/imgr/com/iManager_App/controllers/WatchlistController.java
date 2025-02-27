@@ -43,43 +43,34 @@ public class WatchlistController
         if (userSessSrv != null && wlSrv != null)
         {
 
-            if (!StringUtils.hasText(userSessSrv.getDecryptedKey()))
+            String token = userSessSrv.getScreenerToken();
+            if (StringUtils.hasText(token))
             {
-                // Navigate to Principal Propogation View
-                userSessSrv.setParentView4Navigation(EnumVWNames.WatchlistDashboard);
-                return VWNamesDirectory.getViewName(EnumVWNames.Principal, true);
+                List<TY_WLDB> wlDBList = null;
+                List<TY_ScripAnalysisData> wlF = null;
+                List<EN_Watchlist> wlT = null;
 
-            }
-            else
-            {
-                String token = userSessSrv.getScreenerToken();
-                if (StringUtils.hasText(token))
+                if (CollectionUtils.isNotEmpty(userSessSrv.getWlDB()))
                 {
-                    List<TY_WLDB> wlDBList = null;
-                    List<TY_ScripAnalysisData> wlF = null;
-                    List<EN_Watchlist> wlT = null;
-
-                    if (CollectionUtils.isNotEmpty(userSessSrv.getWlDB()))
-                    {
-                        wlDBList = wlSrv.refreshWatchlistDb(userSessSrv.getWlDB(), token);
-                        wlF = userSessSrv.getUserSessionInformation().getWlFInfo();
-                        wlT = userSessSrv.getUserSessionInformation().getWlEntities();
-                    }
-                    else // Only complete Load if WLlist not present is session
-                    {
-                        // wlDBList = wlSrv.getWatchlistDb(token);
-                        wlDBList = TestUtility.getWLDB4mJSON();
-                        wlF = wlSrv.getWLFundamentalAnalysis();
-                        wlT = wlSrv.getWatchlistThesis();
-
-                    }
-                    model.addAttribute("wlList", wlDBList);
-                    model.addAttribute("wlF", wlF);
-                    model.addAttribute("wlT", wlT);
-                    userSessSrv.setWLDB(wlDBList);
-                    userSessSrv.setWLFundamentals(wlF);
-                    userSessSrv.setWLThesis(wlT);
+                    wlDBList = wlSrv.refreshWatchlistDb(userSessSrv.getWlDB(), token);
+                    wlF = userSessSrv.getUserSessionInformation().getWlFInfo();
+                    wlT = userSessSrv.getUserSessionInformation().getWlEntities();
                 }
+                else // Only complete Load if WLlist not present is session
+                {
+                    // wlDBList = wlSrv.getWatchlistDb(token);
+                    wlDBList = TestUtility.getWLDB4mJSON();
+                    wlF = wlSrv.getWLFundamentalAnalysis();
+                    wlT = wlSrv.getWatchlistThesis();
+
+                }
+                model.addAttribute("wlList", wlDBList);
+                model.addAttribute("wlF", wlF);
+                model.addAttribute("wlT", wlT);
+                model.addAttribute("userDetails", userSessSrv.getUserDetails());
+                userSessSrv.setWLDB(wlDBList);
+                userSessSrv.setWLFundamentals(wlF);
+                userSessSrv.setWLThesis(wlT);
             }
 
         }
@@ -115,6 +106,8 @@ public class WatchlistController
                     model.addAttribute("wlT", wlTHtemO.get());
                 }
 
+                model.addAttribute("userDetails", userSessSrv.getUserDetails());
+
             }
 
             // Add WL Model view to User Session
@@ -122,6 +115,8 @@ public class WatchlistController
             mvNav.addObject("wlList", userSessSrv.getWlDB());
             mvNav.addObject("wlF", userSessSrv.getUserSessionInformation().getWlFInfo());
             mvNav.addObject("wlT", userSessSrv.getUserSessionInformation().getWlEntities());
+            mvNav.addObject("userDetails", userSessSrv.getUserDetails());
+
             userSessSrv.setParentViewModel4Navigation(mvNav);
 
         }
@@ -146,6 +141,8 @@ public class WatchlistController
         {
             model.addAttribute("message", message);
         }
+        model.addAttribute("userDetails", userSessSrv.getUserDetails());
+
         return VWNamesDirectory.getViewName(EnumVWNames.Tokens, false);
     }
 

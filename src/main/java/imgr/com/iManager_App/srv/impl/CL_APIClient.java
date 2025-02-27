@@ -1,7 +1,6 @@
 package imgr.com.iManager_App.srv.impl;
 
 import java.io.IOException;
-import java.util.Base64;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -81,11 +80,6 @@ public class CL_APIClient implements IF_APIClient
                                     userSessSrv.setAccessBearer(token); // Also set in session
                                 }
 
-                                Base64.Decoder decoder = Base64.getUrlDecoder();
-                                String[] chunks = token.split("\\.");
-                                String payload = new String(decoder.decode(chunks[1]));
-                                String scope = JSONUtility.readPropertyValue(payload, "/scope");
-                                log.info(scope);
                             }
 
                         }

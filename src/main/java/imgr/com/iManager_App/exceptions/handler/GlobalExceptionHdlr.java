@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
+import imgr.com.iManager_App.ui.constants.VWNamesDirectory;
+import imgr.com.iManager_App.ui.enums.EnumVWNames;
 import lombok.extern.slf4j.Slf4j;
 
 @ControllerAdvice
@@ -15,6 +17,17 @@ public class GlobalExceptionHdlr
     {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("error");
+        log.error("User Session exception occured with error details as : " + ex.getLocalizedMessage());
+        log.error(ex.getStackTrace().toString());
+        mv.addObject("formError", ex.getMessage());
+        return mv;
+    }
+
+    @ExceptionHandler(EX_UnauthorizedLogin.class)
+    public ModelAndView handleUnauthorizedLogin(Exception ex)
+    {
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName(VWNamesDirectory.getViewName(EnumVWNames.Login, false));
         log.error("User Session exception occured with error details as : " + ex.getLocalizedMessage());
         log.error(ex.getStackTrace().toString());
         mv.addObject("formError", ex.getMessage());

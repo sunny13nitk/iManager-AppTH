@@ -28,8 +28,8 @@ public class TY_UserSessionInfo
     private List<EN_Watchlist> wlEntities = new ArrayList<EN_Watchlist>();
     private SecretKey key;
     private IvParameterSpec ivParameterSpec;
-    private String cipher;
     private EnumVWNames vwName;
     private String bearer;
+    private String role;
     private ModelAndView mv;
 }

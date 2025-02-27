@@ -17,7 +17,7 @@
 </head>
 
 <body>
-    <div class="container-fluid" th:fragment="iMgrAppBar">
+    <div class="container-fluid" th:fragment="iMgrAppBar(userDetails)">
         <div data-role="appbar" data-expand-point="lg">
             <a href="#" class="brand no-hover">
                 <span style="width: 55px;" class="p-2 border bd-dark border-radius">
@@ -29,7 +29,7 @@
 
             <ul class="app-bar-menu" style="margin-left: 10px; background-color: transparent;">
 
-                <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
+                <li th:if="${userDetails.role=='ADMIN'}">
                     <a href="#" class="dropdown-toggle">Administrators</a>
                     <ul class="d-menu" data-role="dropdown">
 
@@ -72,7 +72,7 @@
                     </ul>
                 </li>
 
-                <li th:if="${#authorization.expression('isAuthenticated()')}">
+                <li>
                     <a href="#" class="dropdown-toggle">Profile</a>
                     <ul class="d-menu" data-role="dropdown">
                         <li>
@@ -80,7 +80,7 @@
                                 <span class="icon">
                                     <span class="mif-user fg-darkGray" style="margin-right:5px;"></span>
                                 </span>
-                                <label sec:authentication="name"></label>
+                                <label th:text="${userDetails.username}"></label>
                             </a>
                         </li>
                         <li>

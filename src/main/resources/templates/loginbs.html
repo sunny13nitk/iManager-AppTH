@@ -28,8 +28,8 @@
 
 
             <div class="row flex-align-center">
-                <form th:action="@{/login}" method="POST" class="login-form  p-6 mx-auto border bd-default win-shadow"
-                    data-on-error-form="invalidForm" data-on-validate-form="validateForm">
+
+                <form th:action="@{/login}" method="POST" class="login-form  p-6 mx-auto border bd-default win-shadow">
 
                     <!-- Place for messages: error, alert etc ... -->
                     <div class="form-group">
@@ -38,7 +38,7 @@
 
                                 <!-- Check for login error -->
 
-                                <div th:if="${param.error}">
+                                <div th:if="${formError}">
 
                                     <div class="alert alert-danger col-xs-offset-1 col-xs-10">
                                         Invalid username and password.</div>

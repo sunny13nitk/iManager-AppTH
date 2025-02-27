@@ -23,11 +23,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 
-import imgr.com.iManager_App.srv.intf.IF_APIClient;
 import imgr.com.iManager_App.srv.intf.IF_UserSessionSrv;
 import imgr.com.iManager_App.srv.intf.IF_WatchlistSrvClient;
 import imgr.com.iManager_App.ui.pojos.EN_Watchlist;
-import imgr.com.iManager_App.ui.pojos.TY_Credentials;
 import imgr.com.iManager_App.ui.pojos.TY_DestinationsSuffix;
 import imgr.com.iManager_App.ui.pojos.TY_ScripAnalysisData;
 import imgr.com.iManager_App.ui.pojos.TY_ScripCMPResponse;
@@ -45,8 +43,6 @@ public class CL_WatchlistSrvClient implements IF_WatchlistSrvClient
 
     private final IF_UserSessionSrv userSessionSrv;
 
-    private final IF_APIClient apiSrv;
-
     @Override
     public List<TY_WLDB> getWatchlistDb(String token) throws Exception
     {
@@ -56,65 +52,51 @@ public class CL_WatchlistSrvClient implements IF_WatchlistSrvClient
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         if (dS != null && userSessionSrv != null)
         {
-            String key = userSessionSrv.getDecryptedKey();
-            if (StringUtils.hasText(key)
-                    && StringUtils.hasText(userSessionSrv.getUserSessionInformation().getUserName())
-                    && StringUtils.hasText(dS.getBaseurl()) && StringUtils.hasText(dS.getAuthurl())
-                    && StringUtils.hasText(dS.getWatchlistdburl()) && apiSrv != null)
+            bearer = userSessionSrv.getDecryptedKey();
+            if (StringUtils.hasText(bearer) && StringUtils.hasText(dS.getBaseurl())
+                    && StringUtils.hasText(dS.getWatchlistdburl()))
             {
-                if (!StringUtils.hasText(userSessionSrv.getUserSessionInformation().getBearer()))
-                {
-                    bearer = apiSrv
-                            .getAuthToken(new TY_Credentials(userSessionSrv.getUserSessionInformation().getUserName(),
-                                    userSessionSrv.getDecryptedKey()));
-                }
-                else
-                {
-                    bearer = userSessionSrv.getUserSessionInformation().getBearer();
-                }
-                if (StringUtils.hasText(bearer))
-                {
-                    String wlUrl = dS.getBaseurl() + dS.getWatchlistdburl() + token;
-                    // Now le's trigger the WL DB Call
-                    URL url = new URL(wlUrl);
-                    URI uri = new URI(url.getProtocol(), url.getUserInfo(), IDN.toASCII(url.getHost()), url.getPort(),
-                            url.getPath(), url.getQuery(), url.getRef());
-                    String correctEncodedURL = uri.toASCIIString();
-                    HttpGet httpGet = new HttpGet(correctEncodedURL);
-                    httpGet.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + bearer);
-                    httpGet.addHeader("accept", "application/json");
-                    // Fire the Url
-                    response = httpClient.execute(httpGet);
-                    int statusCodeWLDB = response.getStatusLine().getStatusCode();
-                    if (statusCodeWLDB != org.apache.http.HttpStatus.SC_OK)
-                    {
-                        return null;
-                    }
 
-                    else if (statusCodeWLDB == org.apache.http.HttpStatus.SC_OK)
-                    {
-                        log.info("WL DB succ executed....");
-                        HttpEntity entityWLDB = response.getEntity();
-                        String apiOutput = EntityUtils.toString(entityWLDB);
-                        ObjectMapper objectMapper = new ObjectMapper();
-                        try
-                        {
-                            TypeFactory typeFactory = objectMapper.getTypeFactory();
-                            CollectionType collectionType = typeFactory.constructCollectionType(List.class,
-                                    TY_WLDB.class);
-                            wlDB = objectMapper.readValue(apiOutput, collectionType);
-                            if (wlDB != null)
-                            {
-                                log.info("Wl Node Bound with ... " + wlDB.size() + " entities...");
+                String wlUrl = dS.getBaseurl() + dS.getWatchlistdburl() + token;
+                // Now let's trigger the WL DB Call
+                URL url = new URL(wlUrl);
+                URI uri = new URI(url.getProtocol(), url.getUserInfo(), IDN.toASCII(url.getHost()), url.getPort(),
+                        url.getPath(), url.getQuery(), url.getRef());
+                String correctEncodedURL = uri.toASCIIString();
+                HttpGet httpGet = new HttpGet(correctEncodedURL);
+                httpGet.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + bearer);
+                httpGet.addHeader("accept", "application/json");
+                // Fire the Url
+                response = httpClient.execute(httpGet);
+                int statusCodeWLDB = response.getStatusLine().getStatusCode();
+                if (statusCodeWLDB != org.apache.http.HttpStatus.SC_OK)
+                {
+                    return null;
+                }
 
-                            }
-                        }
-                        catch (IOException e)
+                else if (statusCodeWLDB == org.apache.http.HttpStatus.SC_OK)
+                {
+                    log.info("WL DB succ executed....");
+                    HttpEntity entityWLDB = response.getEntity();
+                    String apiOutput = EntityUtils.toString(entityWLDB);
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    try
+                    {
+                        TypeFactory typeFactory = objectMapper.getTypeFactory();
+                        CollectionType collectionType = typeFactory.constructCollectionType(List.class, TY_WLDB.class);
+                        wlDB = objectMapper.readValue(apiOutput, collectionType);
+                        if (wlDB != null)
                         {
-                            e.printStackTrace();
+                            log.info("Wl Node Bound with ... " + wlDB.size() + " entities...");
+
                         }
                     }
+                    catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
+
             }
 
         }
@@ -131,65 +113,50 @@ public class CL_WatchlistSrvClient implements IF_WatchlistSrvClient
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         if (dS != null && userSessionSrv != null)
         {
-            String key = userSessionSrv.getDecryptedKey();
-            if (StringUtils.hasText(key)
-                    && StringUtils.hasText(userSessionSrv.getUserSessionInformation().getUserName())
-                    && StringUtils.hasText(dS.getBaseurl()) && StringUtils.hasText(dS.getAuthurl())
-                    && StringUtils.hasText(dS.getWatchlistcmpurl()) && apiSrv != null)
+            bearer = userSessionSrv.getDecryptedKey();
+            if (StringUtils.hasText(bearer) && StringUtils.hasText(dS.getBaseurl())
+                    && StringUtils.hasText(dS.getWatchlistcmpurl()))
             {
-                if (!StringUtils.hasText(userSessionSrv.getUserSessionInformation().getBearer()))
-                {
-                    bearer = apiSrv
-                            .getAuthToken(new TY_Credentials(userSessionSrv.getUserSessionInformation().getUserName(),
-                                    userSessionSrv.getDecryptedKey()));
-                }
-                else
-                {
-                    bearer = userSessionSrv.getUserSessionInformation().getBearer();
-                }
-                if (StringUtils.hasText(bearer))
-                {
 
-                    String wlUrl = dS.getBaseurl() + dS.getWatchlistdburl() + token;
-                    // Now le's trigger the WL DB Call
-                    URL url = new URL(wlUrl);
-                    URI uri = new URI(url.getProtocol(), url.getUserInfo(), IDN.toASCII(url.getHost()), url.getPort(),
-                            url.getPath(), url.getQuery(), url.getRef());
-                    String correctEncodedURL = uri.toASCIIString();
-                    HttpGet httpGet = new HttpGet(correctEncodedURL);
-                    httpGet.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + bearer);
-                    httpGet.addHeader("accept", "application/json");
-                    // Fire the Url
-                    response = httpClient.execute(httpGet);
-                    int statusCodeWLDB = response.getStatusLine().getStatusCode();
-                    if (statusCodeWLDB != org.apache.http.HttpStatus.SC_OK)
+                String wlUrl = dS.getBaseurl() + dS.getWatchlistdburl() + token;
+                // Now le's trigger the WL DB Call
+                URL url = new URL(wlUrl);
+                URI uri = new URI(url.getProtocol(), url.getUserInfo(), IDN.toASCII(url.getHost()), url.getPort(),
+                        url.getPath(), url.getQuery(), url.getRef());
+                String correctEncodedURL = uri.toASCIIString();
+                HttpGet httpGet = new HttpGet(correctEncodedURL);
+                httpGet.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + bearer);
+                httpGet.addHeader("accept", "application/json");
+                // Fire the Url
+                response = httpClient.execute(httpGet);
+                int statusCodeWLDB = response.getStatusLine().getStatusCode();
+                if (statusCodeWLDB != org.apache.http.HttpStatus.SC_OK)
+                {
+                    return null;
+                }
+
+                else if (statusCodeWLDB == org.apache.http.HttpStatus.SC_OK)
+                {
+                    log.info("WL CMP succ executed....");
+                    HttpEntity entityWLDB = response.getEntity();
+                    String apiOutput = EntityUtils.toString(entityWLDB);
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    try
                     {
-                        return null;
+                        // TypeFactory typeFactory = objectMapper.getTypeFactory();
+                        // CollectionType collectionType =
+                        // typeFactory.constructCollectionType(List.class,
+                        // TY_WLDB.class);
+                        resp = objectMapper.readValue(apiOutput, TY_ScripCMPResponse.class);
+                        if (resp != null)
+                        {
+                            log.info("Wl CMP Node Bound with ... " + resp.getScCMPs().size() + " entities...");
+
+                        }
                     }
-
-                    else if (statusCodeWLDB == org.apache.http.HttpStatus.SC_OK)
+                    catch (IOException e)
                     {
-                        log.info("WL CMP succ executed....");
-                        HttpEntity entityWLDB = response.getEntity();
-                        String apiOutput = EntityUtils.toString(entityWLDB);
-                        ObjectMapper objectMapper = new ObjectMapper();
-                        try
-                        {
-                            // TypeFactory typeFactory = objectMapper.getTypeFactory();
-                            // CollectionType collectionType =
-                            // typeFactory.constructCollectionType(List.class,
-                            // TY_WLDB.class);
-                            resp = objectMapper.readValue(apiOutput, TY_ScripCMPResponse.class);
-                            if (resp != null)
-                            {
-                                log.info("Wl CMP Node Bound with ... " + resp.getScCMPs().size() + " entities...");
-
-                            }
-                        }
-                        catch (IOException e)
-                        {
-                            e.printStackTrace();
-                        }
+                        e.printStackTrace();
                     }
 
                 }
@@ -210,72 +177,58 @@ public class CL_WatchlistSrvClient implements IF_WatchlistSrvClient
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         if (dS != null && userSessionSrv != null)
         {
-            String key = userSessionSrv.getDecryptedKey();
-            if (StringUtils.hasText(key)
-                    && StringUtils.hasText(userSessionSrv.getUserSessionInformation().getUserName())
-                    && StringUtils.hasText(dS.getBaseurl()) && StringUtils.hasText(dS.getAuthurl())
-                    && StringUtils.hasText(dS.getWatchlistdburl()) && apiSrv != null)
+            bearer = userSessionSrv.getDecryptedKey();
+            if (StringUtils.hasText(bearer) && StringUtils.hasText(dS.getBaseurl())
+                    && StringUtils.hasText(dS.getWatchlistdburl()))
             {
-                if (!StringUtils.hasText(userSessionSrv.getUserSessionInformation().getBearer()))
+
+                String wlUrl = dS.getBaseurl() + dS.getWatchlistdburl() + token;
+                // Now le's trigger the WL DB Call
+                URL url = new URL(wlUrl);
+                URI uri = new URI(url.getProtocol(), url.getUserInfo(), IDN.toASCII(url.getHost()), url.getPort(),
+                        url.getPath(), url.getQuery(), url.getRef());
+                String correctEncodedURL = uri.toASCIIString();
+                HttpPatch httpPatch = new HttpPatch(correctEncodedURL);
+                httpPatch.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + bearer);
+                httpPatch.addHeader("accept", "application/json");
+
+                ObjectMapper objMapper = new ObjectMapper();
+
+                String requestBody = objMapper.writeValueAsString(exsWLDB);
+
+                StringEntity entity = new StringEntity(requestBody, ContentType.APPLICATION_JSON);
+                httpPatch.setEntity(entity);
+
+                // Fire the Url
+                response = httpClient.execute(httpPatch);
+                int statusCodeWLDB = response.getStatusLine().getStatusCode();
+                if (statusCodeWLDB != org.apache.http.HttpStatus.SC_OK)
                 {
-                    bearer = apiSrv
-                            .getAuthToken(new TY_Credentials(userSessionSrv.getUserSessionInformation().getUserName(),
-                                    userSessionSrv.getDecryptedKey()));
+                    return null;
                 }
-                else
+
+                else if (statusCodeWLDB == org.apache.http.HttpStatus.SC_OK)
                 {
-                    bearer = userSessionSrv.getUserSessionInformation().getBearer();
-                }
-                if (StringUtils.hasText(bearer))
-                {
-                    String wlUrl = dS.getBaseurl() + dS.getWatchlistdburl() + token;
-                    // Now le's trigger the WL DB Call
-                    URL url = new URL(wlUrl);
-                    URI uri = new URI(url.getProtocol(), url.getUserInfo(), IDN.toASCII(url.getHost()), url.getPort(),
-                            url.getPath(), url.getQuery(), url.getRef());
-                    String correctEncodedURL = uri.toASCIIString();
-                    HttpPatch httpPatch = new HttpPatch(correctEncodedURL);
-                    httpPatch.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + bearer);
-                    httpPatch.addHeader("accept", "application/json");
-
-                    ObjectMapper objMapper = new ObjectMapper();
-
-                    String requestBody = objMapper.writeValueAsString(exsWLDB);
-      
-                    StringEntity entity = new StringEntity(requestBody, ContentType.APPLICATION_JSON);
-                    httpPatch.setEntity(entity);
-
-                    // Fire the Url
-                    response = httpClient.execute(httpPatch);
-                    int statusCodeWLDB = response.getStatusLine().getStatusCode();
-                    if (statusCodeWLDB != org.apache.http.HttpStatus.SC_OK)
+                    log.info("WL DB succ executed....");
+                    HttpEntity entityWLDB = response.getEntity();
+                    String apiOutput = EntityUtils.toString(entityWLDB);
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    try
                     {
-                        return null;
-                    }
-
-                    else if (statusCodeWLDB == org.apache.http.HttpStatus.SC_OK)
-                    {
-                        log.info("WL DB succ executed....");
-                        HttpEntity entityWLDB = response.getEntity();
-                        String apiOutput = EntityUtils.toString(entityWLDB);
-                        ObjectMapper objectMapper = new ObjectMapper();
-                        try
+                        TypeFactory typeFactory = objectMapper.getTypeFactory();
+                        CollectionType collectionType = typeFactory.constructCollectionType(List.class, TY_WLDB.class);
+                        wlDB = objectMapper.readValue(apiOutput, collectionType);
+                        if (wlDB != null)
                         {
-                            TypeFactory typeFactory = objectMapper.getTypeFactory();
-                            CollectionType collectionType = typeFactory.constructCollectionType(List.class,
-                                    TY_WLDB.class);
-                            wlDB = objectMapper.readValue(apiOutput, collectionType);
-                            if (wlDB != null)
-                            {
-                                log.info("Wl Node Bound with ... " + wlDB.size() + " entities...");
+                            log.info("Wl Node Bound with ... " + wlDB.size() + " entities...");
 
-                            }
-                        }
-                        catch (IOException e)
-                        {
-                            e.printStackTrace();
                         }
                     }
+                    catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+
                 }
             }
 
@@ -293,64 +246,51 @@ public class CL_WatchlistSrvClient implements IF_WatchlistSrvClient
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         if (dS != null && userSessionSrv != null)
         {
-            String key = userSessionSrv.getDecryptedKey();
-            if (StringUtils.hasText(key)
-                    && StringUtils.hasText(userSessionSrv.getUserSessionInformation().getUserName())
-                    && StringUtils.hasText(dS.getBaseurl()) && StringUtils.hasText(dS.getAuthurl())
-                    && StringUtils.hasText(dS.getWatchlistdburl()) && apiSrv != null)
+            bearer = userSessionSrv.getDecryptedKey();
+            if (StringUtils.hasText(bearer) && StringUtils.hasText(dS.getBaseurl())
+                    && StringUtils.hasText(dS.getWatchlistdburl()))
             {
-                if (!StringUtils.hasText(userSessionSrv.getUserSessionInformation().getBearer()))
-                {
-                    bearer = apiSrv
-                            .getAuthToken(new TY_Credentials(userSessionSrv.getUserSessionInformation().getUserName(),
-                                    userSessionSrv.getDecryptedKey()));
-                }
-                else
-                {
-                    bearer = userSessionSrv.getUserSessionInformation().getBearer();
-                }
-                if (StringUtils.hasText(bearer))
-                {
-                    String wlUrl = dS.getBaseurl() + dS.getWatchlistfundamentals();
-                    // Now le's trigger the WL DB Call
-                    URL url = new URL(wlUrl);
-                    URI uri = new URI(url.getProtocol(), url.getUserInfo(), IDN.toASCII(url.getHost()), url.getPort(),
-                            url.getPath(), url.getQuery(), url.getRef());
-                    String correctEncodedURL = uri.toASCIIString();
-                    HttpGet httpGet = new HttpGet(correctEncodedURL);
-                    httpGet.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + bearer);
-                    httpGet.addHeader("accept", "application/json");
-                    // Fire the Url
-                    response = httpClient.execute(httpGet);
-                    int statusCodeWLDB = response.getStatusLine().getStatusCode();
-                    if (statusCodeWLDB != org.apache.http.HttpStatus.SC_OK)
-                    {
-                        return null;
-                    }
 
-                    else if (statusCodeWLDB == org.apache.http.HttpStatus.SC_OK)
-                    {
-                        log.info("WL DB succ executed....");
-                        HttpEntity entityWLDB = response.getEntity();
-                        String apiOutput = EntityUtils.toString(entityWLDB);
-                        ObjectMapper objectMapper = new ObjectMapper();
-                        try
-                        {
-                            TypeFactory typeFactory = objectMapper.getTypeFactory();
-                            CollectionType collectionType = typeFactory.constructCollectionType(List.class,
-                                    TY_ScripAnalysisData.class);
-                            wlF = objectMapper.readValue(apiOutput, collectionType);
-                            if (wlF != null)
-                            {
-                                log.info("Wl Fundamentals Node Bound with ... " + wlF.size() + " entities...");
+                String wlUrl = dS.getBaseurl() + dS.getWatchlistfundamentals();
+                // Now le's trigger the WL DB Call
+                URL url = new URL(wlUrl);
+                URI uri = new URI(url.getProtocol(), url.getUserInfo(), IDN.toASCII(url.getHost()), url.getPort(),
+                        url.getPath(), url.getQuery(), url.getRef());
+                String correctEncodedURL = uri.toASCIIString();
+                HttpGet httpGet = new HttpGet(correctEncodedURL);
+                httpGet.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + bearer);
+                httpGet.addHeader("accept", "application/json");
+                // Fire the Url
+                response = httpClient.execute(httpGet);
+                int statusCodeWLDB = response.getStatusLine().getStatusCode();
+                if (statusCodeWLDB != org.apache.http.HttpStatus.SC_OK)
+                {
+                    return null;
+                }
 
-                            }
-                        }
-                        catch (IOException e)
+                else if (statusCodeWLDB == org.apache.http.HttpStatus.SC_OK)
+                {
+                    log.info("WL DB succ executed....");
+                    HttpEntity entityWLDB = response.getEntity();
+                    String apiOutput = EntityUtils.toString(entityWLDB);
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    try
+                    {
+                        TypeFactory typeFactory = objectMapper.getTypeFactory();
+                        CollectionType collectionType = typeFactory.constructCollectionType(List.class,
+                                TY_ScripAnalysisData.class);
+                        wlF = objectMapper.readValue(apiOutput, collectionType);
+                        if (wlF != null)
                         {
-                            e.printStackTrace();
+                            log.info("Wl Fundamentals Node Bound with ... " + wlF.size() + " entities...");
+
                         }
                     }
+                    catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+
                 }
             }
 
@@ -367,64 +307,51 @@ public class CL_WatchlistSrvClient implements IF_WatchlistSrvClient
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         if (dS != null && userSessionSrv != null)
         {
-            String key = userSessionSrv.getDecryptedKey();
-            if (StringUtils.hasText(key)
-                    && StringUtils.hasText(userSessionSrv.getUserSessionInformation().getUserName())
-                    && StringUtils.hasText(dS.getBaseurl()) && StringUtils.hasText(dS.getAuthurl())
-                    && StringUtils.hasText(dS.getWatchlistdburl()) && apiSrv != null)
+            bearer = userSessionSrv.getDecryptedKey();
+            if (StringUtils.hasText(bearer) && StringUtils.hasText(dS.getBaseurl())
+                    && StringUtils.hasText(dS.getWatchlistdburl()))
             {
-                if (!StringUtils.hasText(userSessionSrv.getUserSessionInformation().getBearer()))
-                {
-                    bearer = apiSrv
-                            .getAuthToken(new TY_Credentials(userSessionSrv.getUserSessionInformation().getUserName(),
-                                    userSessionSrv.getDecryptedKey()));
-                }
-                else
-                {
-                    bearer = userSessionSrv.getUserSessionInformation().getBearer();
-                }
-                if (StringUtils.hasText(bearer))
-                {
-                    String wlUrl = dS.getBaseurl() + dS.getWatchlistthesis();
-                    // Now le's trigger the WL DB Call
-                    URL url = new URL(wlUrl);
-                    URI uri = new URI(url.getProtocol(), url.getUserInfo(), IDN.toASCII(url.getHost()), url.getPort(),
-                            url.getPath(), url.getQuery(), url.getRef());
-                    String correctEncodedURL = uri.toASCIIString();
-                    HttpGet httpGet = new HttpGet(correctEncodedURL);
-                    httpGet.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + bearer);
-                    httpGet.addHeader("accept", "application/json");
-                    // Fire the Url
-                    response = httpClient.execute(httpGet);
-                    int statusCodeWLDB = response.getStatusLine().getStatusCode();
-                    if (statusCodeWLDB != org.apache.http.HttpStatus.SC_OK)
-                    {
-                        return null;
-                    }
 
-                    else if (statusCodeWLDB == org.apache.http.HttpStatus.SC_OK)
-                    {
-                        log.info("WL Thesis Fetch succ executed....");
-                        HttpEntity entityWLDB = response.getEntity();
-                        String apiOutput = EntityUtils.toString(entityWLDB);
-                        ObjectMapper objectMapper = new ObjectMapper();
-                        try
-                        {
-                            TypeFactory typeFactory = objectMapper.getTypeFactory();
-                            CollectionType collectionType = typeFactory.constructCollectionType(List.class,
-                                    EN_Watchlist.class);
-                            wlT = objectMapper.readValue(apiOutput, collectionType);
-                            if (wlT != null)
-                            {
-                                log.info("Wl thesis Node Bound with ... " + wlT.size() + " entities...");
+                String wlUrl = dS.getBaseurl() + dS.getWatchlistthesis();
+                // Now le's trigger the WL DB Call
+                URL url = new URL(wlUrl);
+                URI uri = new URI(url.getProtocol(), url.getUserInfo(), IDN.toASCII(url.getHost()), url.getPort(),
+                        url.getPath(), url.getQuery(), url.getRef());
+                String correctEncodedURL = uri.toASCIIString();
+                HttpGet httpGet = new HttpGet(correctEncodedURL);
+                httpGet.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + bearer);
+                httpGet.addHeader("accept", "application/json");
+                // Fire the Url
+                response = httpClient.execute(httpGet);
+                int statusCodeWLDB = response.getStatusLine().getStatusCode();
+                if (statusCodeWLDB != org.apache.http.HttpStatus.SC_OK)
+                {
+                    return null;
+                }
 
-                            }
-                        }
-                        catch (IOException e)
+                else if (statusCodeWLDB == org.apache.http.HttpStatus.SC_OK)
+                {
+                    log.info("WL Thesis Fetch succ executed....");
+                    HttpEntity entityWLDB = response.getEntity();
+                    String apiOutput = EntityUtils.toString(entityWLDB);
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    try
+                    {
+                        TypeFactory typeFactory = objectMapper.getTypeFactory();
+                        CollectionType collectionType = typeFactory.constructCollectionType(List.class,
+                                EN_Watchlist.class);
+                        wlT = objectMapper.readValue(apiOutput, collectionType);
+                        if (wlT != null)
                         {
-                            e.printStackTrace();
+                            log.info("Wl thesis Node Bound with ... " + wlT.size() + " entities...");
+
                         }
                     }
+                    catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+
                 }
             }
 

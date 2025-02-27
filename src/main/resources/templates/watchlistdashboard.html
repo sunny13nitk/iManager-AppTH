@@ -72,7 +72,7 @@
 
 <body>
     <!-- Top Menu Bar Fragment -->
-    <div th:replace="~{fragments/menubar :: iMgrAppBar}"></div>
+    <div th:replace="~{fragments/menubar :: iMgrAppBar(userDetails=${userDetails})}"></div>
     <!-- Table Row  -->
 
     <div class="row" style="padding: 10px;margin-top: 50px; overflow: auto;" th:if="${wlList !=null}">

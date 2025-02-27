@@ -1,29 +1,35 @@
 package imgr.com.iManager_App.srv.impl;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.servlet.ModelAndView;
 
+import imgr.com.iManager_App.exceptions.handler.EX_UnauthorizedLogin;
 import imgr.com.iManager_App.exceptions.handler.EX_UserSession;
+import imgr.com.iManager_App.srv.intf.IF_APIClient;
 import imgr.com.iManager_App.srv.intf.IF_UserSessionSrv;
+import imgr.com.iManager_App.srv.pojos.TY_Login;
 import imgr.com.iManager_App.srv.pojos.TY_SCToken;
 import imgr.com.iManager_App.srv.pojos.TY_UserSessionInfo;
 import imgr.com.iManager_App.ui.constants.GC_Constants;
 import imgr.com.iManager_App.ui.constants.VWNamesDirectory;
 import imgr.com.iManager_App.ui.enums.EnumVWNames;
 import imgr.com.iManager_App.ui.pojos.EN_Watchlist;
+import imgr.com.iManager_App.ui.pojos.TY_Credentials;
 import imgr.com.iManager_App.ui.pojos.TY_DestinationsSuffix;
 import imgr.com.iManager_App.ui.pojos.TY_ScripAnalysisData;
+import imgr.com.iManager_App.ui.pojos.TY_UserRole;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
 import imgr.com.iManager_App.utilities.EncryptUtility;
+import imgr.com.iManager_App.utilities.JSONUtility;
 import imgr.com.iManager_App.utilities.StringsUtility;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,22 +45,43 @@ public class CL_UserSessionSrv implements IF_UserSessionSrv
 
     private final TY_DestinationsSuffix dS;
 
+    private final IF_APIClient authSrv;
+
     private final MessageSource msgSrc;
 
     @Override
-    public void initialize(Authentication auth) throws Exception
+    public void initialize(TY_Login login) throws Exception
     {
-        if (auth != null)
+        if (login != null)
         {
-            // if (auth.isAuthenticated() && repoSCToken != null)
-            // {
-            // userInfo = new TY_UserSessionInfo();
-            // userInfo.setUserName(auth.getName());
-            // userInfo.setScToken(repoSCToken.findAll().get(0));
-            // userInfo.setKey(EncryptUtility.generateKey(128));
-            // userInfo.setIvParameterSpec(EncryptUtility.generateIv());
+            if (StringUtils.hasText(login.getUsername()) && StringUtils.hasText(login.getPassword()))
+            {
+                userInfo = new TY_UserSessionInfo();
+                // First Get the auth Token for the User
+                try
+                {
+                    String token = authSrv.getAuthToken(new TY_Credentials(login.getUsername(), login.getPassword()));
+                    if (StringUtils.hasText(token))
+                    {
+                        userInfo.setUserName(login.getUsername());
+                        userInfo.setKey(EncryptUtility.generateKey(128));
+                        userInfo.setIvParameterSpec(EncryptUtility.generateIv());
+                        this.encryptSessionKey(token); // encrypt and save the Bearer Token in session
+                        Base64.Decoder decoder = Base64.getUrlDecoder();
+                        String[] chunks = token.split("\\.");
+                        String payload = new String(decoder.decode(chunks[1]));
+                        String scope = JSONUtility.readPropertyValue(payload, "/scope");
+                        this.setLoggedinUserRole(scope);
 
-            // }
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw new EX_UnauthorizedLogin(msgSrc.getMessage("ERR_INVALID_LOGIN", null, Locale.getDefault()));
+                }
+
+            }
+
         }
     }
 
@@ -98,7 +125,6 @@ public class CL_UserSessionSrv implements IF_UserSessionSrv
     }
 
     @Override
-    @PreAuthorize("hasAuthority('ADMIN')")
     public void setWLDB(List<TY_WLDB> wlDbList)
     {
         if (CollectionUtils.isNotEmpty(wlDbList))
@@ -108,7 +134,6 @@ public class CL_UserSessionSrv implements IF_UserSessionSrv
     }
 
     @Override
-    @PreAuthorize("hasAuthority('ADMIN')")
     public List<TY_WLDB> getWlDB()
     {
         return userInfo.getWlDBList();
@@ -118,9 +143,9 @@ public class CL_UserSessionSrv implements IF_UserSessionSrv
     public void encryptSessionKey(String toencrypt) throws Exception
     {
         // Only once per session
-        if (StringUtils.hasText(toencrypt) && userInfo.getCipher() == null)
+        if (StringUtils.hasText(toencrypt))
         {
-            userInfo.setCipher(EncryptUtility.encrypt(GC_Constants.algorithm, toencrypt, userInfo.getKey(),
+            userInfo.setBearer(EncryptUtility.encrypt(GC_Constants.algorithm, toencrypt, userInfo.getKey(),
                     userInfo.getIvParameterSpec()));
 
         }
@@ -130,9 +155,9 @@ public class CL_UserSessionSrv implements IF_UserSessionSrv
     public String getDecryptedKey() throws Exception
     {
         String key = null;
-        if (StringUtils.hasText(userInfo.getCipher()))
+        if (StringUtils.hasText(userInfo.getBearer()))
         {
-            key = EncryptUtility.decrypt(GC_Constants.algorithm, userInfo.getCipher(), userInfo.getKey(),
+            key = EncryptUtility.decrypt(GC_Constants.algorithm, userInfo.getBearer(), userInfo.getKey(),
                     userInfo.getIvParameterSpec());
         }
         return key;
@@ -183,6 +208,24 @@ public class CL_UserSessionSrv implements IF_UserSessionSrv
     public void setWLThesis(List<EN_Watchlist> wlThesis)
     {
         userInfo.setWlEntities(wlThesis);
+    }
+
+    @Override
+    public void setLoggedinUserRole(String role)
+    {
+        userInfo.setRole(role);
+    }
+
+    @Override
+    public String getLoggedinUserRole()
+    {
+        return userInfo.getRole();
+    }
+
+    @Override
+    public TY_UserRole getUserDetails()
+    {
+        return new TY_UserRole(this.getUserSessionInformation().getUserName(), getLoggedinUserRole());
     }
 
 }
