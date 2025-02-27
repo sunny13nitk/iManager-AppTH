@@ -32,32 +32,42 @@
                 <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
                     <a href="#" class="dropdown-toggle">Administrators</a>
                     <ul class="d-menu" data-role="dropdown">
-                        <li>
-                            <a>
-                                <span class="icon">
-                                    <span class="mif-cogs fg-darkGray" style="margin-right:5px;"></span>
-                                </span>
-                                Maintain Watchlist
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/wl/token}">
-                                <span class="icon">
-                                    <span class="mif-supervised_user_circle fg-darkGray"
-                                        style="margin-right:5px;"></span>
-                                </span>
-                                Manage Token(s)
-                            </a>
-                        </li>
+
+
                         <li class="divider bg-lightGray"></li>
+
                         <li>
-                            <!-- <a th:href="@{/wl/db}">   -->
-                            <a th:href="@{/wl/db}">
-                                <span class="icon">
-                                    <span class="mif-dashboard fg-darkGray" style="margin-right:5px;"></span>
-                                </span>
-                                Watchlist Dashboard
-                            </a>
+                            <a href="#" class="dropdown-toggle"><span class="icon">
+                                    <span class="mif-filter_list_alt fg-darkGray" style="margin-right:5px;"></span>
+                                </span>Watchlist</a>
+                            <ul class="d-menu" data-role="dropdown">
+                                <li><a th:href="@{/wl/db}">
+                                        <span class="icon">
+                                            <span class="mif-dashboard fg-darkGray" style="margin-right:5px;"></span>
+                                        </span>
+                                        Watchlist Dashboard
+                                    </a></li>
+                                <li><a th:href="@{/wl/db}">
+                                        <span class="icon">
+                                            <span class="mif-post_add fg-darkGray" style="margin-right:5px;"></span>
+                                        </span>
+                                        Add New Scrip to Watchlist
+                                    </a></li>
+                                <li class="divider bg-lightGray"></li>
+                                <li>
+                                    <a th:href="@{/wl/token}">
+                                        <span class="icon">
+                                            <span class="mif-supervised_user_circle fg-darkGray"
+                                                style="margin-right:5px;"></span>
+                                        </span>
+                                        Manage Token(s)
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+
+
                         </li>
                     </ul>
                 </li>

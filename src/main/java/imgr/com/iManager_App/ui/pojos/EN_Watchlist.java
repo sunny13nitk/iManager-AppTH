@@ -11,12 +11,17 @@ import imgr.com.iManager_App.ui.enums.EnumLevels;
 import imgr.com.iManager_App.ui.enums.EnumWLStatus;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.PastOrPresent;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class EN_Watchlist
 {
-    @Id
+
     private String scrip;
     private boolean standalone;
     @PastOrPresent

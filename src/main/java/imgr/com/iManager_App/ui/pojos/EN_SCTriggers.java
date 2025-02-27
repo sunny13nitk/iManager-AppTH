@@ -6,15 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class EN_SCTriggers
 {
-
+    private long triggerid;
     private EN_Watchlist triggerref;
-
     private EnumTrigger triggertype;
     private String details;
 }

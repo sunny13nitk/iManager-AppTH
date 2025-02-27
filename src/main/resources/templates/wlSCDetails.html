@@ -96,7 +96,7 @@
 
             <ul data-app-bar="true" data-role="tabs" data-expand="true" data-tabs-type="group">
                 <li><a href="#_target_1">Expected Returns & Fundamentals</a></li>
-                <li><a href="#_target_3">Theises</a></li>
+                <li><a href="#_target_2">Business Thesis</a></li>
             </ul>
 
 
@@ -123,7 +123,7 @@
                                     <span style="color:  #647277; margin-left: -18px;padding: 10px; font-weight:500;"
                                         th:text="${wlF.retidx}">667</span>
                                     <span
-                                        style="color:  #647277; margin-left: -18px;padding: 10px; font-weight:500;">%</span>
+                                        style="color:  #647277; margin-left: -22px;padding: 10px; font-weight:500;">%</span>
                                     <span
                                         style="color:  #239EE3; margin-left: -18px; padding: 10px;font-weight:500;">)</span>
                                 </div>
@@ -186,18 +186,6 @@
                         <div class="cell-md-3">
                             <div class="row">
                                 <div class="cell-md-12">
-                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">PE avg. last
-                                        5 years
-                                        :
-                                    </span>
-                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
-                                        th:text="${wlItem.pe5y}">45.6</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="cell-md-3">
-                            <div class="row">
-                                <div class="cell-md-12">
                                     <span style="color:  #239EE3; padding: 10px; font-weight:500;">PEG Ratio :
                                     </span>
                                     <span style="color:  #647277; padding: 10px; font-weight:500;"
@@ -209,15 +197,93 @@
                         <div class="cell-md-3">
                             <div class="row">
                                 <div class="cell-md-12">
-                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Longevity EPS
-                                        Growth
-                                        (years) :
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">PE avg. last
+                                        3 years
+                                        :
                                     </span>
                                     <span style="color:  #647277; padding: 10px; font-weight:500;"
-                                        th:text="${wlItem.longEPSCAGR}">5</span>
+                                        th:text="${wlF.pe3y}">45.6</span>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">PE avg. last
+                                        5 years
+                                        :
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlItem.pe5y}">45.6</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
+
+
+                    <div class="row ">
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Sales Growth TTM :
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlF.salesgrttm}">56.6</span>
+                                    <span
+                                        style="color:  #647277; margin-left: -22px;padding: 10px; font-weight:500;">%</span>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Sales Growth QoQ :
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlF.qoqsalesgr}">2.4</span>
+                                    <span
+                                        style="color:  #647277; margin-left: -22px;padding: 10px; font-weight:500;">%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Sales Growth YoY:
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlF.yoysalesgr}">45.6</span>
+                                    <span
+                                        style="color:  #647277; margin-left: -22px;padding: 10px; font-weight:500;">%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Sales Growth CAGR
+                                        last 3 years:
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlF.salesgr3y}">45.6</span>
+                                    <span
+                                        style="color:  #647277; margin-left: -22px;padding: 10px; font-weight:500;">%</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+
 
 
                     </div>
@@ -226,12 +292,13 @@
                         <div class="cell-md-3">
                             <div class="row">
                                 <div class="cell-md-12">
-                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Sales Growth
-                                        3 yrs
-                                        CAGR :
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">PAT Growth TTM :
                                     </span>
                                     <span style="color:  #647277; padding: 10px; font-weight:500;"
-                                        th:text="${wlItem.revgr3y}">34.3%</span>
+                                        th:text="${wlF.patgrttm}">56.6</span>
+                                    <span
+                                        style="color:  #647277; margin-left: -22px;padding: 10px; font-weight:500;">%</span>
+
                                 </div>
                             </div>
                         </div>
@@ -239,23 +306,303 @@
                         <div class="cell-md-3">
                             <div class="row">
                                 <div class="cell-md-12">
-                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">PAT Growth 3
-                                        yrs CAGR
-                                        :
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">PAT Growth QoQ :
                                     </span>
                                     <span style="color:  #647277; padding: 10px; font-weight:500;"
-                                        th:text="${wlItem.patgr3y}">55%</span>
+                                        th:text="${wlF.qoqpatgr}">2.4</span>
+                                    <span
+                                        style="color:  #647277; margin-left: -22px;padding: 10px; font-weight:500;">%</span>
                                 </div>
                             </div>
                         </div>
+
                         <div class="cell-md-3">
                             <div class="row">
                                 <div class="cell-md-12">
-                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">TTM PAT
-                                        Growth :
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">PAT Growth YoY:
                                     </span>
                                     <span style="color:  #647277; padding: 10px; font-weight:500;"
-                                        th:text="${wlItem.ttmpatgr}">27.3%</span>
+                                        th:text="${wlF.yoypatgr}">45.6</span>
+                                    <span
+                                        style="color:  #647277; margin-left: -22px;padding: 10px; font-weight:500;">%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">PAT Growth CAGR
+                                        last 3 years:
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlF.patgr3y}">45.6</span>
+                                    <span
+                                        style="color:  #647277; margin-left: -22px;padding: 10px; font-weight:500;">%</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
+
+                    <div class="row ">
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">ROE :
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlF.roe}">56.6</span>
+                                    <span
+                                        style="color:  #647277; margin-left: -22px;padding: 10px; font-weight:500;">%</span>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">ROCE :
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlF.roce}">2.4</span>
+                                    <span
+                                        style="color:  #647277; margin-left: -22px;padding: 10px; font-weight:500;">%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Cash Conversion
+                                        Cycle:
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlF.cc}">45.6</span>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Working Capital to
+                                        Sales:
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlF.wc2rev}">45.6</span>
+                                    <span
+                                        style="color:  #647277; margin-left: -22px;padding: 10px; font-weight:500;">%</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
+
+
+                    <div class="row ">
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">DE Ratio :
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlF.de}">56.6</span>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Current Ratio :
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlF.currratio}">2.4</span>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Interest Coverage
+                                        Ratio:
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlF.intcovg}">45.6</span>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">(Interest +
+                                        Dep.)/PAT:
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlF.srvr}">45.6</span>
+                                    <span
+                                        style="color:  #647277; margin-left: -22px;padding: 10px; font-weight:500;">%</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
+
+                    <div class="row ">
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">EPS TTM :
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlItem.epsttm}">7.8</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Div. yield :
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlF.divyield}">2.4</span>
+                                    <span
+                                        style="color:  #647277; margin-left: -22px;padding: 10px; font-weight:500;">%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Unpledged Promoter
+                                        Hold.:
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlF.uph}">45.6</span>
+                                    <span
+                                        style="color:  #647277; margin-left: -22px;padding: 10px; font-weight:500;">%</span>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Chg Promoter Hold
+                                        (Last 3 yrs.):
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlF.chph3y}">45.6</span>
+                                    <span
+                                        style="color:  #647277; margin-left: -22px;padding: 10px; font-weight:500;">%</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
+
+                    <div class="row ">
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Asset Turnover Ratio
+                                        :
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlF.atr}">7.8</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Nett Profit Margin
+                                        TTM :
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlF.npmttm}">2.4</span>
+                                    <span
+                                        style="color:  #647277; margin-left: -22px;padding: 10px; font-weight:500;">%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Nett Profit Margin
+                                        Last Q:
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlF.npmlastq}">45.6</span>
+                                    <span
+                                        style="color:  #647277; margin-left: -22px;padding: 10px; font-weight:500;">%</span>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Nett Profit Margin
+                                        YoY Last Q:
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlF.npmpyq}">45.6</span>
+                                    <span
+                                        style="color:  #647277; margin-left: -22px;padding: 10px; font-weight:500;">%</span>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+
+
+
+                    <div class="row ">
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Longevity EPS
+                                        Growth
+                                        (years) :
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlItem.longEPSCAGR}">5</span>
                                 </div>
                             </div>
                         </div>
@@ -463,6 +810,345 @@
                 </div>
             </div>
 
+
+            <div class="grid" id="_target_2">
+
+                <div data-role="panel" data-title-caption="Business Thesis " data-collapsed="false"
+                    data-collapsible="true" data-cls-title="bg-white fg-cyan" data-cls-panel="bd-lightCyan padding:5px">
+
+                    <div class="row ">
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: -10px; font-weight:500;">Standalone Mode:
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlT.standalone}">Active</span>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Status: </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlT.status}">Active</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Customer
+                                        Segmentation: </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlT.cusSegment}">7.8</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Max allocation in PF:
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlT.size}">7.8</span>
+                                    <span
+                                        style="color:  #647277; margin-left: -22px;padding: 10px; font-weight:500;">%</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="row ">
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: -10px; font-weight:500;">Growth
+                                        Classification:
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlT.growth}">Active</span>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Conviction: </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlT.conviction}">Active</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Longevity Expectation
+                                        for EPS Growth (years): </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlT.longevitygr}">7.8</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Bull weight Ratio:
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlT.bullWtRatio}">Active</span>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row ">
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: -10px; font-weight:500;">Base Case EPS CAGR:
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlT.fwdepsgrbase}">Active</span>
+                                    <span
+                                        style="color:  #647277; margin-left: -22px;padding: 10px; font-weight:500;">%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Base Case Terminal
+                                        PE: </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlT.fwdpebase}">Active</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Bull Case EPS CAGR:
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlT.fwdepsgrbull}">Active</span>
+                                    <span
+                                        style="color:  #647277; margin-left: -22px;padding: 10px; font-weight:500;">%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Bull Case Terminal
+                                        PE: </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlT.fwdpebull}">Active</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row flex-justify-start"
+                        style="padding-right: 20px; padding-top: 5px; padding-bottom: -15px">
+                        <a href="#" class="button mini primary rounded outline" th:href="@{/nfs/pf/massUpd}"
+                            role="button">
+                            <span class="mif-quickedit icon" style="margin-left: 0px"></span> <span
+                                style="margin-left: 3px">Edit</span>
+                        </a>
+                    </div>
+
+
+                    <div class="col-xs-15" style="margin-top: 20px;">
+                        <div th:if="${wlT.references != null}">
+                            <!-- Check for Form error -->
+                            <div th:if="${wlT.references.size() > 0}" data-role="panel" data-title-caption="References"
+                                data-collapsed="false" data-collapsible="true" data-cls-title="bg-white fg-cyan"
+                                data-cls-panel="bd-lightCyan">
+                                <div class="row flex-justify-start"
+                                style="padding-right: 20px; padding-top: 5px; padding-bottom: 5px">
+                                <a href="#" class="button mini primary rounded outline" th:href="@{/nfs/pf/massUpd}"
+                                    role="button">
+                                    <span class="mif-add_link icon" style="margin-left: 0px"></span> <span
+                                        style="margin-left: 3px">Add Reference(s)</span>
+                                </a>
+                            </div>
+                                <div class="cell-11">
+                                    <table class="table subcompact striped table-border cell-border row-hover">
+                                        <thead>
+                                            <tr>
+                                                <th data-cls-column="text-center" align="center">Title</th>
+                                            </tr>
+
+
+                                        <tbody>
+                                            <tr th:each="ref : ${wlT.references}">
+                                                <td><a th:href=" ${ref.urllink}"><span
+                                                            th:text="${ref.title}"></span></a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div th:if="${wlT.references.size() == 0}" data-role="panel" data-title-caption="References"
+                                data-collapsed="false" data-collapsible="true" data-cls-title="bg-white fg-cyan"
+                                data-cls-panel="bd-lightCyan">
+                                <div class="row flex-justify-start"
+                                    style="padding-right: 20px; padding-top: 5px; padding-bottom: -15px">
+                                    <a href="#" class="button mini primary rounded outline" th:href="@{/nfs/pf/massUpd}"
+                                        role="button">
+                                        <span class="mif-add_link icon" style="margin-left: 0px"></span> <span
+                                            style="margin-left: 3px">Add Reference(s)</span>
+                                    </a>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-15" style="margin-top: 20px;">
+                        <div th:if="${wlT.triggers != null}">
+                            <!-- Check for Form error -->
+                            <div th:if="${wlT.triggers.size() > 0}" data-role="panel" data-title-caption="Triggers"
+                                data-collapsed="false" data-collapsible="true" data-cls-title="bg-white fg-cyan"
+                                data-cls-panel="bd-lightCyan">
+                                <div class="row flex-justify-start"
+                                    style="padding-right: 20px; padding-top: 5px; padding-bottom: 5px">
+                                    <a href="#" class="button mini primary rounded outline" th:href="@{/nfs/pf/massUpd}"
+                                        role="button">
+                                        <span class="mif-add_alert icon" style="margin-left: 0px"></span> <span
+                                            style="margin-left: 3px">Add Trigger(s)</span>
+                                    </a>
+                                </div>
+                                <div class="cell-11">
+                                    <table class="table subcompact striped table-border cell-border row-hover">
+                                        <thead>
+                                            <tr>
+                                                <th data-cls-column="text-center" align="center">Type </th>
+                                                <th data-cls-column="text-center" align="center">Details</th>
+                                            </tr>
+
+
+                                        <tbody>
+                                            <tr th:each="tg : ${wlT.triggers}">
+
+                                                <td style="text-align: center; "
+                                                    th:if="${tg.triggertype == 'Positive'}">
+                                                    <span class="tally"
+                                                        style="font-weight: bolder; background-color: #E9F7F0; color: darkgreen;"
+                                                        th:text="${tg.triggertype}"></span>
+                                                </td>
+                                                <td style="text-align: center; " th:if="${tg.triggertype == 'Risks'}">
+                                                    <span class="tally"
+                                                        style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
+                                                        th:text="${tg.triggertype}"></span>
+                                                </td>
+
+                                                <td style="text-align: center; " th:if="${tg.triggertype == 'Events'}">
+                                                    <span class="tally"
+                                                        style="font-weight: bolder; background-color: #d8f1f9; color: rgb(13, 133, 177);"
+                                                        th:text="${tg.triggertype}"></span>
+                                                </td>
+                                                <td style="text-align: left; padding: 8px;" th:text="${tg.triggertype}">
+                                                </td>
+                                                <td style="text-align: left; padding: 8px;" th:text="${tg.details}">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div th:if="${wlT.triggers.size() == 0}" data-role="panel" data-title-caption="Triggers"
+                                data-collapsed="false" data-collapsible="true" data-cls-title="bg-white fg-cyan"
+                                data-cls-panel="bd-lightCyan">
+                                <div class="row flex-justify-start"
+                                    style="padding-right: 20px; padding-top: 5px; padding-bottom: -15px">
+                                    <a href="#" class="button mini primary rounded outline" th:href="@{/nfs/pf/massUpd}"
+                                        role="button">
+                                        <span class="mif-add_alert icon" style="margin-left: 0px"></span> <span
+                                            style="margin-left: 3px">Add Trigger(s)</span>
+                                    </a>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-15" style="margin-top: 20px;">
+                        <div th:if="${wlT.tags != null}">
+                            <!-- Check for Form error -->
+                            <div th:if="${wlT.tags.size() > 0}" data-role="panel" data-title-caption="Tags"
+                                data-collapsed="false" data-collapsible="true" data-cls-title="bg-white fg-cyan"
+                                data-cls-panel="bd-lightCyan">
+                                <div class="row flex-justify-start"
+                                    style="padding-right: 20px; padding-top: 5px; padding-bottom: 5px">
+                                    <a href="#" class="button mini primary rounded outline" th:href="@{/nfs/pf/massUpd}"
+                                        role="button">
+                                        <span class="mif-tags icon" style="margin-left: 0px"></span> <span
+                                            style="margin-left: 3px">Add Tag(s)</span>
+                                    </a>
+                                </div>
+                                <div class="cell-11">
+                                    <table class="table subcompact striped table-border cell-border row-hover">
+                                        <thead>
+                                            <tr>
+                                                <th data-cls-column="text-center" align="center">Tag</th>
+                                            </tr>
+
+
+                                        <tbody>
+                                            <tr th:each="tag : ${wlT.tags}">
+                                                <td><span th:text="${tag}"></span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div th:if="${wlT.tags.size() == 0}" data-role="panel" data-title-caption="Tags"
+                                data-collapsed="false" data-collapsible="true" data-cls-title="bg-white fg-cyan"
+                                data-cls-panel="bd-lightCyan">
+                                <div class="row flex-justify-start"
+                                    style="padding-right: 20px; padding-top: 5px; padding-bottom: -15px">
+                                    <a href="#" class="button mini primary rounded outline" th:href="@{/nfs/pf/massUpd}"
+                                        role="button">
+                                        <span class="mif-tags icon" style="margin-left: 0px"></span> <span
+                                            style="margin-left: 3px">Add Tag(s)</span>
+                                    </a>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
 
 
         </div>

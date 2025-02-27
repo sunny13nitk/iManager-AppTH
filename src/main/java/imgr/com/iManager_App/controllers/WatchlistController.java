@@ -21,6 +21,7 @@ import imgr.com.iManager_App.ui.constants.VWNamesDirectory;
 import imgr.com.iManager_App.ui.enums.EnumVWNames;
 import imgr.com.iManager_App.ui.model.entity.TY_SCToken;
 import imgr.com.iManager_App.ui.model.repo.RepoSCToken;
+import imgr.com.iManager_App.ui.pojos.EN_Watchlist;
 import imgr.com.iManager_App.ui.pojos.TY_ScripAnalysisData;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
 import imgr.com.iManager_App.utilities.TestUtility;
@@ -59,23 +60,28 @@ public class WatchlistController
                 {
                     List<TY_WLDB> wlDBList = null;
                     List<TY_ScripAnalysisData> wlF = null;
+                    List<EN_Watchlist> wlT = null;
 
                     if (CollectionUtils.isNotEmpty(userSessSrv.getWlDB()))
                     {
                         wlDBList = wlSrv.refreshWatchlistDb(userSessSrv.getWlDB(), token);
                         wlF = userSessSrv.getUserSessionInformation().getWlFInfo();
+                        wlT = userSessSrv.getUserSessionInformation().getWlEntities();
                     }
                     else // Only complete Load if WLlist not present is session
                     {
                         // wlDBList = wlSrv.getWatchlistDb(token);
                         wlDBList = TestUtility.getWLDB4mJSON();
                         wlF = wlSrv.getWLFundamentalAnalysis();
+                        wlT = wlSrv.getWatchlistThesis();
 
                     }
                     model.addAttribute("wlList", wlDBList);
                     model.addAttribute("wlF", wlF);
+                    model.addAttribute("wlT", wlT);
                     userSessSrv.setWLDB(wlDBList);
                     userSessSrv.setWLFundamentals(wlF);
+                    userSessSrv.setWLThesis(wlT);
                 }
             }
 
@@ -98,11 +104,18 @@ public class WatchlistController
                     model.addAttribute("wlItem", wlItemO.get());
                 }
 
-                Optional<TY_ScripAnalysisData> wlFItemO = userSessSrv.getUserSessionInformation().getWlFInfo().stream().filter(w -> w.getSccode().equals(scrip))
-                        .findFirst();
+                Optional<TY_ScripAnalysisData> wlFItemO = userSessSrv.getUserSessionInformation().getWlFInfo().stream()
+                        .filter(w -> w.getSccode().equals(scrip)).findFirst();
                 if (wlFItemO.isPresent())
                 {
                     model.addAttribute("wlF", wlFItemO.get());
+                }
+
+                Optional<EN_Watchlist> wlTHtemO = userSessSrv.getUserSessionInformation().getWlEntities().stream()
+                        .filter(w -> w.getScrip().equals(scrip)).findFirst();
+                if (wlTHtemO.isPresent())
+                {
+                    model.addAttribute("wlT", wlTHtemO.get());
                 }
 
             }
@@ -111,6 +124,7 @@ public class WatchlistController
             ModelAndView mvNav = new ModelAndView(VWNamesDirectory.getViewName(EnumVWNames.WatchlistDashboard, false));
             mvNav.addObject("wlList", userSessSrv.getWlDB());
             mvNav.addObject("wlF", userSessSrv.getUserSessionInformation().getWlFInfo());
+            mvNav.addObject("wlT", userSessSrv.getUserSessionInformation().getWlEntities());
             userSessSrv.setParentViewModel4Navigation(mvNav);
 
         }

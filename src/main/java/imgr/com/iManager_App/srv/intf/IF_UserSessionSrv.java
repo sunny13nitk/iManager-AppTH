@@ -8,6 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 import imgr.com.iManager_App.srv.pojos.TY_UserSessionInfo;
 import imgr.com.iManager_App.ui.enums.EnumVWNames;
 import imgr.com.iManager_App.ui.model.entity.TY_SCToken;
+import imgr.com.iManager_App.ui.pojos.EN_Watchlist;
 import imgr.com.iManager_App.ui.pojos.IF_ScripAnalysisData;
 import imgr.com.iManager_App.ui.pojos.TY_ScripAnalysisData;
 import imgr.com.iManager_App.ui.pojos.TY_ScripCMPResponse;
@@ -26,6 +27,8 @@ public interface IF_UserSessionSrv
     public void setWLDB(List<TY_WLDB> wlDbList);
 
     public void setWLFundamentals(List<TY_ScripAnalysisData> wlFundamentals);
+
+    public void setWLThesis(List<EN_Watchlist> wlThesis);
 
     public void encryptSessionKey(String toencrypt) throws Exception;
 

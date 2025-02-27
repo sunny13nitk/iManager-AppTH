@@ -20,6 +20,7 @@ import imgr.com.iManager_App.ui.constants.VWNamesDirectory;
 import imgr.com.iManager_App.ui.enums.EnumVWNames;
 import imgr.com.iManager_App.ui.model.entity.TY_SCToken;
 import imgr.com.iManager_App.ui.model.repo.RepoSCToken;
+import imgr.com.iManager_App.ui.pojos.EN_Watchlist;
 import imgr.com.iManager_App.ui.pojos.IF_ScripAnalysisData;
 import imgr.com.iManager_App.ui.pojos.TY_DestinationsSuffix;
 import imgr.com.iManager_App.ui.pojos.TY_SCCMP;
@@ -182,6 +183,12 @@ public class CL_UserSessionSrv implements IF_UserSessionSrv
     public void setWLFundamentals(List<TY_ScripAnalysisData> wlFundamentals)
     {
         userInfo.setWlFInfo(wlFundamentals);
+    }
+
+    @Override
+    public void setWLThesis(List<EN_Watchlist> wlThesis)
+    {
+        userInfo.setWlEntities(wlThesis);
     }
 
 }
