@@ -21,7 +21,9 @@ import imgr.com.iManager_App.ui.constants.VWNamesDirectory;
 import imgr.com.iManager_App.ui.enums.EnumVWNames;
 import imgr.com.iManager_App.ui.model.entity.TY_SCToken;
 import imgr.com.iManager_App.ui.model.repo.RepoSCToken;
+import imgr.com.iManager_App.ui.pojos.TY_ScripAnalysisData;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
+import imgr.com.iManager_App.utilities.TestUtility;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -56,19 +58,24 @@ public class WatchlistController
                 if (StringUtils.hasText(token))
                 {
                     List<TY_WLDB> wlDBList = null;
+                    List<TY_ScripAnalysisData> wlF = null;
 
                     if (CollectionUtils.isNotEmpty(userSessSrv.getWlDB()))
                     {
                         wlDBList = wlSrv.refreshWatchlistDb(userSessSrv.getWlDB(), token);
+                        wlF = userSessSrv.getUserSessionInformation().getWlFInfo();
                     }
                     else // Only complete Load if WLlist not present is session
                     {
-                        wlDBList = wlSrv.getWatchlistDb(token);
-                        // wlDBList = TestUtility.getWLDB4mJSON();
+                        // wlDBList = wlSrv.getWatchlistDb(token);
+                        wlDBList = TestUtility.getWLDB4mJSON();
+                        wlF = wlSrv.getWLFundamentalAnalysis();
 
                     }
                     model.addAttribute("wlList", wlDBList);
+                    model.addAttribute("wlF", wlF);
                     userSessSrv.setWLDB(wlDBList);
+                    userSessSrv.setWLFundamentals(wlF);
                 }
             }
 
@@ -91,11 +98,19 @@ public class WatchlistController
                     model.addAttribute("wlItem", wlItemO.get());
                 }
 
+                Optional<TY_ScripAnalysisData> wlFItemO = userSessSrv.getUserSessionInformation().getWlFInfo().stream().filter(w -> w.getSccode().equals(scrip))
+                        .findFirst();
+                if (wlFItemO.isPresent())
+                {
+                    model.addAttribute("wlF", wlFItemO.get());
+                }
+
             }
 
             // Add WL Model view to User Session
             ModelAndView mvNav = new ModelAndView(VWNamesDirectory.getViewName(EnumVWNames.WatchlistDashboard, false));
             mvNav.addObject("wlList", userSessSrv.getWlDB());
+            mvNav.addObject("wlF", userSessSrv.getUserSessionInformation().getWlFInfo());
             userSessSrv.setParentViewModel4Navigation(mvNav);
 
         }

@@ -95,19 +95,41 @@
             </h6>
 
             <ul data-app-bar="true" data-role="tabs" data-expand="true" data-tabs-type="group">
-                <li><a href="#_target_1">Expected Returns</a></li>
-                <li><a href="#_target_2">Fundamentals</a></li>
+                <li><a href="#_target_1">Expected Returns & Fundamentals</a></li>
                 <li><a href="#_target_3">Theises</a></li>
             </ul>
 
 
             <div class="grid" id="_target_1">
-                <div data-role="panel" data-title-caption="Expected Returns Perspective" data-collapsed="false"
-                    data-collapsible="true" data-cls-title="bg-white fg-cyan"
-                    data-cls-panel="bd-lightCyan padding:5px">
+                <div data-role="panel" data-title-caption="Expected Returns Perspective " data-collapsed="false"
+                    data-collapsible="true" data-cls-title="bg-white fg-cyan" data-cls-panel="bd-lightCyan padding:5px">
 
 
                     <div class="row ">
+
+                        <div class="cell-md-3">
+                            <div class="row">
+                                <div class="cell-md-12">
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">52wk High/Low :
+                                    </span>
+                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
+                                        th:text="${wlF.high52w}">667</span>
+                                    <span
+                                        style="color:  #239EE3; margin-left: -18px; padding: 10px;font-weight:500;">/</span>
+                                    <span style="color:  #647277; margin-left: -18px;padding: 10px; font-weight:500;"
+                                        th:text="${wlF.low52w}">667</span>
+                                    <span
+                                        style="color:  #239EE3; margin-left: -18px; padding: 10px;font-weight:500;">(</span>
+                                    <span style="color:  #647277; margin-left: -18px;padding: 10px; font-weight:500;"
+                                        th:text="${wlF.retidx}">667</span>
+                                    <span
+                                        style="color:  #647277; margin-left: -18px;padding: 10px; font-weight:500;">%</span>
+                                    <span
+                                        style="color:  #239EE3; margin-left: -18px; padding: 10px;font-weight:500;">)</span>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="cell-md-3">
                             <div class="row">
                                 <div class="cell-md-12">
@@ -141,16 +163,7 @@
                             </div>
                         </div>
 
-                        <div class="cell-md-3">
-                            <div class="row">
-                                <div class="cell-md-12">
-                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">EPS TTM :
-                                    </span>
-                                    <span style="color:  #647277; padding: 10px; font-weight:500;"
-                                        th:text="${wlItem.epsttm}">7.8</span>
-                                </div>
-                            </div>
-                        </div>
+
 
                     </div>
 
@@ -158,10 +171,14 @@
                         <div class="cell-md-3">
                             <div class="row">
                                 <div class="cell-md-12">
-                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Current PE :
+                                    <span style="color:  #239EE3; padding: 10px; font-weight:500;">Current/Industry PE :
                                     </span>
                                     <span style="color:  #647277; padding: 10px; font-weight:500;"
                                         th:text="${wlItem.currpe}">56.6</span>
+                                    <span
+                                        style="color:  #239EE3; margin-left: -18px; padding: 10px;font-weight:500;">/</span>
+                                    <span style="color:  #647277; margin-left: -18px;padding: 10px; font-weight:500;"
+                                        th:text="${wlF.indpe}">667</span>
                                 </div>
                             </div>
                         </div>
@@ -271,8 +288,7 @@
                                     <span
                                         style="color: #128C43; font-weight: bold; font-size: 1.15em;  font-style: italic;">Rs.
                                     </span>
-                                    <span
-                                        style=" color: #128C43; padding: -3px; font-weight:500;font-style: italic;"
+                                    <span style=" color: #128C43; padding: -3px; font-weight:500;font-style: italic;"
                                         th:text="${wlItem.price2StrongBuy}">1678</span>
                                 </div>
                             </div>
@@ -331,8 +347,7 @@
                                     <span
                                         style="color: #CFC809; font-weight: bold; font-size: 1.15em;  font-style: italic;">Rs.
                                     </span>
-                                    <span
-                                        style=" color: #CFC809; padding: -3px; font-weight:500;font-style: italic;"
+                                    <span style=" color: #CFC809; padding: -3px; font-weight:500;font-style: italic;"
                                         th:text="${wlItem.baseCaseTP}">3476.6</span>
                                 </div>
                             </div>
@@ -393,8 +408,7 @@
                                     <span
                                         style="color: #6B629D; font-weight: bold; font-size: 1.15em;  font-style: italic;">Rs.
                                     </span>
-                                    <span
-                                        style=" color: #6B629D; padding: -3px; font-weight:500;font-style: italic;"
+                                    <span style=" color: #6B629D; padding: -3px; font-weight:500;font-style: italic;"
                                         th:text="${wlItem.bullCaseTP}">6476.6</span>
                                 </div>
                             </div>
@@ -422,9 +436,8 @@
                         <div th:if="${wlItem.exitKeyVals != null}">
                             <!-- Check for Form error -->
                             <div th:if="${wlItem.exitKeyVals.size() > 0}" data-role="panel"
-                                data-title-caption="Exit Triggers" data-collapsed="false"
-                                data-collapsible="true" data-cls-title="bg-white fg-cyan"
-                                data-cls-panel="bd-lightCyan">
+                                data-title-caption="Exit Triggers" data-collapsed="false" data-collapsible="true"
+                                data-cls-title="bg-white fg-cyan" data-cls-panel="bd-lightCyan">
                                 <div class="cell-11">
                                     <table class="table subcompact striped table-border cell-border row-hover">
                                         <thead>
@@ -436,11 +449,9 @@
 
                                         <tbody>
                                             <tr th:each="msg : ${wlItem.exitKeyVals}">
-                                                <td style="text-align: left; padding: 8px;"
-                                                    th:text="${msg.key}">
+                                                <td style="text-align: left; padding: 8px;" th:text="${msg.key}">
                                                 </td>
-                                                <td style="text-align: left; padding: 8px;"
-                                                    th:text="${msg.value}">
+                                                <td style="text-align: left; padding: 8px;" th:text="${msg.value}">
                                                 </td>
                                             </tr>
                                         </tbody>

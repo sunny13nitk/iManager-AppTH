@@ -18,11 +18,13 @@ public class DestinationsSuffixes
     // @Autowired // For PropertySourcesPlaceholderConfigurer
     public TY_DestinationsSuffix Destinations(@Value("${baseurl}") final String baseurl,
             @Value("${watchlistdburl}") final String watchlistdburl,
-            @Value("${watchlistcmpurl}") final String watchlistcmpurl, @Value("${csrfsess}") final String csrfsess,
+            @Value("${watchlistcmpurl}") final String watchlistcmpurl,
+            @Value("${watchlistfundamentals}") final String watchlistfundamentals,
+            @Value("${watchlistthesis}") final String watchlistthesis, @Value("${csrfsess}") final String csrfsess,
             @Value("${authenticate}") final String authurl)
     {
         TY_DestinationsSuffix destinationsSuffixes = new TY_DestinationsSuffix(baseurl, watchlistdburl, watchlistcmpurl,
-                csrfsess, authurl);
+                watchlistfundamentals, watchlistthesis, csrfsess, authurl);
         return destinationsSuffixes;
     }
 }

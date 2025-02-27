@@ -10,6 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import imgr.com.iManager_App.ui.enums.EnumVWNames;
 import imgr.com.iManager_App.ui.model.entity.TY_SCToken;
+import imgr.com.iManager_App.ui.pojos.EN_Watchlist;
+import imgr.com.iManager_App.ui.pojos.TY_ScripAnalysisData;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,7 +25,8 @@ public class TY_UserSessionInfo
     private String userName;
     private TY_SCToken scToken;
     private List<TY_WLDB> wlDBList = new ArrayList<TY_WLDB>();
-    
+    private List<TY_ScripAnalysisData> wlFInfo = new ArrayList<TY_ScripAnalysisData>();
+    private List<EN_Watchlist> wlEntities = new ArrayList<EN_Watchlist>();
     private SecretKey key;
     private IvParameterSpec ivParameterSpec;
     private String cipher;

@@ -28,6 +28,7 @@ import imgr.com.iManager_App.srv.intf.IF_UserSessionSrv;
 import imgr.com.iManager_App.srv.intf.IF_WatchlistSrvClient;
 import imgr.com.iManager_App.ui.pojos.TY_Credentials;
 import imgr.com.iManager_App.ui.pojos.TY_DestinationsSuffix;
+import imgr.com.iManager_App.ui.pojos.TY_ScripAnalysisData;
 import imgr.com.iManager_App.ui.pojos.TY_ScripCMPResponse;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
 import lombok.RequiredArgsConstructor;
@@ -282,4 +283,79 @@ public class CL_WatchlistSrvClient implements IF_WatchlistSrvClient
 
         return wlDB;
     }
+
+    @Override
+    public List<TY_ScripAnalysisData> getWLFundamentalAnalysis() throws Exception
+    {
+        List<TY_ScripAnalysisData> wlF = null;
+        HttpResponse response = null;
+        String bearer = null;
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        if (dS != null && userSessionSrv != null)
+        {
+            String key = userSessionSrv.getDecryptedKey();
+            if (StringUtils.hasText(key)
+                    && StringUtils.hasText(userSessionSrv.getUserSessionInformation().getUserName())
+                    && StringUtils.hasText(dS.getBaseurl()) && StringUtils.hasText(dS.getAuthurl())
+                    && StringUtils.hasText(dS.getWatchlistdburl()) && apiSrv != null)
+            {
+                if (!StringUtils.hasText(userSessionSrv.getUserSessionInformation().getBearer()))
+                {
+                    bearer = apiSrv
+                            .getAuthToken(new TY_Credentials(userSessionSrv.getUserSessionInformation().getUserName(),
+                                    userSessionSrv.getDecryptedKey()));
+                }
+                else
+                {
+                    bearer = userSessionSrv.getUserSessionInformation().getBearer();
+                }
+                if (StringUtils.hasText(bearer))
+                {
+                    String wlUrl = dS.getBaseurl() + dS.getWatchlistfundamentals();
+                    // Now le's trigger the WL DB Call
+                    URL url = new URL(wlUrl);
+                    URI uri = new URI(url.getProtocol(), url.getUserInfo(), IDN.toASCII(url.getHost()), url.getPort(),
+                            url.getPath(), url.getQuery(), url.getRef());
+                    String correctEncodedURL = uri.toASCIIString();
+                    HttpGet httpGet = new HttpGet(correctEncodedURL);
+                    httpGet.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + bearer);
+                    httpGet.addHeader("accept", "application/json");
+                    // Fire the Url
+                    response = httpClient.execute(httpGet);
+                    int statusCodeWLDB = response.getStatusLine().getStatusCode();
+                    if (statusCodeWLDB != org.apache.http.HttpStatus.SC_OK)
+                    {
+                        return null;
+                    }
+
+                    else if (statusCodeWLDB == org.apache.http.HttpStatus.SC_OK)
+                    {
+                        log.info("WL DB succ executed....");
+                        HttpEntity entityWLDB = response.getEntity();
+                        String apiOutput = EntityUtils.toString(entityWLDB);
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        try
+                        {
+                            TypeFactory typeFactory = objectMapper.getTypeFactory();
+                            CollectionType collectionType = typeFactory.constructCollectionType(List.class,
+                                    TY_ScripAnalysisData.class);
+                            wlF = objectMapper.readValue(apiOutput, collectionType);
+                            if (wlF != null)
+                            {
+                                log.info("Wl Fundamentals Node Bound with ... " + wlF.size() + " entities...");
+
+                            }
+                        }
+                        catch (IOException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+
+        }
+        return wlF;
+    }
+
 }
