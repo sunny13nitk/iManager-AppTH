@@ -4,14 +4,19 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
+import imgr.com.iManager_App.srv.intf.IF_UserSessionSrv;
 import imgr.com.iManager_App.ui.constants.VWNamesDirectory;
 import imgr.com.iManager_App.ui.enums.EnumVWNames;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @ControllerAdvice
 @Slf4j
+@RequiredArgsConstructor
 public class GlobalExceptionHdlr
 {
+    private final IF_UserSessionSrv userSessionSrv;
+
     @ExceptionHandler(EX_UserSession.class)
     public ModelAndView handleNotFound(Exception ex)
     {
@@ -20,6 +25,7 @@ public class GlobalExceptionHdlr
         log.error("User Session exception occured with error details as : " + ex.getLocalizedMessage());
         log.error(ex.getStackTrace().toString());
         mv.addObject("formError", ex.getMessage());
+        mv.addObject("userDetails", userSessionSrv.getUserDetails());
         return mv;
     }
 

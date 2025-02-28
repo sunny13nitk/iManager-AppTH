@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import imgr.com.iManager_App.exceptions.handler.EX_UserSession;
+import imgr.com.iManager_App.srv.intf.IF_APIClient;
 import imgr.com.iManager_App.srv.intf.IF_UserSessionSrv;
 import imgr.com.iManager_App.srv.intf.IF_WatchlistSrvClient;
 import imgr.com.iManager_App.srv.pojos.TY_SCToken;
@@ -37,6 +39,8 @@ public class WatchlistController
 
     private final IF_WatchlistSrvClient wlSrv;
 
+    private final IF_APIClient apiClntSrv;
+
     @GetMapping("/db")
     public String showWlDB(Model model) throws Exception
     {
@@ -58,8 +62,8 @@ public class WatchlistController
                 }
                 else // Only complete Load if WLlist not present is session
                 {
-                    // wlDBList = wlSrv.getWatchlistDb(token);
-                    wlDBList = TestUtility.getWLDB4mJSON();
+                    //wlDBList = wlSrv.getWatchlistDb(token);
+                     wlDBList = TestUtility.getWLDB4mJSON();
                     wlF = wlSrv.getWLFundamentalAnalysis();
                     wlT = wlSrv.getWatchlistThesis();
 
@@ -150,7 +154,21 @@ public class WatchlistController
     public ModelAndView updateScreenerToken(@Valid @ModelAttribute("sctoken") TY_SCToken tokenInfo,
             RedirectAttributes attributes)
     {
-        ModelAndView mv = null;
+        ModelAndView mv = new ModelAndView();
+
+        if (tokenInfo != null && apiClntSrv != null)
+        {
+            try
+            {
+                apiClntSrv.refreshScreenerToken(tokenInfo);
+                mv.setViewName(VWNamesDirectory.getViewName(EnumVWNames.Home, false));
+                mv.addObject("userDetails", userSessSrv.getUserDetails());
+            }
+            catch (Exception e)
+            {
+                throw new EX_UserSession(e.getLocalizedMessage());
+            }
+        }
 
         return mv;
     }

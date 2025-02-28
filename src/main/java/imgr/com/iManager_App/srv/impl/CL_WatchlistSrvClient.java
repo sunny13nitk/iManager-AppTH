@@ -143,10 +143,6 @@ public class CL_WatchlistSrvClient implements IF_WatchlistSrvClient
                     ObjectMapper objectMapper = new ObjectMapper();
                     try
                     {
-                        // TypeFactory typeFactory = objectMapper.getTypeFactory();
-                        // CollectionType collectionType =
-                        // typeFactory.constructCollectionType(List.class,
-                        // TY_WLDB.class);
                         resp = objectMapper.readValue(apiOutput, TY_ScripCMPResponse.class);
                         if (resp != null)
                         {

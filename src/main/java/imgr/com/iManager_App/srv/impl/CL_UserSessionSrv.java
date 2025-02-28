@@ -6,7 +6,6 @@ import java.util.Locale;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.context.MessageSource;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.annotation.SessionScope;
@@ -72,6 +71,8 @@ public class CL_UserSessionSrv implements IF_UserSessionSrv
                         String payload = new String(decoder.decode(chunks[1]));
                         String scope = JSONUtility.readPropertyValue(payload, "/scope");
                         this.setLoggedinUserRole(scope);
+                        // Initialize Screener Token
+                        authSrv.initializeScreenerToken();
 
                     }
                 }

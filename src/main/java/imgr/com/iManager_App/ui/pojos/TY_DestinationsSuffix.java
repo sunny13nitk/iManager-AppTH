@@ -13,6 +13,7 @@ public class TY_DestinationsSuffix
     private String watchlistdburl;
     private String watchlistcmpurl;
     private String watchlistfundamentals;
+    private String screenertoken;
     private String watchlistthesis;
     private String csrfsess;
     private String authurl;

@@ -1,6 +1,5 @@
 package imgr.com.iManager_App.controllers;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -38,12 +37,16 @@ public class ContentController
     }
 
     @GetMapping("/home")
-    public String home(Authentication auth) throws Exception
+    public String home(Model model) throws Exception
     {
-        if (auth.isAuthenticated())
+        if (userSessSrv != null)
         {
-            // userSessSrv.initialize(auth);
-            return VWNamesDirectory.getViewName(EnumVWNames.Home, false);
+            if (userSessSrv.getUserDetails() != null)
+            {
+                model.addAttribute("userDetails", userSessSrv.getUserDetails());
+                return VWNamesDirectory.getViewName(EnumVWNames.Home, false);
+            }
+
         }
 
         return "error";
