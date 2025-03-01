@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -62,8 +63,8 @@ public class WatchlistController
                 }
                 else // Only complete Load if WLlist not present is session
                 {
-                    //wlDBList = wlSrv.getWatchlistDb(token);
-                     wlDBList = TestUtility.getWLDB4mJSON();
+                    // wlDBList = wlSrv.getWatchlistDb(token);
+                    wlDBList = TestUtility.getWLDB4mJSON();
                     wlF = wlSrv.getWLFundamentalAnalysis();
                     wlT = wlSrv.getWatchlistThesis();
 
@@ -148,6 +149,38 @@ public class WatchlistController
         model.addAttribute("userDetails", userSessSrv.getUserDetails());
 
         return VWNamesDirectory.getViewName(EnumVWNames.Tokens, false);
+    }
+
+    @GetMapping("/upd/{scrip}")
+    public String editWatchlistHeader(Model model, @RequestParam String scrip) throws Exception
+    {
+        if (StringUtils.hasText(scrip) && userSessSrv != null)
+        {
+            // Get details for Selected Scrip from session
+            if (CollectionUtils.isNotEmpty(userSessSrv.getUserSessionInformation().getWlEntities()))
+            {
+                Optional<EN_Watchlist> wlTHtemO = userSessSrv.getUserSessionInformation().getWlEntities().stream()
+                        .filter(w -> w.getScrip().equals(scrip)).findFirst();
+                if (wlTHtemO.isPresent())
+                {
+                    model.addAttribute("wlT", wlTHtemO.get());
+                }
+
+                model.addAttribute("userDetails", userSessSrv.getUserDetails());
+
+            }
+
+            // Add WL Model view to User Session
+            ModelAndView mvNav = new ModelAndView(VWNamesDirectory.getViewName(EnumVWNames.WatchlistDashboard, false));
+            mvNav.addObject("wlList", userSessSrv.getWlDB());
+            mvNav.addObject("wlF", userSessSrv.getUserSessionInformation().getWlFInfo());
+            mvNav.addObject("wlT", userSessSrv.getUserSessionInformation().getWlEntities());
+            mvNav.addObject("userDetails", userSessSrv.getUserDetails());
+
+            userSessSrv.setParentViewModel4Navigation(mvNav);
+
+        }
+        return VWNamesDirectory.getViewName(EnumVWNames.WLHeaderEdit, false);
     }
 
     @PostMapping("/token")

@@ -970,7 +970,7 @@
 
                     <div class="row flex-justify-start"
                         style="padding-right: 20px; padding-top: 5px; padding-bottom: -15px">
-                        <a href="#" class="button mini primary rounded outline" th:href="@{/nfs/pf/massUpd}"
+                        <a href="#" class="button mini primary rounded outline" th:href="@{'/wl/upd/'+${wlT.scrip}}"
                             role="button">
                             <span class="mif-quickedit icon" style="margin-left: 0px"></span> <span
                                 style="margin-left: 3px">Edit</span>
@@ -985,13 +985,13 @@
                                 data-collapsed="false" data-collapsible="true" data-cls-title="bg-white fg-cyan"
                                 data-cls-panel="bd-lightCyan">
                                 <div class="row flex-justify-start"
-                                style="padding-right: 20px; padding-top: 5px; padding-bottom: 5px">
-                                <a href="#" class="button mini primary rounded outline" th:href="@{/nfs/pf/massUpd}"
-                                    role="button">
-                                    <span class="mif-add_link icon" style="margin-left: 0px"></span> <span
-                                        style="margin-left: 3px">Add Reference(s)</span>
-                                </a>
-                            </div>
+                                    style="padding-right: 20px; padding-top: 5px; padding-bottom: 5px">
+                                    <a href="#" class="button mini primary rounded outline" th:href="@{/nfs/pf/massUpd}"
+                                        role="button">
+                                        <span class="mif-add_link icon" style="margin-left: 0px"></span> <span
+                                            style="margin-left: 3px">Add Reference(s)</span>
+                                    </a>
+                                </div>
                                 <div class="cell-11">
                                     <table class="table subcompact striped table-border cell-border row-hover">
                                         <thead>
