@@ -12,6 +12,7 @@ public class VWNamesDirectory
 {
 
     public static final String gc_redirect = "redirect:";
+    public static final String gc_paramPattern = "{";
 
     public static ArrayList<TY_ViewMappings> getViewsMap()
     {
@@ -29,7 +30,7 @@ public class VWNamesDirectory
         return viewsDescMap;
     }
 
-    public static String getViewName(EnumVWNames vwTag, boolean isRedirect)
+    public static String getViewName(EnumVWNames vwTag, boolean isRedirect, String[]... params)
     {
         String vwName = null;
         if (StringUtils.hasText(vwTag.toString()))
@@ -41,7 +42,24 @@ public class VWNamesDirectory
                 {
                     if (isRedirect)
                     {
-                        vwName = gc_redirect + vwO.get().getPath();
+                        if (vwO.get().getPath().contains(gc_paramPattern))
+                        {
+                            String[] pathParts = vwO.get().getPath().split(gc_paramPattern);
+
+                            vwName = gc_redirect + pathParts[0];
+                            for (int i = 1; i < params.length; i++)
+                            {
+                                if (params.length > i - 1)
+                                {
+                                    vwName = vwName + params[i - 1];
+                                }
+                            }
+                        }
+                        else
+                        {
+                            vwName = gc_redirect + vwO.get().getPath();
+                        }
+
                     }
                     else
                     {
