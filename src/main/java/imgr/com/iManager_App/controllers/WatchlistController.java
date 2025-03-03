@@ -22,7 +22,9 @@ import imgr.com.iManager_App.srv.intf.IF_WatchlistSrvClient;
 import imgr.com.iManager_App.srv.pojos.TY_SCToken;
 import imgr.com.iManager_App.ui.constants.VWNamesDirectory;
 import imgr.com.iManager_App.ui.enums.EnumVWNames;
+import imgr.com.iManager_App.ui.pojos.EN_SCReferences;
 import imgr.com.iManager_App.ui.pojos.EN_Watchlist;
+import imgr.com.iManager_App.ui.pojos.TY_Reference;
 import imgr.com.iManager_App.ui.pojos.TY_ScripAnalysisData;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
 import imgr.com.iManager_App.utilities.TestUtility;
@@ -170,20 +172,21 @@ public class WatchlistController
 
             }
 
-            // // Add WL Model view to User Session
-            // ModelAndView mvNav = new
-            // ModelAndView(VWNamesDirectory.getViewName(EnumVWNames.WatchlistDashboard,
-            // false));
-            // mvNav.addObject("wlList", userSessSrv.getWlDB());
-            // mvNav.addObject("wlF", userSessSrv.getUserSessionInformation().getWlFInfo());
-            // mvNav.addObject("wlT",
-            // userSessSrv.getUserSessionInformation().getWlEntities());
-            // mvNav.addObject("userDetails", userSessSrv.getUserDetails());
-
-            // userSessSrv.setParentViewModel4Navigation(mvNav);
-
         }
         return VWNamesDirectory.getViewName(EnumVWNames.WLHeaderEdit, false);
+    }
+
+    @GetMapping("/ref/{scrip}")
+    public String addRef4Scrip(Model model, @PathVariable String scrip) throws Exception
+    {
+        if (StringUtils.hasText(scrip))
+        {
+            TY_Reference ref = new TY_Reference(scrip, null, null);
+
+            model.addAttribute("ref", ref);
+            model.addAttribute("userDetails", userSessSrv.getUserDetails());
+        }
+        return VWNamesDirectory.getViewName(EnumVWNames.WLRefAdd, false);
     }
 
     @PostMapping("/updateWLScrip")
@@ -237,6 +240,68 @@ public class WatchlistController
 
             mv.setViewName(VWNamesDirectory.getViewName(EnumVWNames.WLDetailsScreener, true, new String[]
             { wlT.getScrip() }));
+            mv.addObject("userDetails", userSessSrv.getUserDetails());
+        }
+        return mv;
+    }
+
+    @PostMapping("/refUpdate")
+    public ModelAndView updateWLReference(@Valid @ModelAttribute("ref") TY_Reference ref) throws Exception
+    {
+        ModelAndView mv = new ModelAndView();
+
+        if (ref != null && wlSrv != null)
+        {
+
+            List<EN_Watchlist> wlTList = userSessSrv.getUserSessionInformation().getWlEntities();
+            if (CollectionUtils.isNotEmpty(wlTList))
+            {
+                Optional<EN_Watchlist> wlTO = wlTList.stream().filter(w -> w.getScrip().equals(ref.getScrip()))
+                        .findFirst();
+                if (wlTO.isPresent())
+                {
+                    EN_Watchlist wlExis = wlTO.get();
+                    EN_SCReferences newREf = new EN_SCReferences();
+
+                    newREf.setTitle(ref.getTitle());
+                    newREf.setUrllink(ref.getUrl());
+
+                    wlExis.addReference(newREf);
+
+                    // TY_WLPartRequest partREq = new TY_WLPartRequest();
+                    // partREq.setEntityName(EnumWLPart.Reference);
+                    // partREq.setOperation(EnumWLPartOperation.Create);
+                    // partREq.setReference(newREf);
+                    // partREq.setScrip(ref.getScrip());
+
+                    // EN_Watchlist wlExisUpdated = wlSrv.updateWatchlistPart(partREq);
+
+                    // if (wlExisUpdated != null)
+                    // {
+                    // // Update for this WLDB in user session
+                    // // REplace wlDb in Current Session
+                    // if (wlExisUpdated != null)
+                    // {
+                    // userSessSrv.getUserSessionInformation().getWlEntities()
+                    // .removeIf(wl -> wl.getScrip().equals(ref.getScrip()));
+                    // userSessSrv.getUserSessionInformation().getWlEntities().add(wlExisUpdated);
+                    // }
+                    // }
+
+                    wlSrv.updateWatchlistEntry(wlExis, false);
+                    if (wlExis != null)
+                    {
+                        userSessSrv.getUserSessionInformation().getWlEntities()
+                                .removeIf(wl -> wl.getScrip().equals(ref.getScrip()));
+                        userSessSrv.getUserSessionInformation().getWlEntities().add(wlExis);
+                    }
+
+                }
+
+            }
+
+            mv.setViewName(VWNamesDirectory.getViewName(EnumVWNames.WLDetailsScreener, true, new String[]
+            { ref.getScrip() }));
             mv.addObject("userDetails", userSessSrv.getUserDetails());
         }
         return mv;

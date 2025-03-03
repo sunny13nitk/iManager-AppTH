@@ -986,8 +986,8 @@
                                 data-cls-panel="bd-lightCyan">
                                 <div class="row flex-justify-start"
                                     style="padding-right: 20px; padding-top: 5px; padding-bottom: 5px">
-                                    <a href="#" class="button mini primary rounded outline" th:href="@{/nfs/pf/massUpd}"
-                                        role="button">
+                                    <a href="#" class="button mini primary rounded outline"
+                                        th:href="@{'/wl/ref/'+${wlT.scrip}}" role="button">
                                         <span class="mif-add_link icon" style="margin-left: 0px"></span> <span
                                             style="margin-left: 3px">Add Reference(s)</span>
                                     </a>
@@ -1002,7 +1002,7 @@
 
                                         <tbody>
                                             <tr th:each="ref : ${wlT.references}">
-                                                <td><a th:href=" ${ref.urllink}"><span
+                                                <td><a th:href=" ${ref.urllink}" target="_blank"><span
                                                             th:text="${ref.title}"></span></a></td>
                                             </tr>
                                         </tbody>
@@ -1015,8 +1015,8 @@
                                 data-cls-panel="bd-lightCyan">
                                 <div class="row flex-justify-start"
                                     style="padding-right: 20px; padding-top: 5px; padding-bottom: -15px">
-                                    <a href="#" class="button mini primary rounded outline" th:href="@{/nfs/pf/massUpd}"
-                                        role="button">
+                                    <a href="#" class="button mini primary rounded outline"
+                                        th:href="@{'/wl/ref/'+${wlT.scrip}}" role="button">
                                         <span class="mif-add_link icon" style="margin-left: 0px"></span> <span
                                             style="margin-left: 3px">Add Reference(s)</span>
                                     </a>

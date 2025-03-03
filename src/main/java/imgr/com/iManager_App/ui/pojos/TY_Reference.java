@@ -1,6 +1,5 @@
 package imgr.com.iManager_App.ui.pojos;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,14 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EN_SCReferences
+public class TY_Reference
 {
-
-    private long linkid;
-
-    private EN_Watchlist watchlistref;
-    @NotNull
-    private String urllink;
-    @NotNull
+    private String scrip;
     private String title;
+    private String url;
 }

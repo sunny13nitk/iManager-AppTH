@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.Range;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import imgr.com.iManager_App.ui.enums.EnumCS;
 import imgr.com.iManager_App.ui.enums.EnumLevels;
 import imgr.com.iManager_App.ui.enums.EnumWLStatus;
@@ -32,7 +34,11 @@ public class EN_Watchlist
     @PastOrPresent
     private Date dateUpdated;
     private EnumWLStatus status;
+    @JsonIgnoreProperties(
+    { "watchlistref" })
     private List<EN_SCReferences> references = new ArrayList<EN_SCReferences>();
+    @JsonIgnoreProperties(
+    { "triggerref" })
     private List<EN_SCTriggers> triggers = new ArrayList<EN_SCTriggers>();
 
     private EnumCS cusSegment;
@@ -52,5 +58,11 @@ public class EN_Watchlist
     @Range(max = 1, min = 0)
     private double bullWtRatio;
     private List<String> tags = new ArrayList<String>();
+
+    public void addReference(EN_SCReferences ref)
+    {
+        references.add(ref);
+        ref.setWatchlistref(this);
+    }
 
 }

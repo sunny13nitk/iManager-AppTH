@@ -32,6 +32,7 @@ import imgr.com.iManager_App.ui.pojos.TY_DestinationsSuffix;
 import imgr.com.iManager_App.ui.pojos.TY_ScripAnalysisData;
 import imgr.com.iManager_App.ui.pojos.TY_ScripCMPResponse;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
+import imgr.com.iManager_App.ui.pojos.TY_WLPartRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -458,6 +459,89 @@ public class CL_WatchlistSrvClient implements IF_WatchlistSrvClient
 
         }
         return wlDB;
+    }
+
+    @Override
+    public EN_Watchlist updateWatchlistPart(TY_WLPartRequest partReq) throws Exception
+    {
+        EN_Watchlist wlEnt = null;
+        if (partReq != null)
+        {
+            HttpResponse response = null;
+            String bearer = null;
+            CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+
+            try
+            {
+                if (dS != null && userSessionSrv != null)
+                {
+                    bearer = userSessionSrv.getDecryptedKey();
+                    if (StringUtils.hasText(bearer) && StringUtils.hasText(dS.getBaseurl())
+                            && StringUtils.hasText(dS.getWatchlistplain()))
+                    {
+
+                        String wlUrl = dS.getBaseurl() + dS.getWatchlistplain() + "/parts";
+                        // Now le's trigger the WL DB Call
+                        URL url = new URL(wlUrl);
+                        URI uri = new URI(url.getProtocol(), url.getUserInfo(), IDN.toASCII(url.getHost()),
+                                url.getPort(), url.getPath(), url.getQuery(), url.getRef());
+                        String correctEncodedURL = uri.toASCIIString();
+                        HttpPatch httpPatch = new HttpPatch(correctEncodedURL);
+                        httpPatch.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + bearer);
+                        httpPatch.addHeader("accept", "application/json");
+
+                        ObjectMapper objMapper = new ObjectMapper();
+
+                        String requestBody = objMapper.writeValueAsString(partReq);
+
+                        StringEntity entity = new StringEntity(requestBody, ContentType.APPLICATION_JSON);
+                        httpPatch.setEntity(entity);
+
+                        // Fire the Url
+                        response = httpClient.execute(httpPatch);
+                        int statusCodeWLDB = response.getStatusLine().getStatusCode();
+                        if (statusCodeWLDB != org.apache.http.HttpStatus.SC_OK)
+                        {
+                            return null;
+                        }
+
+                        else if (statusCodeWLDB == org.apache.http.HttpStatus.SC_OK)
+                        {
+                            log.info("Wl Scrip " + partReq.getScrip() + " updated succ executed for part");
+
+                            HttpEntity entityWLDB = response.getEntity();
+                            String apiOutput = EntityUtils.toString(entityWLDB);
+                            ObjectMapper objectMapper = new ObjectMapper();
+                            try
+                            {
+                                wlEnt = objectMapper.readValue(apiOutput, EN_Watchlist.class);
+                                if (wlEnt != null)
+                                {
+                                    log.info("Wl Entity Bound...");
+
+                                }
+                            }
+                            catch (IOException e)
+                            {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            finally
+            {
+                httpClient.close();
+            }
+        }
+        return wlEnt;
+
     }
 
 }

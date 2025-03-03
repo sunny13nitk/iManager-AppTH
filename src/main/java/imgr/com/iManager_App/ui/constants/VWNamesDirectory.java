@@ -27,6 +27,7 @@ public class VWNamesDirectory
         viewsDescMap.add(new TY_ViewMappings(EnumVWNames.WatchlistDashboard, "/wl/db", "watchlistdashboard"));
         viewsDescMap.add(new TY_ViewMappings(EnumVWNames.WLHeaderEdit, "/wl/upd/{scrip}", "wlHeaderEdit"));
         viewsDescMap.add(new TY_ViewMappings(EnumVWNames.WLDetailsScreener, "/wl/db/{scrip}", "wlSCDetails"));
+        viewsDescMap.add(new TY_ViewMappings(EnumVWNames.WLRefAdd, "/wl/ref/{scrip}", "wlrefAdd"));
 
         return viewsDescMap;
     }
