@@ -28,9 +28,9 @@
                 <span style="color: #1880BB; font-weight: bold; font-size: 1.15em; margin-left: 2px"
                     th:text="${wlT.scrip}">ABB</span>
 
-                <a href="#" class="button primary rounded outline mini" th:href="@{'/wl/db/' + ${wlT.scrip}}" role="button"
-                    style="margin-left: 700px;"> <span class="mif-backspace icon" style="margin-left: 0px"></span> <span
-                        style="margin-left: px">Back to Scrip</span>
+                <a href="#" class="button primary rounded outline mini" th:href="@{'/wl/db/' + ${wlT.scrip}}"
+                    role="button" style="margin-left: 700px;"> <span class="mif-backspace icon"
+                        style="margin-left: 0px"></span> <span style="margin-left: px">Back to Scrip</span>
                 </a>
             </h6>
 
@@ -42,7 +42,7 @@
                 <div data-role="panel" data-title-caption="Header Information " data-collapsed="false"
                     data-collapsible="true" data-cls-title="bg-white fg-cyan" data-cls-panel="bd-lightCyan padding:5px">
 
-                    <form th:object="${wlT}" th:action="@{/wl/upd/}" method="post">
+                    <form th:object="${wlT}" th:action="@{'/wl/updateWLScrip'}" method="post">
                         <div class="row" style="padding: 10px;">
                             <input type="hidden" th:field="*{scrip}" />
                             <div class="cell-md-3 ">
@@ -240,14 +240,11 @@
 
                         <div class="row flex-justify-end"
                             style="padding-right: 50px; padding-top: 5px; padding-bottom: 40px">
-                            <a href="#" class="button mini primary rounded outline" role="button"> <span
-                                    class="mif-floppy-disk icon" style="margin-left: 0px"></span> <span
+                            <button class="button mini primary rounded outline" style="margin-left: 0px">
+                                <span class="mif-floppy-disk" style="margin-left: 0px"> </span> <span
                                     style="margin-left: 3px">Save</span>
-                            </a>
+                            </button>
                         </div>
-
-
-
 
                     </form>
 

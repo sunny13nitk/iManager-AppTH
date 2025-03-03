@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.net.IDN;
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
@@ -353,6 +355,109 @@ public class CL_WatchlistSrvClient implements IF_WatchlistSrvClient
 
         }
         return wlT;
+    }
+
+    @Override
+    public TY_WLDB updateWatchlistEntry(EN_Watchlist wlBase, boolean isRecalcNeeded) throws Exception
+    {
+        TY_WLDB wlDB = null;
+        if (wlBase != null)
+        {
+            HttpResponse response = null;
+            String bearer = null;
+            CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+
+            try
+            {
+                if (dS != null && userSessionSrv != null)
+                {
+                    bearer = userSessionSrv.getDecryptedKey();
+                    if (StringUtils.hasText(bearer) && StringUtils.hasText(dS.getBaseurl())
+                            && StringUtils.hasText(dS.getWatchlistplain()))
+                    {
+
+                        String wlUrl = dS.getBaseurl() + dS.getWatchlistplain() + wlBase.getScrip();
+                        // Now le's trigger the WL DB Call
+                        URL url = new URL(wlUrl);
+                        URI uri = new URI(url.getProtocol(), url.getUserInfo(), IDN.toASCII(url.getHost()),
+                                url.getPort(), url.getPath(), url.getQuery(), url.getRef());
+                        String correctEncodedURL = uri.toASCIIString();
+                        HttpPatch httpPatch = new HttpPatch(correctEncodedURL);
+                        httpPatch.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + bearer);
+                        httpPatch.addHeader("accept", "application/json");
+
+                        ObjectMapper objMapper = new ObjectMapper();
+
+                        String requestBody = objMapper.writeValueAsString(wlBase);
+
+                        StringEntity entity = new StringEntity(requestBody, ContentType.APPLICATION_JSON);
+                        httpPatch.setEntity(entity);
+
+                        // Fire the Url
+                        response = httpClient.execute(httpPatch);
+                        int statusCodeWLDB = response.getStatusLine().getStatusCode();
+                        if (statusCodeWLDB != org.apache.http.HttpStatus.SC_OK)
+                        {
+                            return null;
+                        }
+
+                        else if (statusCodeWLDB == org.apache.http.HttpStatus.SC_OK)
+                        {
+                            log.info("Wl Scrip " + wlBase.getScrip() + " updated succ executed");
+
+                            // Now Check for Recalculation Needed
+                            if (isRecalcNeeded)
+                            {
+
+                                // Get the WLDb Entry for the Scrip from session
+                                Optional<TY_WLDB> wlDBOpt = userSessionSrv.getUserSessionInformation().getWlDBList()
+                                        .stream().filter(wl -> wl.getScrip().equals(wlBase.getScrip())).findFirst();
+                                {
+                                    if (wlDBOpt.isPresent())
+                                    {
+                                        TY_WLDB wlDBase = wlDBOpt.get();
+                                        // Update wlDBBase
+                                        wlDBase.setBaseCaseEPSCAGR(wlBase.getFwdepsgrbase());
+                                        wlDBase.setBaseCaseTermPE(wlBase.getFwdpebase());
+                                        wlDBase.setBullCaseEPSCAGR(wlBase.getFwdepsgrbull());
+                                        wlDBase.setBullCaseTermPE(wlBase.getFwdpebull());
+                                        wlDBase.setLongEPSCAGR(wlBase.getLongevitygr());
+                                        wlDBase.setBullwtRatio(wlBase.getBullWtRatio());
+
+                                        List<TY_WLDB> wlDBBaseList = new ArrayList<TY_WLDB>();
+                                        wlDBBaseList.add(wlDBase);
+
+                                        // Now Trigger the Recalculation
+                                        wlDB = this.refreshWatchlistDb(wlDBBaseList, userSessionSrv.getScreenerToken())
+                                                .get(0);
+
+                                        if (wlDB != null)
+                                        {
+                                            log.info("Recalculation for Scrip " + wlBase.getScrip()
+                                                    + " done successfully");
+                                        }
+
+                                    }
+
+                                }
+                            }
+
+                        }
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            finally
+            {
+                httpClient.close();
+            }
+
+        }
+        return wlDB;
     }
 
 }

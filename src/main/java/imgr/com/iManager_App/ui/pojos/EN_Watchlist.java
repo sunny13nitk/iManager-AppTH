@@ -9,7 +9,10 @@ import org.hibernate.validator.constraints.Range;
 import imgr.com.iManager_App.ui.enums.EnumCS;
 import imgr.com.iManager_App.ui.enums.EnumLevels;
 import imgr.com.iManager_App.ui.enums.EnumWLStatus;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +22,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EN_Watchlist
 {
-
+    @NotNull
+    @NotBlank()
+    @Size(min = 3)
     private String scrip;
     private boolean standalone;
     @PastOrPresent

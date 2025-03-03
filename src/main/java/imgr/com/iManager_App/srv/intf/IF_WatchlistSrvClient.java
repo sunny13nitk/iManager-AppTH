@@ -18,4 +18,6 @@ public interface IF_WatchlistSrvClient
     public List<TY_ScripAnalysisData> getWLFundamentalAnalysis() throws Exception;
 
     public List<EN_Watchlist> getWatchlistThesis() throws Exception;
+
+    public TY_WLDB updateWatchlistEntry(EN_Watchlist wlBase, boolean isRecalcNeeded) throws Exception;
 }

@@ -26,6 +26,7 @@ import imgr.com.iManager_App.ui.pojos.EN_Watchlist;
 import imgr.com.iManager_App.ui.pojos.TY_ScripAnalysisData;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
 import imgr.com.iManager_App.utilities.TestUtility;
+import imgr.com.iManager_App.utilities.UtilDurations;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -183,6 +184,62 @@ public class WatchlistController
 
         }
         return VWNamesDirectory.getViewName(EnumVWNames.WLHeaderEdit, false);
+    }
+
+    @PostMapping("/updateWLScrip")
+    public ModelAndView updateScripinWL(@Valid @ModelAttribute("wlT") EN_Watchlist wlT) throws Exception
+    {
+        ModelAndView mv = new ModelAndView();
+        if (wlT != null && userSessSrv != null)
+        {
+
+            // Update Watchlist Entity
+            if (wlT != null)
+            {
+                List<EN_Watchlist> wlTList = userSessSrv.getUserSessionInformation().getWlEntities();
+                if (CollectionUtils.isNotEmpty(wlTList))
+                {
+                    Optional<EN_Watchlist> wlTO = wlTList.stream().filter(w -> w.getScrip().equals(wlT.getScrip()))
+                            .findFirst();
+                    if (wlTO.isPresent())
+                    {
+                        EN_Watchlist wlExis = wlTO.get();
+                        wlExis.setBullWtRatio(wlT.getBullWtRatio());
+                        wlExis.setConviction(wlT.getConviction());
+                        wlExis.setCusSegment(wlT.getCusSegment());
+                        wlExis.setDateUpdated(UtilDurations.getTodaysDate());
+                        wlExis.setFwdepsgrbase(wlT.getFwdepsgrbase());
+                        wlExis.setFwdpebase(wlT.getFwdpebase());
+                        wlExis.setFwdepsgrbull(wlT.getFwdepsgrbull());
+                        wlExis.setFwdpebull(wlT.getFwdpebull());
+                        wlExis.setGrowth(wlT.getGrowth());
+                        wlExis.setLongevitygr(wlT.getLongevitygr());
+                        wlExis.setSize(wlT.getSize());
+                        wlExis.setStandalone(wlT.isStandalone());
+                        wlExis.setStatus(wlT.getStatus());
+
+                        TY_WLDB wlDBUpdated = wlSrv.updateWatchlistEntry(wlExis, true);
+                        if (wlDBUpdated != null)
+                        {
+                            // Update for this WLDB in user session
+                            // REplace wlDb in Current Session
+                            if (wlDBUpdated != null)
+                            {
+                                userSessSrv.getUserSessionInformation().getWlDBList()
+                                        .removeIf(wl -> wl.getScrip().equals(wlT.getScrip()));
+                                userSessSrv.getUserSessionInformation().getWlDBList().add(wlDBUpdated);
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            mv.setViewName(VWNamesDirectory.getViewName(EnumVWNames.WLDetailsScreener, true, new String[]
+            { wlT.getScrip() }));
+            mv.addObject("userDetails", userSessSrv.getUserDetails());
+        }
+        return mv;
     }
 
     @PostMapping("/token")
