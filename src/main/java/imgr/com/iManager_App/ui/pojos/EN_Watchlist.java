@@ -65,4 +65,10 @@ public class EN_Watchlist
         ref.setWatchlistref(this);
     }
 
+    public void addTrigger(EN_SCTriggers tr)
+    {
+        triggers.add(tr);
+        tr.setTriggerref(this);
+    }
+
 }

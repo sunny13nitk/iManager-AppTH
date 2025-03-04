@@ -28,6 +28,8 @@ public class VWNamesDirectory
         viewsDescMap.add(new TY_ViewMappings(EnumVWNames.WLHeaderEdit, "/wl/upd/{scrip}", "wlHeaderEdit"));
         viewsDescMap.add(new TY_ViewMappings(EnumVWNames.WLDetailsScreener, "/wl/db/{scrip}", "wlSCDetails"));
         viewsDescMap.add(new TY_ViewMappings(EnumVWNames.WLRefAdd, "/wl/ref/{scrip}", "wlrefAdd"));
+        viewsDescMap.add(new TY_ViewMappings(EnumVWNames.TriggerAdd, "/wl/tg/{scrip}", "wltgAdd"));
+        viewsDescMap.add(new TY_ViewMappings(EnumVWNames.TagAdd, "/wl/tag/{scrip}", "wltagAdd"));
 
         return viewsDescMap;
     }

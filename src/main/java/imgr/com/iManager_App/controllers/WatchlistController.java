@@ -23,9 +23,12 @@ import imgr.com.iManager_App.srv.pojos.TY_SCToken;
 import imgr.com.iManager_App.ui.constants.VWNamesDirectory;
 import imgr.com.iManager_App.ui.enums.EnumVWNames;
 import imgr.com.iManager_App.ui.pojos.EN_SCReferences;
+import imgr.com.iManager_App.ui.pojos.EN_SCTriggers;
 import imgr.com.iManager_App.ui.pojos.EN_Watchlist;
 import imgr.com.iManager_App.ui.pojos.TY_Reference;
 import imgr.com.iManager_App.ui.pojos.TY_ScripAnalysisData;
+import imgr.com.iManager_App.ui.pojos.TY_Tag;
+import imgr.com.iManager_App.ui.pojos.TY_Trigger;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
 import imgr.com.iManager_App.utilities.TestUtility;
 import imgr.com.iManager_App.utilities.UtilDurations;
@@ -189,6 +192,32 @@ public class WatchlistController
         return VWNamesDirectory.getViewName(EnumVWNames.WLRefAdd, false);
     }
 
+    @GetMapping("/tg/{scrip}")
+    public String addTrigger4Scrip(Model model, @PathVariable String scrip) throws Exception
+    {
+        if (StringUtils.hasText(scrip))
+        {
+            TY_Trigger tg = new TY_Trigger(scrip, null, null);
+
+            model.addAttribute("tg", tg);
+            model.addAttribute("userDetails", userSessSrv.getUserDetails());
+        }
+        return VWNamesDirectory.getViewName(EnumVWNames.TriggerAdd, false);
+    }
+
+    @GetMapping("/tags/{scrip}")
+    public String addTags4Scrip(Model model, @PathVariable String scrip) throws Exception
+    {
+        if (StringUtils.hasText(scrip))
+        {
+            TY_Tag tag = new TY_Tag(scrip, null);
+
+            model.addAttribute("tag", tag);
+            model.addAttribute("userDetails", userSessSrv.getUserDetails());
+        }
+        return VWNamesDirectory.getViewName(EnumVWNames.TagAdd, false);
+    }
+
     @PostMapping("/updateWLScrip")
     public ModelAndView updateScripinWL(@Valid @ModelAttribute("wlT") EN_Watchlist wlT) throws Exception
     {
@@ -302,6 +331,92 @@ public class WatchlistController
 
             mv.setViewName(VWNamesDirectory.getViewName(EnumVWNames.WLDetailsScreener, true, new String[]
             { ref.getScrip() }));
+            mv.addObject("userDetails", userSessSrv.getUserDetails());
+        }
+        return mv;
+    }
+
+    @PostMapping("/tgUpdate")
+    public ModelAndView updateWLTrigger(@Valid @ModelAttribute("tg") TY_Trigger tg) throws Exception
+    {
+        ModelAndView mv = new ModelAndView();
+
+        if (tg != null && wlSrv != null)
+        {
+
+            List<EN_Watchlist> wlTList = userSessSrv.getUserSessionInformation().getWlEntities();
+            if (CollectionUtils.isNotEmpty(wlTList))
+            {
+                Optional<EN_Watchlist> wlTO = wlTList.stream().filter(w -> w.getScrip().equals(tg.getScrip()))
+                        .findFirst();
+                if (wlTO.isPresent())
+                {
+                    EN_Watchlist wlExis = wlTO.get();
+                    EN_SCTriggers newTG = new EN_SCTriggers();
+
+                    newTG.setTriggertype(tg.getTriggertype());
+                    newTG.setDetails(tg.getDetails());
+
+                    wlExis.addTrigger(newTG);
+
+                    wlSrv.updateWatchlistEntry(wlExis, false);
+                    if (wlExis != null)
+                    {
+                        userSessSrv.getUserSessionInformation().getWlEntities()
+                                .removeIf(wl -> wl.getScrip().equals(tg.getScrip()));
+                        userSessSrv.getUserSessionInformation().getWlEntities().add(wlExis);
+                    }
+
+                }
+
+            }
+
+            mv.setViewName(VWNamesDirectory.getViewName(EnumVWNames.WLDetailsScreener, true, new String[]
+            { tg.getScrip() }));
+            mv.addObject("userDetails", userSessSrv.getUserDetails());
+        }
+        return mv;
+    }
+
+    @PostMapping("/tagUpdate")
+    public ModelAndView updateWLTag(@Valid @ModelAttribute("tag") TY_Tag tag) throws Exception
+    {
+        ModelAndView mv = new ModelAndView();
+
+        if (tag != null && wlSrv != null)
+        {
+
+            List<EN_Watchlist> wlTList = userSessSrv.getUserSessionInformation().getWlEntities();
+            if (CollectionUtils.isNotEmpty(wlTList))
+            {
+                Optional<EN_Watchlist> wlTO = wlTList.stream().filter(w -> w.getScrip().equals(tag.getScrip()))
+                        .findFirst();
+                if (wlTO.isPresent())
+                {
+                    EN_Watchlist wlExis = wlTO.get();
+                    EN_SCTriggers newTG = new EN_SCTriggers();
+
+                    // Split Tag by ',' and add to List
+                    String[] tags = tag.getTags().split(",");
+                    for (String tg : tags)
+                    {
+                        wlExis.getTags().add(tg);
+                    }
+
+                    wlSrv.updateWatchlistEntry(wlExis, false);
+                    if (wlExis != null)
+                    {
+                        userSessSrv.getUserSessionInformation().getWlEntities()
+                                .removeIf(wl -> wl.getScrip().equals(tag.getScrip()));
+                        userSessSrv.getUserSessionInformation().getWlEntities().add(wlExis);
+                    }
+
+                }
+
+            }
+
+            mv.setViewName(VWNamesDirectory.getViewName(EnumVWNames.WLDetailsScreener, true, new String[]
+            { tag.getScrip() }));
             mv.addObject("userDetails", userSessSrv.getUserDetails());
         }
         return mv;
