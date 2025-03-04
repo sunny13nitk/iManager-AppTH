@@ -68,8 +68,8 @@ public class WatchlistController
                 }
                 else // Only complete Load if WLlist not present is session
                 {
-                     wlDBList = wlSrv.getWatchlistDb(token);
-                    //wlDBList = TestUtility.getWLDB4mJSON();
+                    wlDBList = wlSrv.getWatchlistDb(token);
+                    // wlDBList = TestUtility.getWLDB4mJSON();
                     wlF = wlSrv.getWLFundamentalAnalysis();
                     wlT = wlSrv.getWatchlistThesis();
 
