@@ -297,26 +297,6 @@ public class WatchlistController
 
                     wlExis.addReference(newREf);
 
-                    // TY_WLPartRequest partREq = new TY_WLPartRequest();
-                    // partREq.setEntityName(EnumWLPart.Reference);
-                    // partREq.setOperation(EnumWLPartOperation.Create);
-                    // partREq.setReference(newREf);
-                    // partREq.setScrip(ref.getScrip());
-
-                    // EN_Watchlist wlExisUpdated = wlSrv.updateWatchlistPart(partREq);
-
-                    // if (wlExisUpdated != null)
-                    // {
-                    // // Update for this WLDB in user session
-                    // // REplace wlDb in Current Session
-                    // if (wlExisUpdated != null)
-                    // {
-                    // userSessSrv.getUserSessionInformation().getWlEntities()
-                    // .removeIf(wl -> wl.getScrip().equals(ref.getScrip()));
-                    // userSessSrv.getUserSessionInformation().getWlEntities().add(wlExisUpdated);
-                    // }
-                    // }
-
                     wlSrv.updateWatchlistEntry(wlExis, false);
                     if (wlExis != null)
                     {
