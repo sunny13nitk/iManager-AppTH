@@ -72,6 +72,33 @@
                     </ul>
                 </li>
 
+                <li th:if="${userDetails.role=='ADMIN' or userDetails.role=='GENERAL_USER'}">
+                    <a href="#" class="dropdown-toggle">Portfolio</a>
+                    <ul class="d-menu" data-role="dropdown">
+                        <li>
+                            <a th:href="@{/pf/}">
+                                <span class="icon">
+                                    <span class="mif-databases fg-darkGray" style="margin-right:5px;"></span>
+                                </span>
+                                My Portfolio
+                            </a>
+                        </li>
+
+                        <li>
+                            <a th:href="@{/pf/upload}">
+                                <span class="icon">
+                                    <span class="mif-file-upload fg-darkGray" style="margin-right:5px;"></span>
+                                </span>
+                                Update Portfolio
+                            </a>
+                        </li>
+
+
+
+
+                    </ul>
+                </li>
+
                 <li>
                     <a href="#" class="dropdown-toggle">Profile</a>
                     <ul class="d-menu" data-role="dropdown">

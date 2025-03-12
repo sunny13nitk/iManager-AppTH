@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="scrollbar-type-1 sb-steel">
+
+<head>
+
+    <title>iManager</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Metro 4 -->
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/5.0.6/metro.css">
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/current/icons.css">
+
+    <!-- <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4.3.2/css/metro-all.min.css"> -->
+
+    <style>
+        table.scrolldown {
+            width: 100%;
+
+            /* border-collapse: collapse; */
+            border-spacing: 0;
+            border: 2px solid black;
+        }
+
+        /* To display the block as level element */
+        table.scrolldown tbody,
+        table.scrolldown thead {
+            display: block;
+        }
+
+        thead tr th {
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+        }
+
+        table.scrolldown tbody {
+
+            /* Set the height of table body */
+            height: 570px;
+
+            /* Set vertical scroll */
+            overflow-y: auto;
+
+            /* Hide the horizontal scroll */
+            overflow-x: hidden;
+        }
+
+        tbody {
+            border-top: 2px solid black;
+        }
+
+        tbody td,
+
+        thead th {
+            width: 100px;
+            border-right: 2px solid black;
+            text-align: center;
+        }
+
+        th {
+            text-align: center;
+        }
+
+        td {
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- Top Menu Bar Fragment -->
+    <div th:replace="~{fragments/menubar :: iMgrAppBar(userDetails=${userDetails})}"></div>
+    <!-- Table Row  -->
+
+    <!-- Header Row -->
+    <div class="row ">
+
+        <div class="card bg-white bd-lightCyan" style=" width:90%; margin-top: 100px;">
+            <div class="row">
+                <div class="cell-md-3" style="padding: 20px;">
+                    <blockquote class="right-side">
+                        <h4 style="color:  #239EE3; " th:text="${pf.pfHeader.totalInvestmentM}">93.87 Lacs</h4>
+                        <small style="color: #1880BB; font-weight: medium;">Total Investments</small>
+                    </blockquote>
+                </div>
+
+
+                <div class="cell-md-3" style="padding: 20px;">
+                    <blockquote class="right-side">
+                        <h4 style="color:  #239EE3; " th:text="${pf.pfHeader.totalCurrentValueM}">78.56 Lacs</h4>
+                        <small style="color: #1880BB; font-weight: medium;">Current Value</small>
+                    </blockquote>
+                </div>
+
+
+                <div class="cell-md-3" style="padding: 20px;">
+                    <blockquote class="right-side" th:if="${pf.pfHeader.dayPLPer >=0}">
+                        <h4> <span class=" tally"
+                                style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);"
+                                th:text="${pf.pfHeader.dayPLM}">-98.1 K </span>
+                            <span class="tally"
+                                style="font-weight: bolder;font-size:medium ;   background-color: #C4E9D7; color: rgb(6, 144, 66);"
+                                th:text="${pf.pfHeader.dayPLPer}"> -1.2 </span> <span class="tally"
+                                style="font-weight: bolder;font-size:medium; background-color: #C4E9D7; color: rgb(6, 144, 66); margin-left: -12px;">
+                                %
+                            </span>
+                        </h4>
+
+                        <small style="color: #1880BB; font-weight: medium;">Day's P&L</small>
+                    </blockquote>
+
+                    <blockquote class="right-side" th:if="${pf.pfHeader.dayPLPer <0}">
+                        <h4> <span class=" tally"
+                                style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
+                                th:text="${pf.pfHeader.dayPLM}">-98.1 K </span>
+                            <span class="tally"
+                                style="font-weight: bolder;font-size:medium ;   background-color: #faeeea; color: rgb(169, 13, 13);"
+                                th:text="${pf.pfHeader.dayPLPer}"> -1.2 </span> <span class="tally"
+                                style="font-weight: bolder;font-size:medium; background-color: #faeeea; color: rgb(169, 13, 13); margin-left: -12px;">
+                                %
+                            </span>
+                        </h4>
+
+                        <small style="color: #1880BB; font-weight: medium;">Day's P&L</small>
+                    </blockquote>
+                </div>
+
+
+                <div class="cell-md-3" style="padding: 20px;">
+                    <blockquote class="right-side" th:if="${pf.pfHeader.dayPLPer >=0}">
+                        <h4> <span class=" tally"
+                                style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);"
+                                th:text="${pf.pfHeader.totalPLM}">-98.1 K </span>
+                            <span class="tally"
+                                style="font-weight: bolder;font-size:medium ;   background-color: #C4E9D7; color: rgb(6, 144, 66);"
+                                th:text="${pf.pfHeader.totalPLPer}"> -1.2 </span> <span class="tally"
+                                style="font-weight: bolder;font-size:medium; background-color: #C4E9D7; color: rgb(6, 144, 66); margin-left: -12px;">
+                                %
+                            </span>
+                        </h4>
+
+                        <small style="color: #1880BB; font-weight: medium;">Day's P&L</small>
+                    </blockquote>
+
+                    <blockquote class="right-side" th:if="${pf.pfHeader.dayPLPer <0}">
+                        <h4> <span class=" tally"
+                                style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
+                                th:text="${pf.pfHeader.totalPLM}">-98.1 K </span>
+                            <span class="tally"
+                                style="font-weight: bolder;font-size:medium ;   background-color: #faeeea; color: rgb(169, 13, 13);"
+                                th:text="${pf.pfHeader.totalPLPer}"> -1.2 </span> <span class="tally"
+                                style="font-weight: bolder;font-size:medium; background-color: #faeeea; color: rgb(169, 13, 13); margin-left: -12px;">
+                                %
+                            </span>
+                        </h4>
+
+                        <small style="color: #1880BB; font-weight: medium;">Nett. P&L</small>
+                    </blockquote>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Metro 4 -->
+    <script src="https://cdn.metroui.org.ua/5.0.6/metro.js"></script>
+    <!-- <script src="https://cdn.metroui.org.ua/v4.3.2/js/metro.min.js"></script> -->
+</body>
+
+</html>

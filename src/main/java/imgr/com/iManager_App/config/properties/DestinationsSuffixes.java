@@ -21,10 +21,11 @@ public class DestinationsSuffixes
             @Value("${watchlistfundamentals}") final String watchlistfundamentals,
             @Value("${screenertoken}") final String screenertoken,
             @Value("${watchlistthesis}") final String watchlistthesis, @Value("${csrfsess}") final String csrfsess,
-            @Value("${authenticate}") final String authurl, @Value("${watchlistplain}") final String watchlistplain)
+            @Value("${authenticate}") final String authurl, @Value("${watchlistplain}") final String watchlistplain,
+            @Value("${pf}") final String pf)
     {
         TY_DestinationsSuffix destinationsSuffixes = new TY_DestinationsSuffix(baseurl, watchlistdburl, watchlistcmpurl,
-                watchlistfundamentals, screenertoken, watchlistthesis, csrfsess, authurl, watchlistplain);
+                watchlistfundamentals, screenertoken, watchlistthesis, csrfsess, authurl, watchlistplain, pf);
         return destinationsSuffixes;
     }
 }

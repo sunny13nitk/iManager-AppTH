@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 
+import imgr.com.iManager_App.ui.pojos.TY_PF;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
 
 public class TestUtility
@@ -1534,6 +1535,580 @@ public class TestUtility
 
     }
 
+    public static String getPFJSON()
+    {
+        String jsonString = "{\r\n" + //
+                "\t\"pfHeader\": {\r\n" + //
+                "\t\t\"user\": \"admin\",\r\n" + //
+                "\t\t\"totalInvestment\": 9386877.0,\r\n" + //
+                "\t\t\"totalInvestmentM\": \"93.87 Lacs\",\r\n" + //
+                "\t\t\"totalCurrentValue\": 7855849.0,\r\n" + //
+                "\t\t\"totalCurrentValueM\": \"78.56 Lacs\",\r\n" + //
+                "\t\t\"totalPL\": -1531028.0,\r\n" + //
+                "\t\t\"totalPLM\": \"-15.31 Lacs\",\r\n" + //
+                "\t\t\"totalPLPer\": -16.3,\r\n" + //
+                "\t\t\"dayPL\": -77115.0,\r\n" + //
+                "\t\t\"dayPLM\": \"-77.1 K\",\r\n" + //
+                "\t\t\"dayPLPer\": -98.1\r\n" + //
+                "\t},\r\n" + //
+                "\t\"pfItems\": [\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"ABB\",\r\n" + //
+                "\t\t\t\"units\": 40.0,\r\n" + //
+                "\t\t\t\"ppu\": 5157.68,\r\n" + //
+                "\t\t\t\"cmp\": 5116.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"-0.28%\",\r\n" + //
+                "\t\t\t\"daysChgD\": -0.28,\r\n" + //
+                "\t\t\t\"inv\": 206307.0,\r\n" + //
+                "\t\t\t\"invM\": \"2.06 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 2.2,\r\n" + //
+                "\t\t\t\"curVal\": 204640.0,\r\n" + //
+                "\t\t\t\"curValM\": \"2.05 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 2.6,\r\n" + //
+                "\t\t\t\"plPer\": -0.8,\r\n" + //
+                "\t\t\t\"plAbs\": -1667.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"-1.67 K\",\r\n" + //
+                "\t\t\t\"plPerDay\": -573.0,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"-573.0\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"ARROWGREEN\",\r\n" + //
+                "\t\t\t\"units\": 254.0,\r\n" + //
+                "\t\t\t\"ppu\": 646.47,\r\n" + //
+                "\t\t\t\"cmp\": 530.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"0.08%\",\r\n" + //
+                "\t\t\t\"daysChgD\": 0.08,\r\n" + //
+                "\t\t\t\"inv\": 164203.0,\r\n" + //
+                "\t\t\t\"invM\": \"1.64 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 1.7,\r\n" + //
+                "\t\t\t\"curVal\": 134620.0,\r\n" + //
+                "\t\t\t\"curValM\": \"1.35 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 1.7,\r\n" + //
+                "\t\t\t\"plPer\": -18.0,\r\n" + //
+                "\t\t\t\"plAbs\": -29583.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"-29.58 K\",\r\n" + //
+                "\t\t\t\"plPerDay\": 107.7,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"107.7\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"AURIONPRO\",\r\n" + //
+                "\t\t\t\"units\": 190.0,\r\n" + //
+                "\t\t\t\"ppu\": 1746.52,\r\n" + //
+                "\t\t\t\"cmp\": 1319.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"-4.45%\",\r\n" + //
+                "\t\t\t\"daysChgD\": -4.45,\r\n" + //
+                "\t\t\t\"inv\": 331839.0,\r\n" + //
+                "\t\t\t\"invM\": \"3.32 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 3.5,\r\n" + //
+                "\t\t\t\"curVal\": 250610.0,\r\n" + //
+                "\t\t\t\"curValM\": \"2.51 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 3.2,\r\n" + //
+                "\t\t\t\"plPer\": -24.5,\r\n" + //
+                "\t\t\t\"plAbs\": -81229.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"-81.23 K\",\r\n" + //
+                "\t\t\t\"plPerDay\": -11152.1,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"-11.15 K\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"BALUFORGE\",\r\n" + //
+                "\t\t\t\"units\": 379.0,\r\n" + //
+                "\t\t\t\"ppu\": 571.06,\r\n" + //
+                "\t\t\t\"cmp\": 453.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"-1.03%\",\r\n" + //
+                "\t\t\t\"daysChgD\": -1.03,\r\n" + //
+                "\t\t\t\"inv\": 216432.0,\r\n" + //
+                "\t\t\t\"invM\": \"2.16 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 2.3,\r\n" + //
+                "\t\t\t\"curVal\": 171687.0,\r\n" + //
+                "\t\t\t\"curValM\": \"1.72 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 2.2,\r\n" + //
+                "\t\t\t\"plPer\": -20.7,\r\n" + //
+                "\t\t\t\"plAbs\": -44745.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"-44.74 K\",\r\n" + //
+                "\t\t\t\"plPerDay\": -1768.4,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"-1.77 K\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"BLS\",\r\n" + //
+                "\t\t\t\"units\": 510.0,\r\n" + //
+                "\t\t\t\"ppu\": 373.49,\r\n" + //
+                "\t\t\t\"cmp\": 328.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"0.20%\",\r\n" + //
+                "\t\t\t\"daysChgD\": 0.2,\r\n" + //
+                "\t\t\t\"inv\": 190480.0,\r\n" + //
+                "\t\t\t\"invM\": \"1.9 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 2.0,\r\n" + //
+                "\t\t\t\"curVal\": 167280.0,\r\n" + //
+                "\t\t\t\"curValM\": \"1.67 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 2.1,\r\n" + //
+                "\t\t\t\"plPer\": -12.2,\r\n" + //
+                "\t\t\t\"plAbs\": -23200.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"-23.2 K\",\r\n" + //
+                "\t\t\t\"plPerDay\": 334.6,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"334.6\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"CDSL\",\r\n" + //
+                "\t\t\t\"units\": 190.0,\r\n" + //
+                "\t\t\t\"ppu\": 1736.8,\r\n" + //
+                "\t\t\t\"cmp\": 1091.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"-1.21%\",\r\n" + //
+                "\t\t\t\"daysChgD\": -1.21,\r\n" + //
+                "\t\t\t\"inv\": 329992.0,\r\n" + //
+                "\t\t\t\"invM\": \"3.3 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 3.5,\r\n" + //
+                "\t\t\t\"curVal\": 207290.0,\r\n" + //
+                "\t\t\t\"curValM\": \"2.07 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 2.6,\r\n" + //
+                "\t\t\t\"plPer\": -37.2,\r\n" + //
+                "\t\t\t\"plAbs\": -122702.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"-1.23 Lacs\",\r\n" + //
+                "\t\t\t\"plPerDay\": -2508.2,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"-2.51 K\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"CUMMINSIND\",\r\n" + //
+                "\t\t\t\"units\": 70.0,\r\n" + //
+                "\t\t\t\"ppu\": 2718.24,\r\n" + //
+                "\t\t\t\"cmp\": 2791.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"-2.96%\",\r\n" + //
+                "\t\t\t\"daysChgD\": -2.96,\r\n" + //
+                "\t\t\t\"inv\": 190277.0,\r\n" + //
+                "\t\t\t\"invM\": \"1.9 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 2.0,\r\n" + //
+                "\t\t\t\"curVal\": 195370.0,\r\n" + //
+                "\t\t\t\"curValM\": \"1.95 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 2.5,\r\n" + //
+                "\t\t\t\"plPer\": 2.7,\r\n" + //
+                "\t\t\t\"plAbs\": 5093.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"5.09 K\",\r\n" + //
+                "\t\t\t\"plPerDay\": -5783.0,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"-5.78 K\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"DOMS\",\r\n" + //
+                "\t\t\t\"units\": 80.0,\r\n" + //
+                "\t\t\t\"ppu\": 2130.23,\r\n" + //
+                "\t\t\t\"cmp\": 2802.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"2.39%\",\r\n" + //
+                "\t\t\t\"daysChgD\": 2.39,\r\n" + //
+                "\t\t\t\"inv\": 170418.0,\r\n" + //
+                "\t\t\t\"invM\": \"1.7 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 1.8,\r\n" + //
+                "\t\t\t\"curVal\": 224160.0,\r\n" + //
+                "\t\t\t\"curValM\": \"2.24 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 2.9,\r\n" + //
+                "\t\t\t\"plPer\": 31.5,\r\n" + //
+                "\t\t\t\"plAbs\": 53742.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"53.74 K\",\r\n" + //
+                "\t\t\t\"plPerDay\": 5357.4,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"5.36 K\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"DSSL\",\r\n" + //
+                "\t\t\t\"units\": 222.0,\r\n" + //
+                "\t\t\t\"ppu\": 1086.41,\r\n" + //
+                "\t\t\t\"cmp\": 1002.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"-0.51%\",\r\n" + //
+                "\t\t\t\"daysChgD\": -0.51,\r\n" + //
+                "\t\t\t\"inv\": 241183.0,\r\n" + //
+                "\t\t\t\"invM\": \"2.41 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 2.6,\r\n" + //
+                "\t\t\t\"curVal\": 222444.0,\r\n" + //
+                "\t\t\t\"curValM\": \"2.22 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 2.8,\r\n" + //
+                "\t\t\t\"plPer\": -7.8,\r\n" + //
+                "\t\t\t\"plAbs\": -18739.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"-18.74 K\",\r\n" + //
+                "\t\t\t\"plPerDay\": -1134.5,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"-1.13 K\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"DYCL\",\r\n" + //
+                "\t\t\t\"units\": 287.0,\r\n" + //
+                "\t\t\t\"ppu\": 643.16,\r\n" + //
+                "\t\t\t\"cmp\": 593.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"-2.35%\",\r\n" + //
+                "\t\t\t\"daysChgD\": -2.35,\r\n" + //
+                "\t\t\t\"inv\": 184587.0,\r\n" + //
+                "\t\t\t\"invM\": \"1.85 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 2.0,\r\n" + //
+                "\t\t\t\"curVal\": 170191.0,\r\n" + //
+                "\t\t\t\"curValM\": \"1.7 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 2.2,\r\n" + //
+                "\t\t\t\"plPer\": -7.8,\r\n" + //
+                "\t\t\t\"plAbs\": -14396.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"-14.4 K\",\r\n" + //
+                "\t\t\t\"plPerDay\": -3999.5,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"-4.0 K\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"ETHOSLTD\",\r\n" + //
+                "\t\t\t\"units\": 114.0,\r\n" + //
+                "\t\t\t\"ppu\": 3065.1,\r\n" + //
+                "\t\t\t\"cmp\": 2488.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"-0.56%\",\r\n" + //
+                "\t\t\t\"daysChgD\": -0.56,\r\n" + //
+                "\t\t\t\"inv\": 349421.0,\r\n" + //
+                "\t\t\t\"invM\": \"3.49 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 3.7,\r\n" + //
+                "\t\t\t\"curVal\": 283632.0,\r\n" + //
+                "\t\t\t\"curValM\": \"2.84 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 3.6,\r\n" + //
+                "\t\t\t\"plPer\": -18.8,\r\n" + //
+                "\t\t\t\"plAbs\": -65789.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"-65.79 K\",\r\n" + //
+                "\t\t\t\"plPerDay\": -1588.3,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"-1.59 K\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"GANESHHOUC\",\r\n" + //
+                "\t\t\t\"units\": 304.0,\r\n" + //
+                "\t\t\t\"ppu\": 1268.7,\r\n" + //
+                "\t\t\t\"cmp\": 1008.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"-2.78%\",\r\n" + //
+                "\t\t\t\"daysChgD\": -2.78,\r\n" + //
+                "\t\t\t\"inv\": 385685.0,\r\n" + //
+                "\t\t\t\"invM\": \"3.86 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 4.1,\r\n" + //
+                "\t\t\t\"curVal\": 306432.0,\r\n" + //
+                "\t\t\t\"curValM\": \"3.06 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 3.9,\r\n" + //
+                "\t\t\t\"plPer\": -20.5,\r\n" + //
+                "\t\t\t\"plAbs\": -79253.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"-79.25 K\",\r\n" + //
+                "\t\t\t\"plPerDay\": -8518.8,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"-8.52 K\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"GRAVITA\",\r\n" + //
+                "\t\t\t\"units\": 127.0,\r\n" + //
+                "\t\t\t\"ppu\": 1690.71,\r\n" + //
+                "\t\t\t\"cmp\": 1613.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"-2.44%\",\r\n" + //
+                "\t\t\t\"daysChgD\": -2.44,\r\n" + //
+                "\t\t\t\"inv\": 214720.0,\r\n" + //
+                "\t\t\t\"invM\": \"2.15 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 2.3,\r\n" + //
+                "\t\t\t\"curVal\": 204851.0,\r\n" + //
+                "\t\t\t\"curValM\": \"2.05 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 2.6,\r\n" + //
+                "\t\t\t\"plPer\": -4.6,\r\n" + //
+                "\t\t\t\"plAbs\": -9869.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"-9.87 K\",\r\n" + //
+                "\t\t\t\"plPerDay\": -4998.4,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"-5.0 K\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"GRWRHITECH\",\r\n" + //
+                "\t\t\t\"units\": 99.0,\r\n" + //
+                "\t\t\t\"ppu\": 4505.77,\r\n" + //
+                "\t\t\t\"cmp\": 3926.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"-0.61%\",\r\n" + //
+                "\t\t\t\"daysChgD\": -0.61,\r\n" + //
+                "\t\t\t\"inv\": 446071.0,\r\n" + //
+                "\t\t\t\"invM\": \"4.46 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 4.8,\r\n" + //
+                "\t\t\t\"curVal\": 388674.0,\r\n" + //
+                "\t\t\t\"curValM\": \"3.89 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 4.9,\r\n" + //
+                "\t\t\t\"plPer\": -12.9,\r\n" + //
+                "\t\t\t\"plAbs\": -57397.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"-57.4 K\",\r\n" + //
+                "\t\t\t\"plPerDay\": -2370.9,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"-2.37 K\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"HBLENGINE\",\r\n" + //
+                "\t\t\t\"units\": 583.0,\r\n" + //
+                "\t\t\t\"ppu\": 598.22,\r\n" + //
+                "\t\t\t\"cmp\": 424.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"-3.18%\",\r\n" + //
+                "\t\t\t\"daysChgD\": -3.18,\r\n" + //
+                "\t\t\t\"inv\": 348762.0,\r\n" + //
+                "\t\t\t\"invM\": \"3.49 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 3.7,\r\n" + //
+                "\t\t\t\"curVal\": 247192.0,\r\n" + //
+                "\t\t\t\"curValM\": \"2.47 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 3.1,\r\n" + //
+                "\t\t\t\"plPer\": -29.1,\r\n" + //
+                "\t\t\t\"plAbs\": -101570.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"-1.02 Lacs\",\r\n" + //
+                "\t\t\t\"plPerDay\": -7860.7,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"-7.86 K\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"KAYNES\",\r\n" + //
+                "\t\t\t\"units\": 144.0,\r\n" + //
+                "\t\t\t\"ppu\": 5391.14,\r\n" + //
+                "\t\t\t\"cmp\": 4365.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"1.38%\",\r\n" + //
+                "\t\t\t\"daysChgD\": 1.38,\r\n" + //
+                "\t\t\t\"inv\": 776324.0,\r\n" + //
+                "\t\t\t\"invM\": \"7.76 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 8.3,\r\n" + //
+                "\t\t\t\"curVal\": 628560.0,\r\n" + //
+                "\t\t\t\"curValM\": \"6.29 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 8.0,\r\n" + //
+                "\t\t\t\"plPer\": -19.0,\r\n" + //
+                "\t\t\t\"plAbs\": -147764.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"-1.48 Lacs\",\r\n" + //
+                "\t\t\t\"plPerDay\": 8674.1,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"8.67 K\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"KFINTECH\",\r\n" + //
+                "\t\t\t\"units\": 337.0,\r\n" + //
+                "\t\t\t\"ppu\": 1114.29,\r\n" + //
+                "\t\t\t\"cmp\": 921.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"0.85%\",\r\n" + //
+                "\t\t\t\"daysChgD\": 0.85,\r\n" + //
+                "\t\t\t\"inv\": 375516.0,\r\n" + //
+                "\t\t\t\"invM\": \"3.76 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 4.0,\r\n" + //
+                "\t\t\t\"curVal\": 310377.0,\r\n" + //
+                "\t\t\t\"curValM\": \"3.1 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 4.0,\r\n" + //
+                "\t\t\t\"plPer\": -17.3,\r\n" + //
+                "\t\t\t\"plAbs\": -65139.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"-65.14 K\",\r\n" + //
+                "\t\t\t\"plPerDay\": 2638.2,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"2.64 K\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"MOTILALOFS\",\r\n" + //
+                "\t\t\t\"units\": 414.0,\r\n" + //
+                "\t\t\t\"ppu\": 925.66,\r\n" + //
+                "\t\t\t\"cmp\": 585.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"-1.16%\",\r\n" + //
+                "\t\t\t\"daysChgD\": -1.16,\r\n" + //
+                "\t\t\t\"inv\": 383223.0,\r\n" + //
+                "\t\t\t\"invM\": \"3.83 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 4.1,\r\n" + //
+                "\t\t\t\"curVal\": 242190.0,\r\n" + //
+                "\t\t\t\"curValM\": \"2.42 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 3.1,\r\n" + //
+                "\t\t\t\"plPer\": -36.8,\r\n" + //
+                "\t\t\t\"plAbs\": -141033.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"-1.41 Lacs\",\r\n" + //
+                "\t\t\t\"plPerDay\": -2809.4,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"-2.81 K\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"NUVAMA\",\r\n" + //
+                "\t\t\t\"units\": 40.0,\r\n" + //
+                "\t\t\t\"ppu\": 5295.45,\r\n" + //
+                "\t\t\t\"cmp\": 5198.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"1.18%\",\r\n" + //
+                "\t\t\t\"daysChgD\": 1.18,\r\n" + //
+                "\t\t\t\"inv\": 211818.0,\r\n" + //
+                "\t\t\t\"invM\": \"2.12 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 2.3,\r\n" + //
+                "\t\t\t\"curVal\": 207920.0,\r\n" + //
+                "\t\t\t\"curValM\": \"2.08 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 2.6,\r\n" + //
+                "\t\t\t\"plPer\": -1.8,\r\n" + //
+                "\t\t\t\"plAbs\": -3898.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"-3.9 K\",\r\n" + //
+                "\t\t\t\"plPerDay\": 2453.5,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"2.45 K\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"PGEL\",\r\n" + //
+                "\t\t\t\"units\": 712.0,\r\n" + //
+                "\t\t\t\"ppu\": 870.2,\r\n" + //
+                "\t\t\t\"cmp\": 860.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"-3.67%\",\r\n" + //
+                "\t\t\t\"daysChgD\": -3.67,\r\n" + //
+                "\t\t\t\"inv\": 619582.0,\r\n" + //
+                "\t\t\t\"invM\": \"6.2 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 6.6,\r\n" + //
+                "\t\t\t\"curVal\": 612320.0,\r\n" + //
+                "\t\t\t\"curValM\": \"6.12 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 7.8,\r\n" + //
+                "\t\t\t\"plPer\": -1.2,\r\n" + //
+                "\t\t\t\"plAbs\": -7262.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"-7.26 K\",\r\n" + //
+                "\t\t\t\"plPerDay\": -22472.1,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"-22.47 K\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"POLYMED\",\r\n" + //
+                "\t\t\t\"units\": 104.0,\r\n" + //
+                "\t\t\t\"ppu\": 2163.32,\r\n" + //
+                "\t\t\t\"cmp\": 2206.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"-0.08%\",\r\n" + //
+                "\t\t\t\"daysChgD\": -0.08,\r\n" + //
+                "\t\t\t\"inv\": 224985.0,\r\n" + //
+                "\t\t\t\"invM\": \"2.25 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 2.4,\r\n" + //
+                "\t\t\t\"curVal\": 229424.0,\r\n" + //
+                "\t\t\t\"curValM\": \"2.29 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 2.9,\r\n" + //
+                "\t\t\t\"plPer\": 2.0,\r\n" + //
+                "\t\t\t\"plAbs\": 4439.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"4.44 K\",\r\n" + //
+                "\t\t\t\"plPerDay\": -183.5,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"-183.5\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"SJS\",\r\n" + //
+                "\t\t\t\"units\": 310.0,\r\n" + //
+                "\t\t\t\"ppu\": 1127.09,\r\n" + //
+                "\t\t\t\"cmp\": 833.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"-1.16%\",\r\n" + //
+                "\t\t\t\"daysChgD\": -1.16,\r\n" + //
+                "\t\t\t\"inv\": 349398.0,\r\n" + //
+                "\t\t\t\"invM\": \"3.49 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 3.7,\r\n" + //
+                "\t\t\t\"curVal\": 258230.0,\r\n" + //
+                "\t\t\t\"curValM\": \"2.58 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 3.3,\r\n" + //
+                "\t\t\t\"plPer\": -26.1,\r\n" + //
+                "\t\t\t\"plAbs\": -91168.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"-91.17 K\",\r\n" + //
+                "\t\t\t\"plPerDay\": -2995.5,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"-3.0 K\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"SKYGOLD\",\r\n" + //
+                "\t\t\t\"units\": 1287.0,\r\n" + //
+                "\t\t\t\"ppu\": 350.0,\r\n" + //
+                "\t\t\t\"cmp\": 344.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"-1.18%\",\r\n" + //
+                "\t\t\t\"daysChgD\": -1.18,\r\n" + //
+                "\t\t\t\"inv\": 450450.0,\r\n" + //
+                "\t\t\t\"invM\": \"4.5 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 4.8,\r\n" + //
+                "\t\t\t\"curVal\": 442728.0,\r\n" + //
+                "\t\t\t\"curValM\": \"4.43 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 5.6,\r\n" + //
+                "\t\t\t\"plPer\": -1.7,\r\n" + //
+                "\t\t\t\"plAbs\": -7722.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"-7.72 K\",\r\n" + //
+                "\t\t\t\"plPerDay\": -5224.2,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"-5.22 K\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"TARIL\",\r\n" + //
+                "\t\t\t\"units\": 674.0,\r\n" + //
+                "\t\t\t\"ppu\": 553.51,\r\n" + //
+                "\t\t\t\"cmp\": 383.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"-1.93%\",\r\n" + //
+                "\t\t\t\"daysChgD\": -1.93,\r\n" + //
+                "\t\t\t\"inv\": 373066.0,\r\n" + //
+                "\t\t\t\"invM\": \"3.73 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 4.0,\r\n" + //
+                "\t\t\t\"curVal\": 258142.0,\r\n" + //
+                "\t\t\t\"curValM\": \"2.58 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 3.3,\r\n" + //
+                "\t\t\t\"plPer\": -30.8,\r\n" + //
+                "\t\t\t\"plAbs\": -114924.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"-1.15 Lacs\",\r\n" + //
+                "\t\t\t\"plPerDay\": -4982.1,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"-4.98 K\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"TRENT\",\r\n" + //
+                "\t\t\t\"units\": 65.0,\r\n" + //
+                "\t\t\t\"ppu\": 5425.0,\r\n" + //
+                "\t\t\t\"cmp\": 5005.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"0.21%\",\r\n" + //
+                "\t\t\t\"daysChgD\": 0.21,\r\n" + //
+                "\t\t\t\"inv\": 352625.0,\r\n" + //
+                "\t\t\t\"invM\": \"3.53 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 3.8,\r\n" + //
+                "\t\t\t\"curVal\": 325325.0,\r\n" + //
+                "\t\t\t\"curValM\": \"3.25 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 4.1,\r\n" + //
+                "\t\t\t\"plPer\": -7.7,\r\n" + //
+                "\t\t\t\"plAbs\": -27300.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"-27.3 K\",\r\n" + //
+                "\t\t\t\"plPerDay\": 683.2,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"683.2\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"VBL\",\r\n" + //
+                "\t\t\t\"units\": 442.0,\r\n" + //
+                "\t\t\t\"ppu\": 508.97,\r\n" + //
+                "\t\t\t\"cmp\": 482.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"-0.67%\",\r\n" + //
+                "\t\t\t\"daysChgD\": -0.67,\r\n" + //
+                "\t\t\t\"inv\": 224965.0,\r\n" + //
+                "\t\t\t\"invM\": \"2.25 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 2.4,\r\n" + //
+                "\t\t\t\"curVal\": 213044.0,\r\n" + //
+                "\t\t\t\"curValM\": \"2.13 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 2.7,\r\n" + //
+                "\t\t\t\"plPer\": -5.3,\r\n" + //
+                "\t\t\t\"plAbs\": -11921.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"-11.92 K\",\r\n" + //
+                "\t\t\t\"plPerDay\": -1427.4,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"-1.43 K\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"WAAREEENER\",\r\n" + //
+                "\t\t\t\"units\": 107.0,\r\n" + //
+                "\t\t\t\"ppu\": 2240.43,\r\n" + //
+                "\t\t\t\"cmp\": 2124.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"0.37%\",\r\n" + //
+                "\t\t\t\"daysChgD\": 0.37,\r\n" + //
+                "\t\t\t\"inv\": 239726.0,\r\n" + //
+                "\t\t\t\"invM\": \"2.4 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 2.6,\r\n" + //
+                "\t\t\t\"curVal\": 227268.0,\r\n" + //
+                "\t\t\t\"curValM\": \"2.27 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 2.9,\r\n" + //
+                "\t\t\t\"plPer\": -5.2,\r\n" + //
+                "\t\t\t\"plAbs\": -12458.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"-12.46 K\",\r\n" + //
+                "\t\t\t\"plPerDay\": 840.9,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"840.9\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"ZAGGLE\",\r\n" + //
+                "\t\t\t\"units\": 793.0,\r\n" + //
+                "\t\t\t\"ppu\": 536.33,\r\n" + //
+                "\t\t\t\"cmp\": 324.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"-2.69%\",\r\n" + //
+                "\t\t\t\"daysChgD\": -2.69,\r\n" + //
+                "\t\t\t\"inv\": 425310.0,\r\n" + //
+                "\t\t\t\"invM\": \"4.25 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 4.5,\r\n" + //
+                "\t\t\t\"curVal\": 256932.0,\r\n" + //
+                "\t\t\t\"curValM\": \"2.57 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 3.3,\r\n" + //
+                "\t\t\t\"plPer\": -39.6,\r\n" + //
+                "\t\t\t\"plAbs\": -168378.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"-1.68 Lacs\",\r\n" + //
+                "\t\t\t\"plPerDay\": -6911.5,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"-6.91 K\"\r\n" + //
+                "\t\t},\r\n" + //
+                "\t\t{\r\n" + //
+                "\t\t\t\"scrip\": \"ZENTEC\",\r\n" + //
+                "\t\t\t\"units\": 221.0,\r\n" + //
+                "\t\t\t\"ppu\": 1852.99,\r\n" + //
+                "\t\t\t\"cmp\": 1196.0,\r\n" + //
+                "\t\t\t\"daysChg\": \"0.40%\",\r\n" + //
+                "\t\t\t\"daysChgD\": 0.4,\r\n" + //
+                "\t\t\t\"inv\": 409511.0,\r\n" + //
+                "\t\t\t\"invM\": \"4.1 Lacs\",\r\n" + //
+                "\t\t\t\"perByInv\": 4.4,\r\n" + //
+                "\t\t\t\"curVal\": 264316.0,\r\n" + //
+                "\t\t\t\"curValM\": \"2.64 Lacs\",\r\n" + //
+                "\t\t\t\"perByCurVal\": 3.4,\r\n" + //
+                "\t\t\t\"plPer\": -35.5,\r\n" + //
+                "\t\t\t\"plAbs\": -145195.0,\r\n" + //
+                "\t\t\t\"plAbsM\": \"-1.45 Lacs\",\r\n" + //
+                "\t\t\t\"plPerDay\": 1057.3,\r\n" + //
+                "\t\t\t\"plPerDayM\": \"1.06 K\"\r\n" + //
+                "\t\t}\r\n" + //
+                "\t]\r\n" + //
+                "}";
+
+        return jsonString;
+    }
+
     public static List<TY_WLDB> getWLDB4mJSON() throws Exception
     {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -1543,6 +2118,15 @@ public class TestUtility
         List<TY_WLDB> wlDBResp = objectMapper.readValue(getWLJSON(), collectionType);
 
         return wlDBResp;
+    }
+
+    public static TY_PF getPF4mJSON() throws Exception
+    {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        TY_PF pf = objectMapper.readValue(getPFJSON(), TY_PF.class);
+
+        return pf;
     }
 
 }

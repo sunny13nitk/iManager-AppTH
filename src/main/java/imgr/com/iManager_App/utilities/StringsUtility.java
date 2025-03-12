@@ -41,15 +41,25 @@ public class StringsUtility
                 String[] allparts = baseString.split(separator);
 
                 int i = 0;
-                for (i = 0; i < (allparts.length ); i++)
+                for (i = 0; i < (allparts.length); i++)
                 {
-                    parsedUrl = parsedUrl + allparts[i] + replStrings[i];
+                    if (i < replStrings.length)
+                    {
+                        parsedUrl = parsedUrl + allparts[i] + replStrings[i];
+                    }
+                    else
+                    {
+
+                        parsedUrl += allparts[i]; // Final Part
+
+                    }
+
                 }
-                if (i <= (allparts.length -1))
+
+                if (i <= (allparts.length - 1))
                 {
                     parsedUrl += allparts[i]; // Final Part
                 }
-
             }
 
         }

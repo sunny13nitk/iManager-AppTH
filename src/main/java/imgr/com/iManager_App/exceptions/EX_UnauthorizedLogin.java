@@ -1,4 +1,4 @@
-package imgr.com.iManager_App.exceptions.handler;
+package imgr.com.iManager_App.exceptions;
 
 import lombok.extern.slf4j.Slf4j;
 

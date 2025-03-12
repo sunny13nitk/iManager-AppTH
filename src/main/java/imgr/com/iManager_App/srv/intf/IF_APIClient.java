@@ -1,6 +1,6 @@
 package imgr.com.iManager_App.srv.intf;
 
-import imgr.com.iManager_App.exceptions.handler.EX_APIClient;
+import imgr.com.iManager_App.exceptions.EX_APIClient;
 import imgr.com.iManager_App.srv.pojos.TY_SCToken;
 import imgr.com.iManager_App.ui.pojos.TY_Credentials;
 

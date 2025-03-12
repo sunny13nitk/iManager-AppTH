@@ -11,8 +11,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.servlet.ModelAndView;
 
-import imgr.com.iManager_App.exceptions.handler.EX_UnauthorizedLogin;
-import imgr.com.iManager_App.exceptions.handler.EX_UserSession;
+import imgr.com.iManager_App.exceptions.EX_UnauthorizedLogin;
+import imgr.com.iManager_App.exceptions.EX_UserSession;
 import imgr.com.iManager_App.srv.intf.IF_APIClient;
 import imgr.com.iManager_App.srv.intf.IF_UserSessionSrv;
 import imgr.com.iManager_App.srv.pojos.TY_Login;

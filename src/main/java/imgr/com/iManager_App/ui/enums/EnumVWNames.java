@@ -3,5 +3,5 @@ package imgr.com.iManager_App.ui.enums;
 public enum EnumVWNames
 {
     Home, Login, WatchlistDashboard, Tokens, Principal, WLDetailsScreener, Error, WLHeaderEdit, WLRefAdd, TriggerAdd,
-    TagAdd
+    TagAdd, PortfolioOverview
 }

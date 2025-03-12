@@ -23,7 +23,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import imgr.com.iManager_App.exceptions.handler.EX_APIClient;
+import imgr.com.iManager_App.exceptions.EX_APIClient;
 import imgr.com.iManager_App.srv.intf.IF_APIClient;
 import imgr.com.iManager_App.srv.intf.IF_UserSessionSrv;
 import imgr.com.iManager_App.srv.pojos.TY_SCToken;
