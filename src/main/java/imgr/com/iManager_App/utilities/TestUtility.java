@@ -1549,7 +1549,7 @@ public class TestUtility
                 "\t\t\"totalPLPer\": -16.3,\r\n" + //
                 "\t\t\"dayPL\": -77115.0,\r\n" + //
                 "\t\t\"dayPLM\": \"-77.1 K\",\r\n" + //
-                "\t\t\"dayPLPer\": -98.1\r\n" + //
+                "\t\t\"dayPLPer\": -0.98\r\n" + //
                 "\t},\r\n" + //
                 "\t\"pfItems\": [\r\n" + //
                 "\t\t{\r\n" + //

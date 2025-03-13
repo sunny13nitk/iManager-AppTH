@@ -73,12 +73,23 @@
 <body>
     <!-- Top Menu Bar Fragment -->
     <div th:replace="~{fragments/menubar :: iMgrAppBar(userDetails=${userDetails})}"></div>
-    <!-- Table Row  -->
+
 
     <!-- Header Row -->
+    <div class="row flex-justify-center" style="margin-top: 80px;">
+        <h4 style="color:  #239EE3; ">
+            <span class="mif-databases fg-cyan" style="margin-right:5px;"></span>
+            My Portfolio
+
+            <a href="#" class="button info cycle small outline" th:href="@{/pf/}" role="button" style="margin-left: 10px;margin-bottom: +6px;">
+                <span class="mif-refresh  mif-2x"></span>
+            </a>
+        </h4>
+
+    </div>
     <div class="row ">
 
-        <div class="card bg-white bd-lightCyan" style=" width:90%; margin-top: 100px;">
+        <div class="card bg-white bd-lightCyan" style=" width:90%; margin-top: -15px;">
             <div class="row">
                 <div class="cell-md-3" style="padding: 20px;">
                     <blockquote class="right-side">
@@ -89,8 +100,22 @@
 
 
                 <div class="cell-md-3" style="padding: 20px;">
-                    <blockquote class="right-side">
-                        <h4 style="color:  #239EE3; " th:text="${pf.pfHeader.totalCurrentValueM}">78.56 Lacs</h4>
+
+                    <blockquote class="right-side"
+                        th:if="${pf.pfHeader.totalCurrentValue > pf.pfHeader.totalInvestment}">
+                        <h4 style="color:  #239EE3; ">
+                            <span class="mif-arrow-drop-up mif-2x fg-darkGreen" style="margin-top: -5px;"> </span>
+                            <span th:text="${pf.pfHeader.totalCurrentValueM}" style="margin-top: -15px;"></span>
+                        </h4>
+                        <small style="color: #1880BB; font-weight: medium;">Current Value</small>
+                    </blockquote>
+
+                    <blockquote class="right-side"
+                        th:if="${pf.pfHeader.totalCurrentValue < pf.pfHeader.totalInvestment}">
+                        <h4 style="color:  #239EE3; ">
+                            <span class="mif-arrow-drop-down mif-2x fg-red" style="margin-top: -5px;"> </span>
+                            <span th:text="${pf.pfHeader.totalCurrentValueM}" style="margin-top: -15px;"></span>
+                        </h4>
                         <small style="color: #1880BB; font-weight: medium;">Current Value</small>
                     </blockquote>
                 </div>
