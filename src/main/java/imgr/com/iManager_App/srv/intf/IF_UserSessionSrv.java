@@ -2,7 +2,6 @@ package imgr.com.iManager_App.srv.intf;
 
 import java.util.List;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.web.servlet.ModelAndView;
 
 import imgr.com.iManager_App.srv.pojos.TY_Login;
@@ -10,6 +9,8 @@ import imgr.com.iManager_App.srv.pojos.TY_SCToken;
 import imgr.com.iManager_App.srv.pojos.TY_UserSessionInfo;
 import imgr.com.iManager_App.ui.enums.EnumVWNames;
 import imgr.com.iManager_App.ui.pojos.EN_Watchlist;
+import imgr.com.iManager_App.ui.pojos.TY_PF;
+import imgr.com.iManager_App.ui.pojos.TY_PFItem;
 import imgr.com.iManager_App.ui.pojos.TY_ScripAnalysisData;
 import imgr.com.iManager_App.ui.pojos.TY_UserRole;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
@@ -51,4 +52,8 @@ public interface IF_UserSessionSrv
     public String getLoggedinUserRole();
 
     public TY_UserRole getUserDetails();
+
+    public void setUserPF(TY_PF userPF);
+
+    public TY_PFItem getPFScan4Scrip(String scrip);
 }

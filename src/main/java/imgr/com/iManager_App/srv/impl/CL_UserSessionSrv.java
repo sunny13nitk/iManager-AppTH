@@ -3,6 +3,7 @@ package imgr.com.iManager_App.srv.impl;
 import java.util.Base64;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.context.MessageSource;
@@ -24,6 +25,8 @@ import imgr.com.iManager_App.ui.enums.EnumVWNames;
 import imgr.com.iManager_App.ui.pojos.EN_Watchlist;
 import imgr.com.iManager_App.ui.pojos.TY_Credentials;
 import imgr.com.iManager_App.ui.pojos.TY_DestinationsSuffix;
+import imgr.com.iManager_App.ui.pojos.TY_PF;
+import imgr.com.iManager_App.ui.pojos.TY_PFItem;
 import imgr.com.iManager_App.ui.pojos.TY_ScripAnalysisData;
 import imgr.com.iManager_App.ui.pojos.TY_UserRole;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
@@ -39,6 +42,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CL_UserSessionSrv implements IF_UserSessionSrv
 {
+
+    private final CL_APIClient CL_APIClient;
 
     private TY_UserSessionInfo userInfo;
 
@@ -227,6 +232,38 @@ public class CL_UserSessionSrv implements IF_UserSessionSrv
     public TY_UserRole getUserDetails()
     {
         return new TY_UserRole(this.getUserSessionInformation().getUserName(), getLoggedinUserRole());
+    }
+
+    @Override
+    public void setUserPF(TY_PF userPF)
+    {
+        this.userInfo.setUserPF(userPF);
+    }
+
+    @Override
+    public TY_PFItem getPFScan4Scrip(String scrip)
+    {
+        TY_PFItem pfItem = null;
+        if (StringUtils.hasText(scrip))
+        {
+            if (userInfo.getUserPF() != null)
+            {
+                if (CollectionUtils.isNotEmpty(userInfo.getUserPF().getPfItems()))
+                {
+                    Optional<TY_PFItem> pfItemO = userInfo.getUserPF().getPfItems().stream()
+                            .filter(i -> i.getScrip().toLowerCase().equals(scrip.toLowerCase())).findFirst();
+                    if (pfItemO.isPresent())
+                    {
+                        pfItem = pfItemO.get();
+
+                    }
+
+                }
+            }
+
+        }
+
+        return pfItem;
     }
 
 }

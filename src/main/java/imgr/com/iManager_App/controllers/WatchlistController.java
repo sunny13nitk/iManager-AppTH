@@ -16,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import imgr.com.iManager_App.exceptions.EX_UserSession;
+import imgr.com.iManager_App.srv.impl.CL_APIClient;
+import imgr.com.iManager_App.srv.impl.CL_PFSrvClient;
 import imgr.com.iManager_App.srv.intf.IF_APIClient;
 import imgr.com.iManager_App.srv.intf.IF_UserSessionSrv;
 import imgr.com.iManager_App.srv.intf.IF_WatchlistSrvClient;
@@ -25,6 +27,7 @@ import imgr.com.iManager_App.ui.enums.EnumVWNames;
 import imgr.com.iManager_App.ui.pojos.EN_SCReferences;
 import imgr.com.iManager_App.ui.pojos.EN_SCTriggers;
 import imgr.com.iManager_App.ui.pojos.EN_Watchlist;
+import imgr.com.iManager_App.ui.pojos.TY_PFItem;
 import imgr.com.iManager_App.ui.pojos.TY_Reference;
 import imgr.com.iManager_App.ui.pojos.TY_ScripAnalysisData;
 import imgr.com.iManager_App.ui.pojos.TY_Tag;
@@ -39,6 +42,10 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/wl")
 public class WatchlistController
 {
+
+    private final CL_PFSrvClient CL_PFSrvClient;
+
+    private final CL_APIClient CL_APIClient;
 
     private final IF_UserSessionSrv userSessSrv;
 
@@ -61,6 +68,7 @@ public class WatchlistController
 
                 if (CollectionUtils.isNotEmpty(userSessSrv.getWlDB()))
                 {
+                    // wlDBList = TestUtility.getWLDB4mJSON();
                     wlDBList = wlSrv.refreshWatchlistDb(userSessSrv.getWlDB(), token);
                     wlF = userSessSrv.getUserSessionInformation().getWlFInfo();
                     wlT = userSessSrv.getUserSessionInformation().getWlEntities();
@@ -130,6 +138,58 @@ public class WatchlistController
 
         }
         return VWNamesDirectory.getViewName(EnumVWNames.WLDetailsScreener, false);
+    }
+
+    @GetMapping("/pfScan/{scrip}")
+    public String showPFScanDetails(Model model, @PathVariable String scrip) throws Exception
+    {
+        if (StringUtils.hasText(scrip) && userSessSrv != null)
+        {
+
+            TY_PFItem pfItem = userSessSrv.getPFScan4Scrip(scrip);
+            if (pfItem != null)
+            {
+                // Get details for Selected Scrip from session
+                if (CollectionUtils.isNotEmpty(userSessSrv.getWlDB()))
+                {
+                    Optional<TY_WLDB> wlItemO = userSessSrv.getWlDB().stream().filter(w -> w.getScrip().equals(scrip))
+                            .findFirst();
+                    if (wlItemO.isPresent())
+                    {
+                        model.addAttribute("wlItem", wlItemO.get());
+                    }
+                }
+
+                model.addAttribute("pfItem", pfItem);
+                model.addAttribute("userDetails", userSessSrv.getUserDetails());
+
+                // Add WL Model view to User Session - for Back button on PF Details view
+                ModelAndView mvNav = new ModelAndView(
+                        VWNamesDirectory.getViewName(EnumVWNames.WatchlistDashboard, false));
+                mvNav.addObject("wlList", userSessSrv.getWlDB());
+                mvNav.addObject("wlF", userSessSrv.getUserSessionInformation().getWlFInfo());
+                mvNav.addObject("wlT", userSessSrv.getUserSessionInformation().getWlEntities());
+                mvNav.addObject("userDetails", userSessSrv.getUserDetails());
+
+                userSessSrv.setParentViewModel4Navigation(mvNav);
+
+                // return Navigate to PFItem scan view
+            }
+            else // Navigate back to Watchlist Dash Board
+            {
+
+                model.addAttribute("userDetails", userSessSrv.getUserDetails());
+
+                model.addAttribute("wlList", userSessSrv.getWlDB());
+                model.addAttribute("wlF", userSessSrv.getUserSessionInformation().getWlFInfo());
+                model.addAttribute("wlT", userSessSrv.getUserSessionInformation().getWlEntities());
+                model.addAttribute("userDetails", userSessSrv.getUserDetails());
+
+                return VWNamesDirectory.getViewName(EnumVWNames.WatchlistDashboard, false);
+            }
+
+        }
+        return VWNamesDirectory.getViewName(EnumVWNames.PFHoldingDetail, false);
     }
 
     @GetMapping("/token")

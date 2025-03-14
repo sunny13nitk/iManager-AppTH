@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>iManager</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Metro 4 -->
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/5.0.6/metro.css">
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/current/icons.css">
+
+
+</head>
+
+<body>
+    <!-- Top Menu Bar Fragment -->
+    <div th:replace="~{fragments/menubar :: iMgrAppBar(userDetails=${userDetails})}"></div>
+
+
+
+    <!-- Token ocnfig - Starts  -->
+    <div class="colspan-10" style="margin-top: 50px;padding: 20px;">
+        <div class=" card bg-white bd-lightCyan" style="padding: 20px; width:100%;">
+            <h6 style="color:  #239EE3; background-color: #F7FCFE;padding: 10px; ">Watchlist Scrip Details -
+                <span style="color: #1880BB; font-weight: bold; font-size: 1.15em; margin-left: 2px"
+                    th:text="${wlItem.scrip}">ABB</span>
+
+                <span
+                    style="color: #155C89; font-weight: bold; font-size: 1.15em; margin-left: 10px; font-style: italic;">Rs.
+                </span>
+
+                <span style=" color: #155C89; font-weight: bold; font-size: 1.15em; margin-left: -2px; font-style:
+                    italic;" th:text="${wlItem.cmp}">1857</span>
+
+
+                <span class="tally" th:if="!${#strings.startsWith(wlItem.dailyPL,'-')}"
+                    style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);  margin-left: 2px; margin-bottom: 4px;"
+                    th:text="${wlItem.dailyPL}">+2.6%</span>
+
+
+                <span class="tally" th:if="
+                    ${#strings.startsWith(wlItem.dailyPL,'-')}"
+                    style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13); margin-left: 2px; margin-bottom: 4px;"
+                    th:text="${wlItem.dailyPL}">-1.45%</span>
+
+                <span class="tally" th:if="${wlItem.rating == 'Buy'}"
+                    style="font-weight: bolder; background-color: #E9F7F0; color: darkgreen; margin-left: 10px; margin-bottom: 4px;"
+                    th:text="${wlItem.rating} "></span>
+
+                <span class="tally" th:if="${wlItem.rating == 'Buy'}"
+                    style="font-weight: bolder; background-color: #E9F7F0; color: darkgreen; margin-left: 10px; margin-bottom: 4px;"
+                    th:text="${wlItem.avgReturns}"></span>
+
+                <span class="tally" th:if="${wlItem.rating == 'Accumulate'}"
+                    style="font-weight: bolder; background-color: #f6f6d6; color: darkgoldenrod;margin-left: 10px; margin-bottom: 4px;"
+                    th:text="${wlItem.rating}">Accumulate : 16.8%</span>
+
+                <span class="tally" th:if="${wlItem.rating == 'Accumulate'}"
+                    style="font-weight: bolder; background-color: #f6f6d6; color: darkgoldenrod;margin-left: 10px; margin-bottom: 4px;"
+                    th:text="${wlItem.avgReturns}">Accumulate : 16.8%</span>
+
+                <span class="tally" th:if="${wlItem.rating == 'StrongBuy'}"
+                    style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);margin-left: 10px; margin-bottom: 4px;"
+                    th:text="${wlItem.rating}"> : </span>
+                <span class="tally" th:if="${wlItem.rating == 'StrongBuy'}"
+                    style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);margin-left: 10px; margin-bottom: 4px;"
+                    th:text=" ${wlItem.avgReturns}"></span>
+
+                <span class="tally" th:if="${wlItem.rating == 'Hold'}"
+                    style="font-weight: bolder; background-color: #e1feff; color: darkblue;margin-left: 10px; margin-bottom: 4px;"
+                    th:text="${wlItem.rating} "></span>
+
+                <span class="tally" th:if="${wlItem.rating == 'Hold'}"
+                    style="font-weight: bolder; background-color: #e1feff; color: darkblue;margin-left: 10px; margin-bottom: 4px;"
+                    th:text="${wlItem.avgReturns}"></span>
+
+                <span class="tally" th:if="${wlItem.rating == 'Sell'}"
+                    style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);margin-left: 10px; margin-bottom: 4px;"
+                    th:text="${wlItem.rating} "></span>
+
+                <span class="tally" th:if="${wlItem.rating == 'Sell'}"
+                    style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);margin-left: 10px; margin-bottom: 4px;"
+                    th:text="${wlItem.avgReturns}"></span>
+
+                <!-- <span class="row flex-justify-end" style="padding-right: 20px; padding-top: -50px; padding-bottom: -50px"> -->
+                <a href="#" class="button primary rounded outline mini" th:href="@{/mv/back2Wl}" role="button"
+                    style="margin-left: 600px;"> <span class="mif-backspace icon" style="margin-left: 0px"></span> <span
+                        style="margin-left: px">Back to Watchlist</span>
+                </a>
+                <!-- </span> -->
+
+            </h6>
+
+
+
+
+            <div class="grid">
+                <div data-role="panel" data-title-caption="Portfolio Scan Results " data-collapsed="false"
+                    data-collapsible="true" data-cls-title="bg-white fg-cyan" data-cls-panel="bd-lightCyan padding:5px"
+                    data-title-icon="<span class='mif-codescan'></span>">
+
+                    <div class="grid">
+                        <div class="row" style="margin-top: 10px;">
+
+                            <div class="cell-md-12">
+                                <div class="row">
+                                    <div class="cell-md-12">
+                                        <span style="color:  #239EE3; padding: 10px; font-weight:500;">Average Purcase
+                                            Price
+                                            :
+                                        </span>
+                                        <span
+                                            style="color:  #647277; padding: 10px; font-weight:500; margin-left: -20px;">Rs.
+                                        </span>
+                                        <span
+                                            style="color:  #647277; padding: 10px; font-weight:500; margin-left: -20px;"
+                                            th:text="${pfItem.ppu}">5157.67</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row ">
+
+                            <div class="cell-md-12">
+                                <div class="row">
+                                    <div class="cell-md-12">
+                                        <span style="color:  #239EE3; padding: 10px; font-weight:500;">Current Market
+                                            Price
+                                            :
+                                        </span>
+                                        <span
+                                            style="color:  #647277; padding: 10px; font-weight:500; margin-left: -20px;">Rs.
+                                        </span>
+                                        <span
+                                            style="color:  #647277; padding: 10px; font-weight:500; margin-left: -20px;"
+                                            th:text="${pfItem.cmp}">5116</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row ">
+
+                            <div class="cell-md-12">
+                                <div class="row">
+                                    <div class="cell-md-12">
+                                        <span style="color:  #239EE3; padding: 10px; font-weight:500;">Units
+                                            :
+                                        </span>
+
+                                        <span <span
+                                            style="color:  #647277; padding: 10px; font-weight:500; margin-left: -20px;"
+                                            th:text="${pfItem.units}">40</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row ">
+
+                            <div class="cell-md-12">
+                                <div class="row">
+                                    <div class="cell-md-12">
+                                        <span style="color:  #239EE3; padding: 10px; font-weight:500;">Total Investment
+                                            :
+                                        </span>
+
+                                        <span
+                                            style="color:  #647277; padding: 10px; font-weight:500; margin-left: -20px;"
+                                            th:text="${pfItem.invM}">2.06 Lacs</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row ">
+
+                            <div class="cell-md-12">
+                                <div class="row">
+                                    <div class="cell-md-12">
+                                        <span style="color:  #239EE3; padding: 10px; font-weight:500;">Current Value
+                                            :
+                                        </span>
+
+                                        <span
+                                            style="color:  #647277; padding: 10px; font-weight:500; margin-left: -20px;"
+                                            th:text="${pfItem.invM}">2.05 Lacs</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row ">
+
+                            <div class="cell-md-12">
+                                <div class="row">
+                                    <div class="cell-md-12">
+                                        <span style="color:  #239EE3; padding: 10px; font-weight:500;">Nett P&L
+                                            :
+                                        </span>
+
+                                        <span class="tally" th:if="${pfItem.plPer >= 0}"
+                                            style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);margin-left: 10px; margin-bottom: 4px;"
+                                            th:text="${pfItem.plAbsM}">+1.67K </span>
+
+                                        <span class="tally" th:if="${pfItem.plPer < 0}"
+                                            style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);margin-left: 10px; margin-bottom: 4px;"
+                                            th:text="${pfItem.plAbsM}">-1.67K </span>
+
+                                        <span class="tally" th:if="${pfItem.plPer >= 0}"
+                                            style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);margin-left: 10px; margin-bottom: 4px;"
+                                            th:text="${pfItem.plPer}">+1.67K </span>
+                                        <span class="tally" th:if="${pfItem.plPer >= 0}"
+                                            style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);margin-left: -20px; margin-bottom: 4px; ">%</span>
+
+                                        <span class="tally" th:if="${pfItem.plPer < 0}"
+                                            style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);margin-left: 10px; margin-bottom: 4px;"
+                                            th:text="${pfItem.plPer}">-1.67K </span>
+
+                                        <span class="tally" th:if="${pfItem.plPer < 0}"
+                                            style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);margin-left: -20px; margin-bottom: 4px;">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row ">
+
+                            <div class="cell-md-12">
+                                <div class="row">
+                                    <div class="cell-md-12">
+                                        <span style="color:  #239EE3; padding: 10px; font-weight:500;">% PF by
+                                            Invested
+                                            Value :
+                                        </span>
+
+                                        <span
+                                            style="color:  #647277; padding: 10px; font-weight:500; margin-left: -20px;"
+                                            th:text="${pfItem.perByInv}">2.2</span>
+
+                                        <span
+                                            style="color:  #647277; padding: 10px; font-weight:500;margin-left: -20px; ">%</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row ">
+
+                            <div class="cell-md-12">
+                                <div class="row">
+                                    <div class="cell-md-12">
+                                        <span style="color:  #239EE3; padding: 10px; font-weight:500;">% PF by
+                                            Current
+                                            Value :
+                                        </span>
+
+                                        <span
+                                            style="color:  #647277; padding: 10px; font-weight:500; margin-left: -20px;"
+                                            th:text="${pfItem.perByCurVal}">2.6</span>
+
+                                        <span
+                                            style="color:  #647277; padding: 10px; font-weight:500; margin-left: -20px;">%</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+
+
+
+
+        <!-- URL config Form Row - Ends  -->
+    </div>
+
+    <script src="https://cdn.metroui.org.ua/5.0.6/metro.js"></script>
+</body>
+
+</html>

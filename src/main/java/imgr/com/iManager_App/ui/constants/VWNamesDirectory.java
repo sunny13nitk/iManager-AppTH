@@ -31,6 +31,7 @@ public class VWNamesDirectory
         viewsDescMap.add(new TY_ViewMappings(EnumVWNames.TriggerAdd, "/wl/tg/{scrip}", "wltgAdd"));
         viewsDescMap.add(new TY_ViewMappings(EnumVWNames.TagAdd, "/wl/tag/{scrip}", "wltagAdd"));
         viewsDescMap.add(new TY_ViewMappings(EnumVWNames.PortfolioOverview, "/pf/", "pfOvw"));
+        viewsDescMap.add(new TY_ViewMappings(EnumVWNames.PFHoldingDetail, "/wl/pfScan{scrip}", "pfDetails"));
 
         return viewsDescMap;
     }

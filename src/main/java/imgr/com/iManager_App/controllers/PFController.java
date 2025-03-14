@@ -12,7 +12,6 @@ import imgr.com.iManager_App.srv.intf.IF_UserSessionSrv;
 import imgr.com.iManager_App.ui.constants.VWNamesDirectory;
 import imgr.com.iManager_App.ui.enums.EnumVWNames;
 import imgr.com.iManager_App.ui.pojos.TY_PF;
-import imgr.com.iManager_App.utilities.TestUtility;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,8 +36,51 @@ public class PFController
                 TY_PF pf = null;
                 try
                 {
-                    // pf = pfSrv.getPortfolioDetails4User(token);
-                    pf = TestUtility.getPF4mJSON();
+                    if (userSessionSrv.getUserSessionInformation().getUserPF() == null)
+                    {
+                        // pf = TestUtility.getPF4mJSON();
+                        pf = pfSrv.getPortfolioDetails4User(token);
+                        userSessionSrv.setUserPF(pf);
+                    }
+                    else
+                    {
+                        pf = userSessionSrv.getUserSessionInformation().getUserPF();
+                    }
+
+                    // pf = TestUtility.getPF4mJSON();
+                    if (pf != null)
+                    {
+                        log.info("Portfolio bound.. for user");
+                        model.addAttribute("pf", pf);
+                        model.addAttribute("userDetails", userSessionSrv.getUserDetails());
+                        return VWNamesDirectory.getViewName(EnumVWNames.PortfolioOverview, false);
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw new EX_UserSession(e.getLocalizedMessage());
+                }
+
+            }
+        }
+        return VWNamesDirectory.getViewName(EnumVWNames.Home, true);
+    }
+
+    @GetMapping("/refresh")
+    public String refreshMyPortfolio(Model model)
+    {
+        {
+            String token = userSessionSrv.getScreenerToken();
+            if (StringUtils.hasText(token))
+            {
+                TY_PF pf = null;
+                try
+                {
+
+                    pf = pfSrv.getPortfolioDetails4User(token);
+                    userSessionSrv.setUserPF(pf);
+
+                    // pf = TestUtility.getPF4mJSON();
                     if (pf != null)
                     {
                         log.info("Portfolio bound.. for user");
