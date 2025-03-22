@@ -156,7 +156,7 @@
 
 
                     <div class="cell-md-3" style="padding: 20px;">
-                        <blockquote class="right-side" th:if="${pf.pfHeader.dayPLPer >=0}">
+                        <blockquote class="right-side" th:if="${pf.pfHeader.totalPLPer >=0}">
                             <h4> <span class=" tally"
                                     style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);"
                                     th:text="${pf.pfHeader.totalPLM}">-98.1 K </span>
@@ -168,10 +168,10 @@
                                 </span>
                             </h4>
 
-                            <small style="color: #1880BB; font-weight: medium;">Day's P&L</small>
+                            <small style="color: #1880BB; font-weight: medium;">Nett. P&L</small>
                         </blockquote>
 
-                        <blockquote class="right-side" th:if="${pf.pfHeader.dayPLPer <0}">
+                        <blockquote class="right-side" th:if="${pf.pfHeader.totalPLPer <0}">
                             <h4> <span class=" tally"
                                     style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
                                     th:text="${pf.pfHeader.totalPLM}">-98.1 K </span>
