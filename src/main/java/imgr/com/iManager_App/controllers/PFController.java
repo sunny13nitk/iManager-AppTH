@@ -99,4 +99,18 @@ public class PFController
         return VWNamesDirectory.getViewName(EnumVWNames.Home, true);
     }
 
+    @GetMapping("/upload")
+    public String showPFUpload()
+    {
+        if (pfSrv != null && userSessionSrv != null)
+        {
+            String token = userSessionSrv.getScreenerToken();
+            if (StringUtils.hasText(token))
+            {
+                return VWNamesDirectory.getViewName(EnumVWNames.UploadPF, false);
+            }
+        }
+        return VWNamesDirectory.getViewName(EnumVWNames.Home, true);
+    }
+
 }
