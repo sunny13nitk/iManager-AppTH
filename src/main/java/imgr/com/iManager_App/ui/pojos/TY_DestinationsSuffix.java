@@ -19,4 +19,5 @@ public class TY_DestinationsSuffix
     private String authurl;
     private String watchlistplain;
     private String pf;
+    private String pfUpload;
 }

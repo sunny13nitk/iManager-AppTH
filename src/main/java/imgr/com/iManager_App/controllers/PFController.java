@@ -1,10 +1,15 @@
 package imgr.com.iManager_App.controllers;
 
+import java.io.IOException;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import imgr.com.iManager_App.exceptions.EX_UserSession;
 import imgr.com.iManager_App.srv.intf.IF_PFSrvClient;
@@ -100,17 +105,62 @@ public class PFController
     }
 
     @GetMapping("/upload")
-    public String showPFUpload()
+    public String showPFUpload(Model model)
     {
         if (pfSrv != null && userSessionSrv != null)
         {
             String token = userSessionSrv.getScreenerToken();
+            model.addAttribute("userDetails", userSessionSrv.getUserDetails());
             if (StringUtils.hasText(token))
             {
                 return VWNamesDirectory.getViewName(EnumVWNames.UploadPF, false);
             }
         }
         return VWNamesDirectory.getViewName(EnumVWNames.Home, true);
+    }
+
+    @PostMapping("/uploadPF")
+    public String handlePFUpload(@RequestParam("file") MultipartFile file, Model model) throws Exception
+    {
+        String vwName = VWNamesDirectory.getViewName(EnumVWNames.PortfolioOverview, true);
+        if (file != null && userSessionSrv != null)
+        {
+            if (!file.isEmpty())
+            {
+                log.info("File Uploaded successfully : " + file.getOriginalFilename());
+                try
+                {
+                    if (file.getBytes() != null)
+                    {
+                        if (pfSrv.updateUserPortfolio(file))
+                        {
+                            log.info("File uploaded successfully at PF Controller: " + file.getOriginalFilename());
+                            vwName = VWNamesDirectory.getViewName(EnumVWNames.PortfolioOverview, true);
+                            return vwName;
+                        }
+                        else
+                        {
+                            model.addAttribute("message", "Portoflio Update failed. Please try again.");
+                            model.addAttribute("userDetails", userSessionSrv.getUserDetails());
+                            return VWNamesDirectory.getViewName(EnumVWNames.UploadPF, false);
+                        }
+                    }
+                }
+                catch (IOException e)
+                {
+                    model.addAttribute("message", "File exception : " + e.getLocalizedMessage());
+                    model.addAttribute("userDetails", userSessionSrv.getUserDetails());
+                    return VWNamesDirectory.getViewName(EnumVWNames.UploadPF, false);
+                }
+            }
+            else
+            {
+                model.addAttribute("message", "File is empty. Please upload a valid file.");
+                model.addAttribute("userDetails", userSessionSrv.getUserDetails());
+                return VWNamesDirectory.getViewName(EnumVWNames.UploadPF, false);
+            }
+        }
+        return vwName;
     }
 
 }
