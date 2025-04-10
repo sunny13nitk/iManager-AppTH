@@ -20,7 +20,8 @@ public class StringsUtility
             {
                 if (countREpl == 1)
                 {
-                    baseString.replaceAll(separator, replStrings[0]);
+                    baseString = baseString.replaceAll(separator, replStrings[0]);
+                    log.info("Base String post replacements: " + baseString);
                     return baseString;
                 }
                 else
