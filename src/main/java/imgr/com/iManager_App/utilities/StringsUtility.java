@@ -2,6 +2,9 @@ package imgr.com.iManager_App.utilities;
 
 import org.springframework.util.StringUtils;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class StringsUtility
 {
     public static String replaceURLwithParams(String baseString, String[] replStrings, String separator)
