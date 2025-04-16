@@ -79,7 +79,7 @@
                     <form th:object="${selScrip}" th:action="@{'/wl/addNew'} " method="post">
                         <div class="colspan-5 offset-1" style="margin-top: 5px; margin-bottom: 10px">
                             <label style="color:  #239EE3">Select Scrip</label> <select data-role="select"
-                                name="selScrip" th:field="*" data-add-empty-value="true" class="input">
+                                name="selScrip" th:field="*{scripName}" data-add-empty-value="true" class="input">
                                 <!-- Param List Beans -->
                                 <option th:each="scrip : ${scrips.eligibleScrips}" th:value="${scrip}"
                                     th:selected="${scrip}" th:text="${scrip}"></option>

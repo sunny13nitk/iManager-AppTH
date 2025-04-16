@@ -21,4 +21,5 @@ public class TY_DestinationsSuffix
     private String pf;
     private String pfUpload;
     private String watchlistaddscrip;
+    private String screenerloadselscrips;
 }

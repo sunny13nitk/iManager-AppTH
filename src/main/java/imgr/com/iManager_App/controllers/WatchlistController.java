@@ -30,6 +30,7 @@ import imgr.com.iManager_App.ui.pojos.EN_Watchlist;
 import imgr.com.iManager_App.ui.pojos.TY_PFItem;
 import imgr.com.iManager_App.ui.pojos.TY_Reference;
 import imgr.com.iManager_App.ui.pojos.TY_ScripAnalysisData;
+import imgr.com.iManager_App.ui.pojos.TY_Scripsel;
 import imgr.com.iManager_App.ui.pojos.TY_Tag;
 import imgr.com.iManager_App.ui.pojos.TY_Trigger;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
@@ -37,9 +38,11 @@ import imgr.com.iManager_App.ui.pojos.TY_WLEligibleScrips;
 import imgr.com.iManager_App.utilities.UtilDurations;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/wl")
 public class WatchlistController
 {
@@ -103,7 +106,7 @@ public class WatchlistController
         {
             // Get Eligible Scrips for Watchlist
             TY_WLEligibleScrips scrips = wlSrv.getEligibleScrips();
-            model.addAttribute("selScrip", new String());
+            model.addAttribute("selScrip", new TY_Scripsel());
             model.addAttribute("scrips", scrips);
             model.addAttribute("userDetails", userSessSrv.getUserDetails());
         }
@@ -291,6 +294,17 @@ public class WatchlistController
             model.addAttribute("userDetails", userSessSrv.getUserDetails());
         }
         return VWNamesDirectory.getViewName(EnumVWNames.TagAdd, false);
+    }
+
+    @PostMapping("/addNew")
+    public String proceedHC(@Valid @ModelAttribute("selScrip") TY_Scripsel selScrip)
+    {
+        if (StringUtils.hasText(selScrip.getScripName()))
+        {
+            log.info("Scrip Selected for health checkup .... " + selScrip.getScripName());
+        }
+
+        return null;
     }
 
     @PostMapping("/updateWLScrip")
