@@ -32,6 +32,7 @@ import imgr.com.iManager_App.ui.pojos.TY_DestinationsSuffix;
 import imgr.com.iManager_App.ui.pojos.TY_ScripAnalysisData;
 import imgr.com.iManager_App.ui.pojos.TY_ScripCMPResponse;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
+import imgr.com.iManager_App.ui.pojos.TY_WLEligibleScrips;
 import imgr.com.iManager_App.ui.pojos.TY_WLPartRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -542,6 +543,65 @@ public class CL_WatchlistSrvClient implements IF_WatchlistSrvClient
         }
         return wlEnt;
 
+    }
+
+    @Override
+    public TY_WLEligibleScrips getEligibleScrips() throws Exception
+    {
+        TY_WLEligibleScrips wlT = null;
+        HttpResponse response = null;
+        String bearer = null;
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        if (dS != null && userSessionSrv != null)
+        {
+            bearer = userSessionSrv.getDecryptedKey();
+            if (StringUtils.hasText(bearer) && StringUtils.hasText(dS.getBaseurl())
+                    && StringUtils.hasText(dS.getWatchlistaddscrip()))
+            {
+
+                String wlUrl = dS.getBaseurl() + dS.getWatchlistaddscrip();
+                // Now le's trigger the WL DB Call
+                URL url = new URL(wlUrl);
+                URI uri = new URI(url.getProtocol(), url.getUserInfo(), IDN.toASCII(url.getHost()), url.getPort(),
+                        url.getPath(), url.getQuery(), url.getRef());
+                String correctEncodedURL = uri.toASCIIString();
+                HttpGet httpGet = new HttpGet(correctEncodedURL);
+                httpGet.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + bearer);
+                httpGet.addHeader("accept", "application/json");
+                // Fire the Url
+                response = httpClient.execute(httpGet);
+                int statusCodeWLDB = response.getStatusLine().getStatusCode();
+                if (statusCodeWLDB != org.apache.http.HttpStatus.SC_OK)
+                {
+                    return null;
+                }
+
+                else if (statusCodeWLDB == org.apache.http.HttpStatus.SC_OK)
+                {
+                    log.info("WL eligible scrips obtained....");
+                    HttpEntity entityWLDB = response.getEntity();
+                    String apiOutput = EntityUtils.toString(entityWLDB);
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    try
+                    {
+
+                        wlT = objectMapper.readValue(apiOutput, TY_WLEligibleScrips.class);
+                        if (wlT != null)
+                        {
+                            log.info("Scrips eligible to be added to Watchlist ... " + wlT.getEligibleScrips().size());
+
+                        }
+                    }
+                    catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+
+        }
+        return wlT;
     }
 
 }

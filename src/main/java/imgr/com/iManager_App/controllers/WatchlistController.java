@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -35,10 +33,10 @@ import imgr.com.iManager_App.ui.pojos.TY_ScripAnalysisData;
 import imgr.com.iManager_App.ui.pojos.TY_Tag;
 import imgr.com.iManager_App.ui.pojos.TY_Trigger;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
+import imgr.com.iManager_App.ui.pojos.TY_WLEligibleScrips;
 import imgr.com.iManager_App.utilities.UtilDurations;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
@@ -95,6 +93,21 @@ public class WatchlistController
 
         }
         return VWNamesDirectory.getViewName(EnumVWNames.WatchlistDashboard, false);
+    }
+
+    @GetMapping("/addNew")
+    public String showAddScrip(Model model) throws Exception
+    {
+
+        if (userSessSrv != null && wlSrv != null)
+        {
+            // Get Eligible Scrips for Watchlist
+            TY_WLEligibleScrips scrips = wlSrv.getEligibleScrips();
+            model.addAttribute("selScrip", new String());
+            model.addAttribute("scrips", scrips);
+            model.addAttribute("userDetails", userSessSrv.getUserDetails());
+        }
+        return VWNamesDirectory.getViewName(EnumVWNames.Add2WL, false);
     }
 
     @GetMapping("/db/{scrip}")
@@ -487,5 +500,4 @@ public class WatchlistController
         return mv;
     }
 
-  
 }

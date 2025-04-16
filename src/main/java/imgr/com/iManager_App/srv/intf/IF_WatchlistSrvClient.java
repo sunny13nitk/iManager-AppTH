@@ -6,6 +6,7 @@ import imgr.com.iManager_App.ui.pojos.EN_Watchlist;
 import imgr.com.iManager_App.ui.pojos.TY_ScripAnalysisData;
 import imgr.com.iManager_App.ui.pojos.TY_ScripCMPResponse;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
+import imgr.com.iManager_App.ui.pojos.TY_WLEligibleScrips;
 import imgr.com.iManager_App.ui.pojos.TY_WLPartRequest;
 
 public interface IF_WatchlistSrvClient
@@ -23,4 +24,6 @@ public interface IF_WatchlistSrvClient
     public TY_WLDB updateWatchlistEntry(EN_Watchlist wlBase, boolean isRecalcNeeded) throws Exception;
 
     public EN_Watchlist updateWatchlistPart(TY_WLPartRequest partReq) throws Exception;
+
+    public TY_WLEligibleScrips getEligibleScrips() throws Exception;
 }
