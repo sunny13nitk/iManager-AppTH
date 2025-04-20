@@ -56,4 +56,8 @@ public interface IF_UserSessionSrv
     public void setUserPF(TY_PF userPF);
 
     public TY_PFItem getPFScan4Scrip(String scrip);
+
+    public void add2CurrScrip(String scrip);
+
+    public String getCurrScrip();
 }

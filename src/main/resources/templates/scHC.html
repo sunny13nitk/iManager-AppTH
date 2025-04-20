@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>iManager</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Metro 4 -->
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/5.0.6/metro.css">
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/current/icons.css">
+
+
+</head>
+
+<body>
+    <!-- Top Menu Bar Fragment -->
+    <div th:replace="~{fragments/menubar :: iMgrAppBar(userDetails=${userDetails})}"></div>
+
+
+
+    <!-- Token ocnfig - Starts  -->
+    <div class="colspan-5" style="margin-top: 50px;padding: 20px;">
+
+        <div th:each="hcScan: ${hcResults.scResults}">
+            <div class="card bg-white bd-lightCyan" style="padding: 20px; width:96%;">
+                <h6 style="color:  #239EE3; background-color: #F7FCFE;padding: 10px; ">Health Check Results for Scrip
+
+                    <span style="color: #1880BB; font-weight: bold; font-size: 1.15em; margin-left: 2px"
+                        th:text="${hcScan.scCode}">ABB</span>
+
+                    <span class="tally" th:if="${hcScan.pass == true}"
+                        style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);  margin-left: 2px; margin-bottom: 4px;">PASS</span>
+
+                    <span class="tally" th:if="${hcScan.pass == false}"
+                        style="font-weight: bolder; background-color: #F7C6C7; color: rgb(255, 0, 0); margin-left: 2px; margin-bottom: 4px;">FAIL</span>
+                </h6>
+
+
+
+                <div th:each="stage: ${hcScan.stages}">
+                    <div style="margin-top: 10px;"></div>
+                    <div th:if="${stage.pass == true}" data-role="panel" data-title-caption="Stage Analysis"
+                        data-collapsed="false" data-collapsible="true" data-cls-title="bg-white fg-green"
+                        data-cls-panel="bd-lightGreen padding:5px">
+
+
+                        <span class="tally"
+                            style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);  margin-left: 2px; margin-bottom: 4px; "
+                            th:text="${stage.stageName}">PASS</span>
+
+                        <table class="table subcompact striped table-border cell-border row-hover">
+                            <thead>
+                                <tr>
+                                    <th data-cls-column="text-center" align="center">Attribute - Dir.</th>
+                                    <th data-cls-column="text-center" align="center">Base Value</th>
+                                    <th data-cls-column="text-center" align="center">Actual Value Value</th>
+                                    <th data-cls-column="text-center" align="center">Pass</th>
+
+                                </tr>
+
+
+                            <tbody>
+                                <tr th:each="stageDetail : ${stage.stageDetails}">
+                                    <td th:text="${stageDetail.attrbName}"></td>
+                                    <td th:text="${stageDetail.valBase}"></td>
+                                    <td th:text="${stageDetail.valActual}"></td>
+                                    <td th:text="${stageDetail.pass}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div th:if="${stage.pass != true}" data-role="panel" data-title-caption="Stage Analysis"
+                        data-collapsed="false" data-collapsible="true" data-cls-title="bg-white fg-red"
+                        data-cls-panel="bd-lightRed padding:5px">
+
+                        <span class="tally"
+                            style="font-weight: bolder; background-color: #F7C6C7; color: rgb(255, 0, 0); margin-left: 2px; margin-bottom: 4px;"
+                            th:text="${stage.stageName}">FAIL</span>
+                        <table class="table subcompact striped table-border cell-border row-hover">
+                            <thead>
+                                <tr>
+                                    <th data-cls-column="text-center" align="center">Attribute - Dir.</th>
+                                    <th data-cls-column="text-center" align="center">Base Value</th>
+                                    <th data-cls-column="text-center" align="center">Actual Value Value</th>
+                                    <th data-cls-column="text-center" align="center">Pass</th>
+
+                                </tr>
+
+
+                            <tbody>
+                                <tr th:each="stageDetail : ${stage.stageDetails}">
+                                    <td th:text="${stageDetail.attrbName}"></td>
+                                    <td th:text="${stageDetail.valBase}"></td>
+                                    <td th:text="${stageDetail.valActual}"></td>
+                                    <td th:text="${stageDetail.pass}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <div th:if="${add2Wl == true}" class="row flex-justify-end"
+                    style="padding-right: 20px; padding-top: 5px; padding-bottom: 20px; margin-top: 20px;">
+
+                    <a th:href="@{'/wl/cnfSCAdd/'+${hcScan.scCode}}" class="button small primary rounded outline"
+                        style="margin-right: 5px; margin-left: 0px">
+                        <span class="mif-post_add" style="margin-left: 0px"> </span> <span style="margin-left: 3px">Add
+                            Scrip to Watchlist</span>
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+        <!-- URL config Form Row - Ends  -->
+    </div>
+
+    <script src="https://cdn.metroui.org.ua/5.0.6/metro.js"></script>
+</body>
+
+</html>

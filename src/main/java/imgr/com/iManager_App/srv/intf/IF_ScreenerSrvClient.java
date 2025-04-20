@@ -6,5 +6,5 @@ import org.apache.http.HttpStatus;
 
 public interface IF_ScreenerSrvClient
 {
-    public HttpStatus updateData4Scrips(List<String> scrips) throws Exception;
+    public boolean updateData4Scrips(List<String> scrips) throws Exception;
 }

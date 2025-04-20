@@ -266,4 +266,16 @@ public class CL_UserSessionSrv implements IF_UserSessionSrv
         return pfItem;
     }
 
+    @Override
+    public void add2CurrScrip(String scrip)
+    {
+        userInfo.setCurrScrip(scrip);
+    }
+
+    @Override
+    public String getCurrScrip()
+    {
+        return userInfo.getCurrScrip();
+    }
+
 }
