@@ -54,6 +54,10 @@
                     style="font-weight: bolder; background-color: #E9F7F0; color: darkgreen; margin-left: 10px; margin-bottom: 4px;"
                     th:text="${wlItem.avgReturns}"></span>
 
+                <span class="tally" th:if="${wlItem.rating == 'Buy'}"
+                    style="font-weight: bolder; background-color: #E9F7F0; color: darkgreen; margin-left: 10px; margin-bottom: 4px;"
+                    th:text="${wlItem.err}"></span>
+
                 <span class="tally" th:if="${wlItem.rating == 'Accumulate'}"
                     style="font-weight: bolder; background-color: #f6f6d6; color: darkgoldenrod;margin-left: 10px; margin-bottom: 4px;"
                     th:text="${wlItem.rating}">Accumulate : 16.8%</span>
@@ -62,6 +66,10 @@
                     style="font-weight: bolder; background-color: #f6f6d6; color: darkgoldenrod;margin-left: 10px; margin-bottom: 4px;"
                     th:text="${wlItem.avgReturns}">Accumulate : 16.8%</span>
 
+                <span class="tally" th:if="${wlItem.rating == 'Accumulate'}"
+                    style="font-weight: bolder; background-color: #f6f6d6; color: darkgoldenrod;margin-left: 10px; margin-bottom: 4px;"
+                    th:text="${wlItem.err}">Accumulate : 16.8%</span>
+
                 <span class="tally" th:if="${wlItem.rating == 'StrongBuy'}"
                     style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);margin-left: 10px; margin-bottom: 4px;"
                     th:text="${wlItem.rating}"> : </span>
@@ -69,6 +77,10 @@
                     style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);margin-left: 10px; margin-bottom: 4px;"
                     th:text=" ${wlItem.avgReturns}"></span>
 
+                <span class="tally" th:if="${wlItem.rating == 'StrongBuy'}"
+                    style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);margin-left: 10px; margin-bottom: 4px;"
+                    th:text=" ${wlItem.err}"></span>
+
                 <span class="tally" th:if="${wlItem.rating == 'Hold'}"
                     style="font-weight: bolder; background-color: #e1feff; color: darkblue;margin-left: 10px; margin-bottom: 4px;"
                     th:text="${wlItem.rating} "></span>
@@ -77,6 +89,10 @@
                     style="font-weight: bolder; background-color: #e1feff; color: darkblue;margin-left: 10px; margin-bottom: 4px;"
                     th:text="${wlItem.avgReturns}"></span>
 
+                <span class="tally" th:if="${wlItem.rating == 'Hold'}"
+                    style="font-weight: bolder; background-color: #e1feff; color: darkblue;margin-left: 10px; margin-bottom: 4px;"
+                    th:text="${wlItem.err}"></span>
+
                 <span class="tally" th:if="${wlItem.rating == 'Sell'}"
                     style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);margin-left: 10px; margin-bottom: 4px;"
                     th:text="${wlItem.rating} "></span>
@@ -84,6 +100,10 @@
                 <span class="tally" th:if="${wlItem.rating == 'Sell'}"
                     style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);margin-left: 10px; margin-bottom: 4px;"
                     th:text="${wlItem.avgReturns}"></span>
+
+                <span class="tally" th:if="${wlItem.rating == 'Sell'}"
+                    style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);margin-left: 10px; margin-bottom: 4px;"
+                    th:text="${wlItem.err}"></span>
 
                 <!-- <span class="row flex-justify-end" style="padding-right: 20px; padding-top: -50px; padding-bottom: -50px"> -->
                 <a href="#" class="button primary rounded outline mini" th:href="@{/mv/back2Wl}" role="button"
