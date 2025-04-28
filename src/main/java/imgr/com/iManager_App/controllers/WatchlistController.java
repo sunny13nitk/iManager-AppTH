@@ -303,6 +303,48 @@ public class WatchlistController
         return VWNamesDirectory.getViewName(EnumVWNames.TagAdd, false);
     }
 
+    @GetMapping("cnfSCAdd/{scrip}")
+    public String getMethodName(Model model, @PathVariable String scrip) throws Exception
+    {
+        boolean isAdded = false;
+        if (StringUtils.hasText(scrip) && userSessSrv != null)
+        {
+
+            isAdded = wlSrv.add2Watchlist(scrip);
+            model.addAttribute("userDetails", userSessSrv.getUserDetails());
+
+            if (isAdded)
+            {
+                String token = userSessSrv.getScreenerToken();
+                if (StringUtils.hasText(token))
+                {
+                    List<TY_WLDB> wlDBList = null;
+                    List<TY_ScripAnalysisData> wlF = null;
+                    List<EN_Watchlist> wlT = null;
+
+                    wlDBList = wlSrv.getWatchlistDb(token);
+                    // wlDBList = TestUtility.getWLDB4mJSON();
+                    wlF = wlSrv.getWLFundamentalAnalysis();
+                    wlT = wlSrv.getWatchlistThesis();
+
+                    model.addAttribute("wlList", wlDBList);
+                    model.addAttribute("wlF", wlF);
+                    model.addAttribute("wlT", wlT);
+                    model.addAttribute("userDetails", userSessSrv.getUserDetails());
+                    userSessSrv.setWLDB(wlDBList);
+                    userSessSrv.setWLFundamentals(wlF);
+                    userSessSrv.setWLThesis(wlT);
+
+                    return VWNamesDirectory.getViewName(EnumVWNames.WatchlistDashboard, false);
+                }
+
+            }
+
+        }
+        return VWNamesDirectory.getViewName(EnumVWNames.Add2WL, true);
+
+    }
+
     @PostMapping("/addNew")
     public String proceedHC(@Valid @ModelAttribute("selScrip") TY_Scripsel selScrip, Model model)
     {

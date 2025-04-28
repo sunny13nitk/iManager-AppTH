@@ -29,6 +29,7 @@ import imgr.com.iManager_App.srv.intf.IF_UserSessionSrv;
 import imgr.com.iManager_App.srv.intf.IF_WatchlistSrvClient;
 import imgr.com.iManager_App.ui.pojos.EN_Watchlist;
 import imgr.com.iManager_App.ui.pojos.TY_DestinationsSuffix;
+import imgr.com.iManager_App.ui.pojos.TY_ScFlag;
 import imgr.com.iManager_App.ui.pojos.TY_ScripAnalysisData;
 import imgr.com.iManager_App.ui.pojos.TY_ScripCMPResponse;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
@@ -602,6 +603,72 @@ public class CL_WatchlistSrvClient implements IF_WatchlistSrvClient
 
         }
         return wlT;
+    }
+
+    @Override
+    public boolean add2Watchlist(String scrip) throws Exception
+    {
+        boolean scripAdded = false;
+        HttpResponse response = null;
+        String bearer = null;
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+
+        try
+        {
+            if (dS != null && userSessionSrv != null)
+            {
+                bearer = userSessionSrv.getDecryptedKey();
+                if (StringUtils.hasText(bearer) && StringUtils.hasText(dS.getBaseurl())
+                        && StringUtils.hasText(dS.getWatchlistplain()))
+                {
+
+                    String wlUrl = dS.getBaseurl() + dS.getWatchlistplain();
+                    // Now le's trigger the WL DB Call
+                    URL url = new URL(wlUrl);
+                    URI uri = new URI(url.getProtocol(), url.getUserInfo(), IDN.toASCII(url.getHost()), url.getPort(),
+                            url.getPath(), url.getQuery(), url.getRef());
+                    String correctEncodedURL = uri.toASCIIString();
+                    HttpPatch httpPatch = new HttpPatch(correctEncodedURL);
+                    httpPatch.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + bearer);
+                    httpPatch.addHeader("accept", "application/json");
+
+                    ObjectMapper objMapper = new ObjectMapper();
+
+                    // Prepare Payload
+                    List<TY_ScFlag> scrips2Add = new ArrayList<TY_ScFlag>();
+                    TY_ScFlag scrip2Add = new TY_ScFlag();
+                    scrip2Add.setScrip(scrip);
+                    scrip2Add.setActive(true);
+                    scrips2Add.add(scrip2Add);
+
+                    String requestBody = objMapper.writeValueAsString(scrips2Add);
+
+                    StringEntity entity = new StringEntity(requestBody, ContentType.APPLICATION_JSON);
+                    httpPatch.setEntity(entity);
+
+                    // Fire the Url
+                    response = httpClient.execute(httpPatch);
+                    int statusCodeWLDB = response.getStatusLine().getStatusCode();
+                    if (statusCodeWLDB == org.apache.http.HttpStatus.SC_CREATED)
+                    {
+                        log.info("Scrip " + scrip + " added to Watchlist successfully");
+                        scripAdded = true;
+
+                    }
+                }
+
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            httpClient.close();
+        }
+
+        return scripAdded;
     }
 
 }

@@ -26,4 +26,6 @@ public interface IF_WatchlistSrvClient
     public EN_Watchlist updateWatchlistPart(TY_WLPartRequest partReq) throws Exception;
 
     public TY_WLEligibleScrips getEligibleScrips() throws Exception;
+
+    public boolean add2Watchlist(String scrip) throws Exception;
 }

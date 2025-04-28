@@ -26,7 +26,7 @@ public class EN_Watchlist
 {
     @NotNull
     @NotBlank()
-    @Size(min = 3)
+    @Size(min = 2)
     private String scrip;
     private boolean standalone;
     @PastOrPresent
