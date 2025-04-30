@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.IDN;
 import java.net.URI;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -52,7 +54,9 @@ public class CL_UtilitiesSrvClient implements IF_UtilitiesSrvClient
             String hcUrl = dS.getBaseurl() + dS.getHc();
             for (String scrip : scrips)
             {
-                hcUrl = hcUrl + scrip;
+                String scripEnc = scrip.replace("&", URLEncoder.encode("&", StandardCharsets.UTF_8));
+                hcUrl = hcUrl + scripEnc;
+
                 if (scrips.indexOf(scrip) != scrips.size() - 1)
                 {
                     hcUrl = hcUrl + ",";
@@ -62,11 +66,13 @@ public class CL_UtilitiesSrvClient implements IF_UtilitiesSrvClient
             if (StringUtils.hasText(bearer) && StringUtils.hasText(hcUrl))
             {
                 // Now le's trigger the WL DB Call
-                URL url = new URL(hcUrl);
-                URI uri = new URI(url.getProtocol(), url.getUserInfo(), IDN.toASCII(url.getHost()), url.getPort(),
-                        url.getPath(), url.getQuery(), url.getRef());
-                String correctEncodedURL = uri.toASCIIString();
-                HttpGet httpGet = new HttpGet(correctEncodedURL);
+                // URL url = new URL(hcUrl);
+                // URI uri = new URI(url.getProtocol(), url.getUserInfo(), IDN.toASCII(url.getHost()), url.getPort(),
+                //         url.getPath(), url.getQuery(), url.getRef());
+                // String correctEncodedURL = uri.toASCIIString();
+
+                HttpGet httpGet = new HttpGet(hcUrl);
+
                 httpGet.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + bearer);
                 httpGet.addHeader("accept", "application/json");
                 // Fire the Url
@@ -113,7 +119,7 @@ public class CL_UtilitiesSrvClient implements IF_UtilitiesSrvClient
         HttpResponse response = null;
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 
-        if ( dS != null && userSessionSrv != null)
+        if (dS != null && userSessionSrv != null)
         {
             String bearer = userSessionSrv.getDecryptedKey();
             String hcUrl = dS.getBaseurl() + dS.getScrips();
