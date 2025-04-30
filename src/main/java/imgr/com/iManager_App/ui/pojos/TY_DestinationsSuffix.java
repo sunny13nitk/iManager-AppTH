@@ -23,4 +23,5 @@ public class TY_DestinationsSuffix
     private String watchlistaddscrip;
     private String screenerloadselscrips;
     private String hc;
+    private String scrips;
 }

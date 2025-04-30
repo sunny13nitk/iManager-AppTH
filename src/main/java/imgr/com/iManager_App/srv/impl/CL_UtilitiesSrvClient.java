@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 
 import imgr.com.iManager_App.srv.intf.IF_UserSessionSrv;
 import imgr.com.iManager_App.srv.intf.IF_UtilitiesSrvClient;
@@ -101,6 +103,66 @@ public class CL_UtilitiesSrvClient implements IF_UtilitiesSrvClient
         }
 
         return hcResults;
+    }
+
+    @Override
+    public List<String> getScripCodes() throws Exception
+    {
+        List<String> scrips = null;
+
+        HttpResponse response = null;
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+
+        if ( dS != null && userSessionSrv != null)
+        {
+            String bearer = userSessionSrv.getDecryptedKey();
+            String hcUrl = dS.getBaseurl() + dS.getScrips();
+
+            if (StringUtils.hasText(bearer) && StringUtils.hasText(hcUrl))
+            {
+                // Now le's trigger the WL DB Call
+                URL url = new URL(hcUrl);
+                URI uri = new URI(url.getProtocol(), url.getUserInfo(), IDN.toASCII(url.getHost()), url.getPort(),
+                        url.getPath(), url.getQuery(), url.getRef());
+                String correctEncodedURL = uri.toASCIIString();
+                HttpGet httpGet = new HttpGet(correctEncodedURL);
+                httpGet.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + bearer);
+                httpGet.addHeader("accept", "application/json");
+                // Fire the Url
+                response = httpClient.execute(httpGet);
+                int statusCodeWLDB = response.getStatusLine().getStatusCode();
+                if (statusCodeWLDB != org.apache.http.HttpStatus.SC_OK)
+                {
+                    return null;
+                }
+
+                else if (statusCodeWLDB == org.apache.http.HttpStatus.SC_OK)
+                {
+                    log.info("List of scrips obtained....");
+                    HttpEntity entityWLDB = response.getEntity();
+                    String apiOutput = EntityUtils.toString(entityWLDB);
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    try
+                    {
+                        TypeFactory typeFactory = objectMapper.getTypeFactory();
+                        CollectionType collectionType = typeFactory.constructCollectionType(List.class, String.class);
+                        scrips = objectMapper.readValue(apiOutput, collectionType);
+                        if (scrips != null)
+                        {
+                            log.info("# Scrips Found : " + scrips.size());
+
+                        }
+                    }
+                    catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        }
+
+        return scrips;
     }
 
 }

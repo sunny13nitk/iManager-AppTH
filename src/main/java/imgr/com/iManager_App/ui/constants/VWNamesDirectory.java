@@ -35,6 +35,7 @@ public class VWNamesDirectory
         viewsDescMap.add(new TY_ViewMappings(EnumVWNames.UploadPF, "/pf/upload", "pfUpload"));
         viewsDescMap.add(new TY_ViewMappings(EnumVWNames.Add2WL, "/wl/addNew", "wlAddNew"));
         viewsDescMap.add(new TY_ViewMappings(EnumVWNames.ScripsHC, "/utils/hc", "scHC"));
+        viewsDescMap.add(new TY_ViewMappings(EnumVWNames.HCSel, "/hc/", "hc"));
 
         return viewsDescMap;
     }
