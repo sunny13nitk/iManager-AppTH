@@ -9,6 +9,7 @@ import javax.crypto.spec.IvParameterSpec;
 import org.springframework.web.servlet.ModelAndView;
 
 import imgr.com.iManager_App.ui.enums.EnumVWNames;
+import imgr.com.iManager_App.ui.pojos.CUS_StgyBean;
 import imgr.com.iManager_App.ui.pojos.EN_Watchlist;
 import imgr.com.iManager_App.ui.pojos.TY_PF;
 import imgr.com.iManager_App.ui.pojos.TY_ScripAnalysisData;
@@ -35,4 +36,5 @@ public class TY_UserSessionInfo
     private String bearer;
     private String role;
     private ModelAndView mv;
+    private List<CUS_StgyBean> strategies = new ArrayList<CUS_StgyBean>(); // List of Strategies
 }

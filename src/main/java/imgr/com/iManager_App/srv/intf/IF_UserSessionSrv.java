@@ -8,6 +8,7 @@ import imgr.com.iManager_App.srv.pojos.TY_Login;
 import imgr.com.iManager_App.srv.pojos.TY_SCToken;
 import imgr.com.iManager_App.srv.pojos.TY_UserSessionInfo;
 import imgr.com.iManager_App.ui.enums.EnumVWNames;
+import imgr.com.iManager_App.ui.pojos.CUS_StgyBean;
 import imgr.com.iManager_App.ui.pojos.EN_Watchlist;
 import imgr.com.iManager_App.ui.pojos.TY_PF;
 import imgr.com.iManager_App.ui.pojos.TY_PFItem;
@@ -60,4 +61,8 @@ public interface IF_UserSessionSrv
     public void add2CurrScrip(String scrip);
 
     public String getCurrScrip();
+
+    public void setStrategies(List<CUS_StgyBean> strategies);
+
+    public List<CUS_StgyBean> getStrategies();
 }

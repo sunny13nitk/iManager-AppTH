@@ -22,6 +22,7 @@ import imgr.com.iManager_App.srv.pojos.TY_UserSessionInfo;
 import imgr.com.iManager_App.ui.constants.GC_Constants;
 import imgr.com.iManager_App.ui.constants.VWNamesDirectory;
 import imgr.com.iManager_App.ui.enums.EnumVWNames;
+import imgr.com.iManager_App.ui.pojos.CUS_StgyBean;
 import imgr.com.iManager_App.ui.pojos.EN_Watchlist;
 import imgr.com.iManager_App.ui.pojos.TY_Credentials;
 import imgr.com.iManager_App.ui.pojos.TY_DestinationsSuffix;
@@ -276,6 +277,18 @@ public class CL_UserSessionSrv implements IF_UserSessionSrv
     public String getCurrScrip()
     {
         return userInfo.getCurrScrip();
+    }
+
+    @Override
+    public void setStrategies(List<CUS_StgyBean> strategies)
+    {
+        this.userInfo.setStrategies(strategies);
+    }
+
+    @Override
+    public List<CUS_StgyBean> getStrategies()
+    {
+        return this.userInfo.getStrategies();
     }
 
 }
