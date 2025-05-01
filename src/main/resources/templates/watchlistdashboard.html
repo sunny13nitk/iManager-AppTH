@@ -181,22 +181,29 @@
                     <tr th:each="wl : ${wlList}">
 
 
-                        <td style="text-align: center;"><a class="button rounded mini outline"
-                                th:href="@{'/wl/db/'+${wl.scrip}}" style="color: black; background: transparent"
-                                data-role="hint" data-hint-position="top" data-cls-hint="bg-LightGreen fg-black"
-                                data-hint-text="Details"><span class="mif-news icon"
-                                    style="margin-left: 0px"></span></a>
-                            <a class="button rounded mini outline" th:href="@{'/wl/pfScan/'+${wl.scrip}}"
+                        <td style="text-align: center;">
+                            <a class="button rounded mini outline" th:href="@{'/wl/db/'+${wl.scrip}}"
                                 style="color: black; background: transparent" data-role="hint" data-hint-position="top"
-                                data-cls-hint="bg-LightGreen fg-black" data-hint-text="Scan PF"><span
-                                    class="mif-codescan icon" style="margin-left: 0px"></span></a>
+                                data-cls-hint="bg-LightGreen fg-black" data-hint-text="Details"><span
+                                    class="mif-news icon" style="margin-left: 0px"></span></a>
+
+                            <a class="button rounded mini outline" th:href="@{'/hc/nav/'+${item.getSccode()}}"
+                                target="_blank" style="color: black; background: transparent" data-role="hint"
+                                data-hint-position="top" data-cls-hint="bg-LightGreen fg-black"
+                                data-hint-text="Health Check"><span class="mif-brackets-hexagon"
+                                    style="margin-left: 0px"></span></a>
+
+                            <a class="button rounded mini outline" th:href="@{'/wl/pfScan/'+${wl.scrip}}"
+                                target="_blank" style="color: black; background: transparent" data-role="hint"
+                                data-hint-position="top" data-cls-hint="bg-LightGreen fg-black"
+                                data-hint-text="Scan PF"><span class="mif-codescan icon"
+                                    style="margin-left: 0px"></span></a>
+                                    
                             <a class="button rounded mini outline" th:href=" ${wl.notesLink}" target="_blank"
                                 style="color: black; background: transparent" data-role="hint" data-hint-position="top"
                                 data-cls-hint="bg-LightGreen fg-black" data-hint-text="Notes"><span class="mif-list2"
                                     style="margin-left: 0px"></span></a>
 
-
-                        </td>
 
                         </td>
 

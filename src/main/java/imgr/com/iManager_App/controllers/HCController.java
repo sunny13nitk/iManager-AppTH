@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -68,6 +69,49 @@ public class HCController
                 {
                     // Add selected scrip for session
                     userSessSrv.add2CurrScrip(selScrip.getScripName());
+                    // Now proceed with health checkup
+                    try
+                    {
+                        TY_HC_Results scHC = utilSrvClient.getHealthCheckResults(scrips);
+                        if (scHC != null)
+                        {
+                            model.addAttribute("hcResults", scHC);
+                            model.addAttribute("add2Wl", false);
+                            model.addAttribute("userDetails", userSessSrv.getUserDetails());
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        throw new EX_UserSession(e.getLocalizedMessage());
+                    }
+
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw new EX_UserSession(e.getLocalizedMessage());
+            }
+        }
+
+        return VWNamesDirectory.getViewName(EnumVWNames.ScripsHC, false);
+    }
+
+    @GetMapping("/nav/{scrip}")
+    public String navHC(@PathVariable("scrip") String scrip, Model model)
+    {
+        if (StringUtils.hasText(scrip) && screenerSrvClient != null)
+        {
+            log.info("Scrip Selected for health checkup .... " + scrip);
+            // Update Scrip details first from screener before health checkup
+            try
+            {
+                List<String> scrips = List.of(scrip);
+                boolean scUpdated = screenerSrvClient.updateData4Scrips(scrips);
+                if (scUpdated && utilSrvClient != null)
+                {
+                    // Add selected scrip for session
+                    userSessSrv.add2CurrScrip(scrip);
                     // Now proceed with health checkup
                     try
                     {

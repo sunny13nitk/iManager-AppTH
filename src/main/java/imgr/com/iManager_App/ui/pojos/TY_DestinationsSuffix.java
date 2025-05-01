@@ -26,4 +26,5 @@ public class TY_DestinationsSuffix
     private String scrips;
     private String stgyunstaged;
     private String stgyexec;
+    private String screenerloadallscrips;
 }

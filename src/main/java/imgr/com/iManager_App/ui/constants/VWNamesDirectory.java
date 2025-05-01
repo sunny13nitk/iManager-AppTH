@@ -37,6 +37,7 @@ public class VWNamesDirectory
         viewsDescMap.add(new TY_ViewMappings(EnumVWNames.ScripsHC, "/utils/hc", "scHC"));
         viewsDescMap.add(new TY_ViewMappings(EnumVWNames.HCSel, "/hc/", "hc"));
         viewsDescMap.add(new TY_ViewMappings(EnumVWNames.StgyList, "/strategies/list", "stgyList"));
+        viewsDescMap.add(new TY_ViewMappings(EnumVWNames.StgyResults, "/strategies/exec/{stgyName}", "stgyResults"));
 
         return viewsDescMap;
     }

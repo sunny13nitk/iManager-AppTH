@@ -1,5 +1,8 @@
 package imgr.com.iManager_App.ui.pojos;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+@JsonDeserialize(as = CL_ScripAnalysisData.class)
 public interface IF_ScripAnalysisData
 {
     String getSccode();
@@ -53,5 +56,29 @@ public interface IF_ScripAnalysisData
     Double getWc2rev();
 
     Double getCc();
+
+    Double getDivyield();
+
+    Double getUph();
+
+    Double getChph3y();
+
+    Double getIndpe();
+
+    Double getAtr();
+
+    Double getNpmlastq();
+
+    Double getNpmpyq();
+
+    Double getHigh52w();
+
+    Double getLow52w();
+
+    Double getDe();
+
+    Double getSrvr();
+
+    Double getRetidx();
 
 }
