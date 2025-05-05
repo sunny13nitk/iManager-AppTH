@@ -54,7 +54,7 @@
         tbody td,
 
         thead th {
-            width: 100px;
+            width: 135px;
             border-right: 2px solid black;
             text-align: center;
         }
@@ -187,7 +187,7 @@
                                 data-cls-hint="bg-LightGreen fg-black" data-hint-text="Details"><span
                                     class="mif-news icon" style="margin-left: 0px"></span></a>
 
-                            <a class="button rounded mini outline" th:href="@{'/hc/nav/'+${item.getSccode()}}"
+                            <a class="button rounded mini outline" th:href="@{'/hc/nav/'+${wl.scrip}}"
                                 target="_blank" style="color: black; background: transparent" data-role="hint"
                                 data-hint-position="top" data-cls-hint="bg-LightGreen fg-black"
                                 data-hint-text="Health Check"><span class="mif-brackets-hexagon"
@@ -198,7 +198,7 @@
                                 data-hint-position="top" data-cls-hint="bg-LightGreen fg-black"
                                 data-hint-text="Scan PF"><span class="mif-codescan icon"
                                     style="margin-left: 0px"></span></a>
-                                    
+
                             <a class="button rounded mini outline" th:href=" ${wl.notesLink}" target="_blank"
                                 style="color: black; background: transparent" data-role="hint" data-hint-position="top"
                                 data-cls-hint="bg-LightGreen fg-black" data-hint-text="Notes"><span class="mif-list2"
