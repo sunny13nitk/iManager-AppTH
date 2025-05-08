@@ -16,54 +16,56 @@
 </head>
 
 <body>
-    <!-- Top Menu Bar Fragment -->
-    <div th:replace="~{fragments/menubar :: iMgrAppBar(userDetails=${userDetails})}"></div>
-
-    <div class="colspan-9" style="margin-top: 50px;padding: 20px;">
-        <div class=" card bg-white bd-lightCyan" style="padding: 20px; width:80%;">
-            <h6 style="color:  #239EE3; background-color: #F7FCFE;padding: 10px; ">Add References for Scrip -
-                <span style="color: #1880BB; font-weight: bold; font-size: 1.15em; margin-left: 2px"
-                    th:text="${ref.scrip}">ABB</span>
-
-                <a href="#" class="button primary rounded outline mini"
-                    th:href="@{'/wl/db/' + ${ref.scrip}}" role="button" style="margin-left: 700px;"> <span
-                        class="mif-backspace icon" style="margin-left: 0px"></span> <span style="margin-left: px">Back
-                        to Scrip</span>
-                </a>
-            </h6>
-
-            <!-- Token ocnfig - Starts  -->
-
-
-            <!--Error Messages Row - Ends -->
-            <form th:object="${ref}" th:action="@{'/wl/refUpdate'} " method="post">
-                <input type="hidden" th:field="*{scrip}" />
-
-                <div class="cell-9" style="margin-top: 15px; margin-bottom: 10px;">
-                    <input type="text" data-role="materialinput" placeholder="Reference Title"
-                        data-icon="<span class='mif-bookmark'>" data-label="Title" data-informer="Enter reference title"
-                        data-cls-line="bg-cyan" data-cls-label="fg-cyan" data-cls-informer="fg-lightCyan"
-                        data-cls-icon="fg-darkCyan" th:field="*{title}">
-                </div>
-
-                <div class="cell-9" style="margin-top: 15px; margin-bottom: 10px;">
-                    <input type="text" data-role="materialinput" placeholder="Url"
-                        data-icon="<span class='mif-link_on'>" data-label="Url" data-informer="Enter reference url"
-                        data-cls-line="bg-cyan" data-cls-label="fg-cyan" data-cls-informer="fg-lightCyan"
-                        data-cls-icon="fg-darkCyan" th:field="*{url}">
-                </div>
-
-
-                <div class="row flex-justify-end" style="padding-right: 50px; padding-top: 5px; padding-bottom: 40px">
-                    <button class="button mini primary rounded outline" style="margin-left: 0px">
-                        <span class="mif-floppy-disk" style="margin-left: 0px"> </span> <span
-                            style="margin-left: 3px">Save</span>
-                    </button>
-                </div>
-            </form>
+    <div class="row-12" style="padding: 0px; margin: 0px;">
+        <div class="col-xs-12" style="padding: 0px; margin: 0px;">
+            <div th:replace="~{fragments/menubar :: iMgrAppBar(userDetails=${userDetails})}"></div>
         </div>
-    </div>
-    <!-- URL config Form Row - Ends  -->
+        <div class="colspan-9" style="margin-top: 50px;padding: 20px;">
+            <div class=" card bg-white bd-lightCyan" style="padding: 20px; width:80%;">
+                <h6 style="color:  #239EE3; background-color: #F7FCFE;padding: 10px; ">Add References for Scrip -
+                    <span style="color: #1880BB; font-weight: bold; font-size: 1.15em; margin-left: 2px"
+                        th:text="${ref.scrip}">ABB</span>
+
+                    <a href="#" class="button primary rounded outline mini" th:href="@{'/wl/db/' + ${ref.scrip}}"
+                        role="button" style="margin-left: 700px;"> <span class="mif-backspace icon"
+                            style="margin-left: 0px"></span> <span style="margin-left: px">Back
+                            to Scrip</span>
+                    </a>
+                </h6>
+
+                <!-- Token ocnfig - Starts  -->
+
+
+                <!--Error Messages Row - Ends -->
+                <form th:object="${ref}" th:action="@{'/wl/refUpdate'} " method="post">
+                    <input type="hidden" th:field="*{scrip}" />
+
+                    <div class="cell-9" style="margin-top: 15px; margin-bottom: 10px;">
+                        <input type="text" data-role="materialinput" placeholder="Reference Title"
+                            data-icon="<span class='mif-bookmark'>" data-label="Title"
+                            data-informer="Enter reference title" data-cls-line="bg-cyan" data-cls-label="fg-cyan"
+                            data-cls-informer="fg-lightCyan" data-cls-icon="fg-darkCyan" th:field="*{title}">
+                    </div>
+
+                    <div class="cell-9" style="margin-top: 15px; margin-bottom: 10px;">
+                        <input type="text" data-role="materialinput" placeholder="Url"
+                            data-icon="<span class='mif-link_on'>" data-label="Url" data-informer="Enter reference url"
+                            data-cls-line="bg-cyan" data-cls-label="fg-cyan" data-cls-informer="fg-lightCyan"
+                            data-cls-icon="fg-darkCyan" th:field="*{url}">
+                    </div>
+
+
+                    <div class="row flex-justify-end"
+                        style="padding-right: 50px; padding-top: 5px; padding-bottom: 40px">
+                        <button class="button mini primary rounded outline" style="margin-left: 0px">
+                            <span class="mif-floppy-disk" style="margin-left: 0px"> </span> <span
+                                style="margin-left: 3px">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- URL config Form Row - Ends  -->
     </div>
 
     <script src="https://cdn.metroui.org.ua/5.0.6/metro.js"></script>

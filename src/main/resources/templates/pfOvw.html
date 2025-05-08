@@ -71,285 +71,291 @@
 </head>
 
 <body>
-    <!-- Top Menu Bar Fragment -->
-    <div th:replace="~{fragments/menubar :: iMgrAppBar(userDetails=${userDetails})}"></div>
-
-    <div class="grid">
-        <!-- Header Row -->
-        <div class="row flex-justify-center" style="margin-top: 80px;">
-            <h4 style="color:  #239EE3; ">
-                <span class="mif-databases fg-cyan" style="margin-right:5px;"></span>
-                My Portfolio
-
-                <a href="#" class="button info cycle small outline" th:href="@{/pf/refresh}" role="button"
-                    style="margin-left: 10px;margin-bottom: +6px;">
-                    <span class="mif-refresh  mif-2x"></span>
-                </a>
-            </h4>
-
+    <div class="row-12" style="padding: 0px; margin: 0px;">
+        <div class="col-xs-12" style="padding: 0px; margin: 0px;">
+            <div th:replace="~{fragments/menubar :: iMgrAppBar(userDetails=${userDetails})}"></div>
         </div>
-        <div class="row ">
+        <div class="grid">
+            <!-- Header Row -->
+            <div class="row flex-justify-center" style="margin-top: 80px;">
+                <h4 style="color:  #239EE3; ">
+                    <span class="mif-databases fg-cyan" style="margin-right:5px;"></span>
+                    My Portfolio
 
-            <div class="card bg-white bd-lightCyan" style=" width:90%; margin-top: -15px;">
-                <div class="row">
-                    <div class="cell-md-3" style="padding: 20px;">
-                        <blockquote class="right-side">
-                            <h4 style="color:  #239EE3; " th:text="${pf.pfHeader.totalInvestmentM}">93.87 Lacs</h4>
-                            <small style="color: #1880BB; font-weight: medium;">Total Investments</small>
-                        </blockquote>
+                    <a href="#" class="button info cycle small outline" th:href="@{/pf/refresh}" role="button"
+                        style="margin-left: 10px;margin-bottom: +6px;">
+                        <span class="mif-refresh  mif-2x"></span>
+                    </a>
+                </h4>
+
+            </div>
+            <div class="row ">
+
+                <div class="card bg-white bd-lightCyan" style=" width:90%; margin-top: -15px;">
+                    <div class="row">
+                        <div class="cell-md-3" style="padding: 20px;">
+                            <blockquote class="right-side">
+                                <h4 style="color:  #239EE3; " th:text="${pf.pfHeader.totalInvestmentM}">93.87 Lacs</h4>
+                                <small style="color: #1880BB; font-weight: medium;">Total Investments</small>
+                            </blockquote>
+                        </div>
+
+
+                        <div class="cell-md-3" style="padding: 20px;">
+
+                            <blockquote class="right-side"
+                                th:if="${pf.pfHeader.totalCurrentValue > pf.pfHeader.totalInvestment}">
+                                <h4 style="color:  #239EE3; ">
+                                    <span class="mif-arrow-drop-up mif-2x fg-darkGreen" style="margin-top: -5px;">
+                                    </span>
+                                    <span th:text="${pf.pfHeader.totalCurrentValueM}" style="margin-top: -15px;"></span>
+                                </h4>
+                                <small style="color: #1880BB; font-weight: medium;">Current Value</small>
+                            </blockquote>
+
+                            <blockquote class="right-side"
+                                th:if="${pf.pfHeader.totalCurrentValue < pf.pfHeader.totalInvestment}">
+                                <h4 style="color:  #239EE3; ">
+                                    <span class="mif-arrow-drop-down mif-2x fg-red" style="margin-top: -5px;"> </span>
+                                    <span th:text="${pf.pfHeader.totalCurrentValueM}" style="margin-top: -15px;"></span>
+                                </h4>
+                                <small style="color: #1880BB; font-weight: medium;">Current Value</small>
+                            </blockquote>
+                        </div>
+
+
+                        <div class="cell-md-3" style="padding: 20px;">
+                            <blockquote class="right-side" th:if="${pf.pfHeader.dayPLPer >=0}">
+                                <h4> <span class=" tally"
+                                        style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);"
+                                        th:text="${pf.pfHeader.dayPLM}">-98.1 K </span>
+                                    <span class="tally"
+                                        style="font-weight: bolder;font-size:medium ;   background-color: #C4E9D7; color: rgb(6, 144, 66);"
+                                        th:text="${pf.pfHeader.dayPLPer}"> -1.2 </span> <span class="tally"
+                                        style="font-weight: bolder;font-size:medium; background-color: #C4E9D7; color: rgb(6, 144, 66); margin-left: -12px;">
+                                        %
+                                    </span>
+                                </h4>
+
+                                <small style="color: #1880BB; font-weight: medium;">Day's P&L</small>
+                            </blockquote>
+
+                            <blockquote class="right-side" th:if="${pf.pfHeader.dayPLPer <0}">
+                                <h4> <span class=" tally"
+                                        style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
+                                        th:text="${pf.pfHeader.dayPLM}">-98.1 K </span>
+                                    <span class="tally"
+                                        style="font-weight: bolder;font-size:medium ;   background-color: #faeeea; color: rgb(169, 13, 13);"
+                                        th:text="${pf.pfHeader.dayPLPer}"> -1.2 </span> <span class="tally"
+                                        style="font-weight: bolder;font-size:medium; background-color: #faeeea; color: rgb(169, 13, 13); margin-left: -12px;">
+                                        %
+                                    </span>
+                                </h4>
+
+                                <small style="color: #1880BB; font-weight: medium;">Day's P&L</small>
+                            </blockquote>
+                        </div>
+
+
+                        <div class="cell-md-3" style="padding: 20px;">
+                            <blockquote class="right-side" th:if="${pf.pfHeader.totalPLPer >=0}">
+                                <h4> <span class=" tally"
+                                        style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);"
+                                        th:text="${pf.pfHeader.totalPLM}">-98.1 K </span>
+                                    <span class="tally"
+                                        style="font-weight: bolder;font-size:medium ;   background-color: #C4E9D7; color: rgb(6, 144, 66);"
+                                        th:text="${pf.pfHeader.totalPLPer}"> -1.2 </span> <span class="tally"
+                                        style="font-weight: bolder;font-size:medium; background-color: #C4E9D7; color: rgb(6, 144, 66); margin-left: -12px;">
+                                        %
+                                    </span>
+                                </h4>
+
+                                <small style="color: #1880BB; font-weight: medium;">Nett. P&L</small>
+                            </blockquote>
+
+                            <blockquote class="right-side" th:if="${pf.pfHeader.totalPLPer <0}">
+                                <h4> <span class=" tally"
+                                        style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
+                                        th:text="${pf.pfHeader.totalPLM}">-98.1 K </span>
+                                    <span class="tally"
+                                        style="font-weight: bolder;font-size:medium ;   background-color: #faeeea; color: rgb(169, 13, 13);"
+                                        th:text="${pf.pfHeader.totalPLPer}"> -1.2 </span> <span class="tally"
+                                        style="font-weight: bolder;font-size:medium; background-color: #faeeea; color: rgb(169, 13, 13); margin-left: -12px;">
+                                        %
+                                    </span>
+                                </h4>
+
+                                <small style="color: #1880BB; font-weight: medium;">Nett. P&L</small>
+                            </blockquote>
+                        </div>
+
+
                     </div>
-
-
-                    <div class="cell-md-3" style="padding: 20px;">
-
-                        <blockquote class="right-side"
-                            th:if="${pf.pfHeader.totalCurrentValue > pf.pfHeader.totalInvestment}">
-                            <h4 style="color:  #239EE3; ">
-                                <span class="mif-arrow-drop-up mif-2x fg-darkGreen" style="margin-top: -5px;"> </span>
-                                <span th:text="${pf.pfHeader.totalCurrentValueM}" style="margin-top: -15px;"></span>
-                            </h4>
-                            <small style="color: #1880BB; font-weight: medium;">Current Value</small>
-                        </blockquote>
-
-                        <blockquote class="right-side"
-                            th:if="${pf.pfHeader.totalCurrentValue < pf.pfHeader.totalInvestment}">
-                            <h4 style="color:  #239EE3; ">
-                                <span class="mif-arrow-drop-down mif-2x fg-red" style="margin-top: -5px;"> </span>
-                                <span th:text="${pf.pfHeader.totalCurrentValueM}" style="margin-top: -15px;"></span>
-                            </h4>
-                            <small style="color: #1880BB; font-weight: medium;">Current Value</small>
-                        </blockquote>
-                    </div>
-
-
-                    <div class="cell-md-3" style="padding: 20px;">
-                        <blockquote class="right-side" th:if="${pf.pfHeader.dayPLPer >=0}">
-                            <h4> <span class=" tally"
-                                    style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);"
-                                    th:text="${pf.pfHeader.dayPLM}">-98.1 K </span>
-                                <span class="tally"
-                                    style="font-weight: bolder;font-size:medium ;   background-color: #C4E9D7; color: rgb(6, 144, 66);"
-                                    th:text="${pf.pfHeader.dayPLPer}"> -1.2 </span> <span class="tally"
-                                    style="font-weight: bolder;font-size:medium; background-color: #C4E9D7; color: rgb(6, 144, 66); margin-left: -12px;">
-                                    %
-                                </span>
-                            </h4>
-
-                            <small style="color: #1880BB; font-weight: medium;">Day's P&L</small>
-                        </blockquote>
-
-                        <blockquote class="right-side" th:if="${pf.pfHeader.dayPLPer <0}">
-                            <h4> <span class=" tally"
-                                    style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
-                                    th:text="${pf.pfHeader.dayPLM}">-98.1 K </span>
-                                <span class="tally"
-                                    style="font-weight: bolder;font-size:medium ;   background-color: #faeeea; color: rgb(169, 13, 13);"
-                                    th:text="${pf.pfHeader.dayPLPer}"> -1.2 </span> <span class="tally"
-                                    style="font-weight: bolder;font-size:medium; background-color: #faeeea; color: rgb(169, 13, 13); margin-left: -12px;">
-                                    %
-                                </span>
-                            </h4>
-
-                            <small style="color: #1880BB; font-weight: medium;">Day's P&L</small>
-                        </blockquote>
-                    </div>
-
-
-                    <div class="cell-md-3" style="padding: 20px;">
-                        <blockquote class="right-side" th:if="${pf.pfHeader.totalPLPer >=0}">
-                            <h4> <span class=" tally"
-                                    style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);"
-                                    th:text="${pf.pfHeader.totalPLM}">-98.1 K </span>
-                                <span class="tally"
-                                    style="font-weight: bolder;font-size:medium ;   background-color: #C4E9D7; color: rgb(6, 144, 66);"
-                                    th:text="${pf.pfHeader.totalPLPer}"> -1.2 </span> <span class="tally"
-                                    style="font-weight: bolder;font-size:medium; background-color: #C4E9D7; color: rgb(6, 144, 66); margin-left: -12px;">
-                                    %
-                                </span>
-                            </h4>
-
-                            <small style="color: #1880BB; font-weight: medium;">Nett. P&L</small>
-                        </blockquote>
-
-                        <blockquote class="right-side" th:if="${pf.pfHeader.totalPLPer <0}">
-                            <h4> <span class=" tally"
-                                    style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
-                                    th:text="${pf.pfHeader.totalPLM}">-98.1 K </span>
-                                <span class="tally"
-                                    style="font-weight: bolder;font-size:medium ;   background-color: #faeeea; color: rgb(169, 13, 13);"
-                                    th:text="${pf.pfHeader.totalPLPer}"> -1.2 </span> <span class="tally"
-                                    style="font-weight: bolder;font-size:medium; background-color: #faeeea; color: rgb(169, 13, 13); margin-left: -12px;">
-                                    %
-                                </span>
-                            </h4>
-
-                            <small style="color: #1880BB; font-weight: medium;">Nett. P&L</small>
-                        </blockquote>
-                    </div>
-
-
                 </div>
+
             </div>
 
-        </div>
+            <div class="row" th:if="${pf.pfItems !=null}" style="padding: 10px;">
+                <div class="cell-12">
+                    <table class="table compact striped table-border cell-border row-hover scrolldown" data-role="table"
+                        data-rows='-1' data-show-search="true" data-horizontal-scroll="true">
+                        <thead>
+                            <tr>
+                                <th data-cls-column="text-center" align="center">Actions</th>
+                                <th data-name="scrip" align="left" class="sortable-column sort-asc"
+                                    data-cls-column=" text-left">Scrip</th>
 
-        <div class="row" th:if="${pf.pfItems !=null}" style="padding: 10px;">
-            <div class="cell-12">
-                <table class="table compact striped table-border cell-border row-hover scrolldown" data-role="table"
-                    data-rows='-1' data-show-search="true" data-horizontal-scroll="true">
-                    <thead>
-                        <tr>
-                            <th data-cls-column="text-center" align="center">Actions</th>
-                            <th data-name="scrip" align="left" class="sortable-column sort-asc"
-                                data-cls-column=" text-left">Scrip</th>
+                                <th data-name="units" align="center" data-cls-column="text-center; fg-darkBlue">
+                                    Units
+                                </th>
 
-                            <th data-name="units" align="center" data-cls-column="text-center; fg-darkBlue">
-                                Units
-                            </th>
-
-                            <th data-name="ppu" data-format="float" data-cls-column=" text-center; fg-darkBlue ; ">Avg.
-                                Price</th>
-
-
-                            <th data-name="cmp" data-format="number" data-cls-column=" text-center">
-                                CMP</th>
-
-                            <th data-name="daysChgD" data-format="number" data-cls-column=" text-center">
-                                Day's change %</th>
-
-                            <th data-name="invM" data-format="number" data-cls-column=" text-center">Investment</th>
-
-                            <th data-name="perByInv" data-format="number" class="sortable-column"
-                                data-cls-column=" text-center">% PF by Inv
-                            </th>
-
-                            <th data-name="curValM" data-format="number" data-cls-column=" text-center">
-                                Curr. Val</th>
-
-                            <th data-name="perByCurVal" data-format="float" data-cls-column=" text-center"
-                                class="sortable-column">% PF by CMP
-                            </th>
+                                <th data-name="ppu" data-format="float" data-cls-column=" text-center; fg-darkBlue ; ">
+                                    Avg.
+                                    Price</th>
 
 
-                            <th data-name="plPerDayM" data-format="float"
-                                data-cls-column=" text-center; fg-darkTeal ; ">
-                                Day's P&L Abs.</th>
+                                <th data-name="cmp" data-format="number" data-cls-column=" text-center">
+                                    CMP</th>
 
-                            <th data-name="plPer" data-format="float" data-cls-column=" text-center; fg-darkTeal ; ">
-                                P&L %</th>
+                                <th data-name="daysChgD" data-format="number" data-cls-column=" text-center">
+                                    Day's change %</th>
 
-                            <th data-name="plAbsM" data-format="number" data-cls-column=" text-center; fg-darkTeal ; ">
-                                P&L Abs.</th>
+                                <th data-name="invM" data-format="number" data-cls-column=" text-center">Investment</th>
 
+                                <th data-name="perByInv" data-format="number" class="sortable-column"
+                                    data-cls-column=" text-center">% PF by Inv
+                                </th>
 
+                                <th data-name="curValM" data-format="number" data-cls-column=" text-center">
+                                    Curr. Val</th>
 
-
-                        </tr>
-                    </thead>
-
-                    <tbody>
-
-
-                        <tr th:each="pfItem : ${pf.pfItems}">
+                                <th data-name="perByCurVal" data-format="float" data-cls-column=" text-center"
+                                    class="sortable-column">% PF by CMP
+                                </th>
 
 
-                            <td style="text-align: center;"><a class="button rounded mini outline"
-                                    th:href="@{'/pf/txn/'+${pfItem.scrip}}"
-                                    style="color: black; background: transparent" data-role="hint"
-                                    data-hint-position="top" data-cls-hint="bg-LightGreen fg-black"
-                                    data-hint-text="Transact"><span class="mif-coins icon"
-                                        style="margin-left: 0px"></span></a>
-                                <a class="button rounded mini outline" th:href="@{'/pf/sim/'+${pfItem.scrip}}"
-                                    style="color: black; background: transparent" data-role="hint"
-                                    data-hint-position="top" data-cls-hint="bg-LightGreen fg-black"
-                                    data-hint-text="Simulate"><span class="mif-sunrise icon"
-                                        style="margin-left: 0px"></span></a>
+                                <th data-name="plPerDayM" data-format="float"
+                                    data-cls-column=" text-center; fg-darkTeal ; ">
+                                    Day's P&L Abs.</th>
 
-                                <a class="button rounded mini outline" th:href="@{'/wl/db/'+${pfItem.scrip}}"
-                                    target="_blank" style="color: black; background: transparent" data-role="hint"
-                                    data-hint-position="top" data-cls-hint="bg-LightGreen fg-black"
-                                    data-hint-text="Watchlist View - ERR"><span class="mif-dashboard icon"
-                                        style="margin-left: 0px"></span></a>
-                            </td>
+                                <th data-name="plPer" data-format="float"
+                                    data-cls-column=" text-center; fg-darkTeal ; ">
+                                    P&L %</th>
 
-
-
-                            <td> <span class="tally"
-                                    style="font-weight: bold; background-color: #FAFAFA; color: rgb(93, 93, 93);"
-                                    th:text="${pfItem.scrip}"></span></td>
-
-                            <td th:text="${pfItem.units}"></td>
-
-                            <td th:text="${pfItem.ppu}"></td>
-
-                            <td th:text="${pfItem.cmp}"></td>
-
-
-                            <td style="text-align: center; " th:if="${pfItem.daysChgD >=0}">
-                                <span class="tally"
-                                    style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);"
-                                    th:text="${pfItem.daysChgD}"></span>
-                            </td>
-
-                            <td style="text-align: center; " th:if="${pfItem.daysChgD <0}">
-                                <span class="tally"
-                                    style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
-                                    th:text="${pfItem.daysChgD}"></span>
-                            </td>
-
-
-                            <td th:text="${pfItem.invM}"></td>
-                            <td th:text="${pfItem.perByInv}"></td>
-                            <td th:text="${pfItem.curValM}"></td>
-                            <td th:text="${pfItem.perByCurVal}"></td>
-
-
-                            <td style="text-align: center; " th:if="${pfItem.plPerDay >=0}">
-                                <span class="tally"
-                                    style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);"
-                                    th:text="${pfItem.plPerDay}"></span>
-                            </td>
-
-                            <td style="text-align: center; " th:if="${pfItem.plPerDay <0}">
-                                <span class="tally"
-                                    style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
-                                    th:text="${pfItem.plPerDay}"></span>
-                            </td>
+                                <th data-name="plAbsM" data-format="number"
+                                    data-cls-column=" text-center; fg-darkTeal ; ">
+                                    P&L Abs.</th>
 
 
 
 
-                            <td style="text-align: center; " th:if="${pfItem.plPer >=0}">
-                                <span class="tally"
-                                    style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);"
-                                    th:text="${pfItem.plPer}"></span>
-                            </td>
+                            </tr>
+                        </thead>
 
-                            <td style="text-align: center; " th:if="${pfItem.plPer <0}">
-                                <span class="tally"
-                                    style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
-                                    th:text="${pfItem.plPer}"></span>
-                            </td>
+                        <tbody>
 
 
-                            <td style="text-align: center; " th:if="${pfItem.plPer >=0}">
-                                <span class="tally"
-                                    style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);"
-                                    th:text="${pfItem.plAbsM}"></span>
-                            </td>
+                            <tr th:each="pfItem : ${pf.pfItems}">
 
-                            <td style="text-align: center; " th:if="${pfItem.plPer <0}">
-                                <span class="tally"
-                                    style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
-                                    th:text="${pfItem.plAbsM}"></span>
-                            </td>
 
-                        </tr>
+                                <td style="text-align: center;"><a class="button rounded mini outline"
+                                        th:href="@{'/pf/txn/'+${pfItem.scrip}}"
+                                        style="color: black; background: transparent" data-role="hint"
+                                        data-hint-position="top" data-cls-hint="bg-LightGreen fg-black"
+                                        data-hint-text="Transact"><span class="mif-coins icon"
+                                            style="margin-left: 0px"></span></a>
+                                    <a class="button rounded mini outline" th:href="@{'/pf/sim/'+${pfItem.scrip}}"
+                                        style="color: black; background: transparent" data-role="hint"
+                                        data-hint-position="top" data-cls-hint="bg-LightGreen fg-black"
+                                        data-hint-text="Simulate"><span class="mif-sunrise icon"
+                                            style="margin-left: 0px"></span></a>
 
-                    </tbody>
-                </table>
+                                    <a class="button rounded mini outline" th:href="@{'/wl/db/'+${pfItem.scrip}}"
+                                        target="_blank" style="color: black; background: transparent" data-role="hint"
+                                        data-hint-position="top" data-cls-hint="bg-LightGreen fg-black"
+                                        data-hint-text="Watchlist View - ERR"><span class="mif-add-task icon"
+                                            style="margin-left: 0px"></span></a>
+                                </td>
+
+
+
+                                <td> <span class="tally"
+                                        style="font-weight: bold; background-color: #FAFAFA; color: rgb(93, 93, 93);"
+                                        th:text="${pfItem.scrip}"></span></td>
+
+                                <td th:text="${pfItem.units}"></td>
+
+                                <td th:text="${pfItem.ppu}"></td>
+
+                                <td th:text="${pfItem.cmp}"></td>
+
+
+                                <td style="text-align: center; " th:if="${pfItem.daysChgD >=0}">
+                                    <span class="tally"
+                                        style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);"
+                                        th:text="${pfItem.daysChgD}"></span>
+                                </td>
+
+                                <td style="text-align: center; " th:if="${pfItem.daysChgD <0}">
+                                    <span class="tally"
+                                        style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
+                                        th:text="${pfItem.daysChgD}"></span>
+                                </td>
+
+
+                                <td th:text="${pfItem.invM}"></td>
+                                <td th:text="${pfItem.perByInv}"></td>
+                                <td th:text="${pfItem.curValM}"></td>
+                                <td th:text="${pfItem.perByCurVal}"></td>
+
+
+                                <td style="text-align: center; " th:if="${pfItem.plPerDay >=0}">
+                                    <span class="tally"
+                                        style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);"
+                                        th:text="${pfItem.plPerDay}"></span>
+                                </td>
+
+                                <td style="text-align: center; " th:if="${pfItem.plPerDay <0}">
+                                    <span class="tally"
+                                        style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
+                                        th:text="${pfItem.plPerDay}"></span>
+                                </td>
+
+
+
+
+                                <td style="text-align: center; " th:if="${pfItem.plPer >=0}">
+                                    <span class="tally"
+                                        style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);"
+                                        th:text="${pfItem.plPer}"></span>
+                                </td>
+
+                                <td style="text-align: center; " th:if="${pfItem.plPer <0}">
+                                    <span class="tally"
+                                        style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
+                                        th:text="${pfItem.plPer}"></span>
+                                </td>
+
+
+                                <td style="text-align: center; " th:if="${pfItem.plPer >=0}">
+                                    <span class="tally"
+                                        style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);"
+                                        th:text="${pfItem.plAbsM}"></span>
+                                </td>
+
+                                <td style="text-align: center; " th:if="${pfItem.plPer <0}">
+                                    <span class="tally"
+                                        style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
+                                        th:text="${pfItem.plAbsM}"></span>
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
-
         </div>
     </div>
 

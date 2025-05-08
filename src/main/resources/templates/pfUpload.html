@@ -16,47 +16,49 @@
 </head>
 
 <body>
-    <!-- Top Menu Bar Fragment -->
-    <div th:replace="~{fragments/menubar :: iMgrAppBar(userDetails=${userDetails})}"></div>
+    <div class="row-12" style="padding: 0px; margin: 0px;">
+        <div class="col-xs-12" style="padding: 0px; margin: 0px;">
+            <div th:replace="~{fragments/menubar :: iMgrAppBar(userDetails=${userDetails})}"></div>
+        </div>
 
 
+        <!-- Token ocnfig - Starts  -->
+        <div class="colspan-5" style="margin-top: 50px;padding: 20px;">
+            <div class="card bg-white bd-lightCyan" style="padding: 20px; width:60%;">
+                <h6 style="color:  #239EE3; background-color: #F7FCFE;padding: 10px; ">Upload/Update Portfolio from csv
+                    file..
+                    <small> Portfolio csv to contain Instrument, Qty and Avg. Cost</small>
+                </h6>
 
-    <!-- Token ocnfig - Starts  -->
-    <div class="colspan-5" style="margin-top: 50px;padding: 20px;">
-        <div class="card bg-white bd-lightCyan" style="padding: 20px; width:60%;">
-            <h6 style="color:  #239EE3; background-color: #F7FCFE;padding: 10px; ">Upload/Update Portfolio from csv file..
-                <small> Portfolio csv to contain Instrument, Qty and Avg. Cost</small>
-            </h6>
+                <!--Error Messages Row - Starts -->
 
-            <!--Error Messages Row - Starts -->
-
-            <div class="col-xs-15">
-                <div th:if="!${#strings.isEmpty(message)}">
-                    <!-- Check for Form error -->
-                    <div data-role="panel" data-title-caption="Error(s)" data-collapsed="false" data-collapsible="true"
-                        data-cls-panel="shadow-3" data-cls-title="bg-lightCyan fg-white"
-                        data-cls-content="bg-white fg-cyan">
-                        <div class="cell-10">
-                            <label style="text-align: left; padding: 8px;" th:text="${message}"></label>
+                <div class="col-xs-15">
+                    <div th:if="!${#strings.isEmpty(message)}">
+                        <!-- Check for Form error -->
+                        <div data-role="panel" data-title-caption="Error(s)" data-collapsed="false"
+                            data-collapsible="true" data-cls-panel="shadow-3" data-cls-title="bg-lightCyan fg-white"
+                            data-cls-content="bg-white fg-cyan">
+                            <div class="cell-10">
+                                <label style="text-align: left; padding: 8px;" th:text="${message}"></label>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <!--Error Messages Row - Ends -->
+                <form enctype="multipart/form-data" th:action="@{'/pf/uploadPF'}" method="post">
+
+                    <div style="padding: 40px">
+                        <input type="file" data-role="file" name="file" data-mode="drop"
+                            data-prepend="Select Image for Journal Snippet Entry:">
+                    </div>
+                    <div class="form-group">
+                        <button class="button info">Upload</button>
+                    </div>
+                </form>
             </div>
-
-            <!--Error Messages Row - Ends -->
-            <form enctype="multipart/form-data" th:action="@{'/pf/uploadPF'}" method="post">
-
-                <div style="padding: 40px">
-                    <input type="file" data-role="file" name="file" data-mode="drop"
-                        data-prepend="Select Image for Journal Snippet Entry:">
-                </div>
-                <div class="form-group">
-                    <button class="button info">Upload</button>
-                </div>
-            </form>
         </div>
-    </div>
-    <!-- URL config Form Row - Ends  -->
+        <!-- URL config Form Row - Ends  -->
     </div>
 
     <script src="https://cdn.metroui.org.ua/5.0.6/metro.js"></script>

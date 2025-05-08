@@ -17,30 +17,32 @@
 
 
 <body>
-    <!-- Top Menu Bar Fragment -->
-    <div th:replace="~{fragments/menubar :: iMgrAppBar(userDetails=${userDetails})}"></div>
+    <div class="row-12" style="padding: 0px; margin: 0px;">
+        <div class="col-xs-12" style="padding: 0px; margin: 0px;">
+            <div th:replace="~{fragments/menubar :: iMgrAppBar(userDetails=${userDetails})}"></div>
+        </div>
 
+        <div class="row-12" style="padding: 150px;">
+            <div class="frame">
 
-
-    <div class="row-12" style="padding: 150px;">
-        <div class="frame">
-
-            <div class="remark info " style="padding-top: 10px; margin: 2px">
-                <h2>Runtime Exception!</h2>
-                <h6 style="color: gray"> Problem Details </h6>
-                <small style="color: darkgray" th:text="${formError}">Not able to persist Entity </small>
-                <div>
-                    <a href="#" class="button primary rounded outline mini" th:href="@{/home}" role="button"
-                        style="margin-left: 600px;"> <span class="mif-backspace icon" style="margin-left: 0px"></span>
-                        <span style="margin-left: px">Back to Home</span>
-                    </a>
+                <div class="remark info " style="padding-top: 10px; margin: 2px">
+                    <h2>Runtime Exception!</h2>
+                    <h6 style="color: gray"> Problem Details </h6>
+                    <small style="color: darkgray" th:text="${formError}">Not able to persist Entity </small>
+                    <div>
+                        <a href="#" class="button primary rounded outline mini" th:href="@{/home}" role="button"
+                            style="margin-left: 600px;"> <span class="mif-backspace icon"
+                                style="margin-left: 0px"></span>
+                            <span style="margin-left: px">Back to Home</span>
+                        </a>
+                    </div>
                 </div>
+
+
+
+
+
             </div>
-
-
-
-
-
         </div>
     </div>
 

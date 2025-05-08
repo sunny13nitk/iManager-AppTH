@@ -16,267 +16,269 @@
 </head>
 
 <body>
-    <!-- Top Menu Bar Fragment -->
-    <div th:replace="~{fragments/menubar :: iMgrAppBar(userDetails=${userDetails})}"></div>
+    <div class="row-12" style="padding: 0px; margin: 0px;">
+        <div class="col-xs-12" style="padding: 0px; margin: 0px;">
+            <div th:replace="~{fragments/menubar :: iMgrAppBar(userDetails=${userDetails})}"></div>
+        </div>
+
+        <!-- Token ocnfig - Starts  -->
+        <div class="colspan-10" style="margin-top: 50px;padding: 20px;">
+            <div class=" card bg-white bd-lightCyan" style="padding: 20px; width:100%;">
+                <h6 style="color:  #239EE3; background-color: #F7FCFE;padding: 10px; ">Watchlist Details for Scrip -
+                    <span style="color: #1880BB; font-weight: bold; font-size: 1.15em; margin-left: 2px"
+                        th:text="${wlT.scrip}">ABB</span>
+
+                    <a href="#" class="button primary rounded outline mini" th:href="@{'/wl/db/' + ${wlT.scrip}}"
+                        role="button" style="margin-left: 700px;"> <span class="mif-backspace icon"
+                            style="margin-left: 0px"></span> <span style="margin-left: px">Back to Scrip</span>
+                    </a>
+                </h6>
 
 
 
-    <!-- Token ocnfig - Starts  -->
-    <div class="colspan-10" style="margin-top: 50px;padding: 20px;">
-        <div class=" card bg-white bd-lightCyan" style="padding: 20px; width:100%;">
-            <h6 style="color:  #239EE3; background-color: #F7FCFE;padding: 10px; ">Watchlist Details for Scrip -
-                <span style="color: #1880BB; font-weight: bold; font-size: 1.15em; margin-left: 2px"
-                    th:text="${wlT.scrip}">ABB</span>
 
-                <a href="#" class="button primary rounded outline mini" th:href="@{'/wl/db/' + ${wlT.scrip}}"
-                    role="button" style="margin-left: 700px;"> <span class="mif-backspace icon"
-                        style="margin-left: 0px"></span> <span style="margin-left: px">Back to Scrip</span>
-                </a>
-            </h6>
+                <div class="grid">
 
+                    <div data-role="panel" data-title-caption="Header Information " data-collapsed="false"
+                        data-collapsible="true" data-cls-title="bg-white fg-cyan"
+                        data-cls-panel="bd-lightCyan padding:5px">
 
+                        <form th:object="${wlT}" th:action="@{'/wl/updateWLScrip'}" method="post">
+                            <div class="row" style="padding: 10px;">
+                                <input type="hidden" th:field="*{scrip}" />
+                                <div class="cell-md-3 ">
+                                    <div class="row">
+                                        <div class="cell-md-12">
 
-
-            <div class="grid">
-
-                <div data-role="panel" data-title-caption="Header Information " data-collapsed="false"
-                    data-collapsible="true" data-cls-title="bg-white fg-cyan" data-cls-panel="bd-lightCyan padding:5px">
-
-                    <form th:object="${wlT}" th:action="@{'/wl/updateWLScrip'}" method="post">
-                        <div class="row" style="padding: 10px;">
-                            <input type="hidden" th:field="*{scrip}" />
-                            <div class="cell-md-3 ">
-                                <div class="row">
-                                    <div class="cell-md-12">
-
-                                        <input type="checkbox" data-role="checkbox" data-style="2"
-                                            th:field="*{standalone}" data-material="true"
-                                            style="color:  #239EE3; padding: 10px; font-weight:500;"
-                                            data-caption="Standalone Mode: " data-caption-position="left"
-                                            data-cls-caption="fg-cyan text-bolder">
+                                            <input type="checkbox" data-role="checkbox" data-style="2"
+                                                th:field="*{standalone}" data-material="true"
+                                                style="color:  #239EE3; padding: 10px; font-weight:500;"
+                                                data-caption="Standalone Mode: " data-caption-position="left"
+                                                data-cls-caption="fg-cyan text-bolder">
+                                        </div>
                                     </div>
                                 </div>
+
+
+                                <div class="col-md-3 ">
+                                    <div class="row">
+                                        <div class="cell-md-12" style="margin-top: 5px;">
+                                            <span style="color:  #239EE3; padding: 10px; font-weight:500;">Status:
+                                            </span>
+                                            <select class="form-control" th:field="*{status}" data-cls-option="fg-cyan"
+                                                data-cls-selected-item="bg-teal fg-white">
+                                                <option
+                                                    th:each="stat : ${T(imgr.com.iManager_App.ui.enums.EnumWLStatus).values()}"
+                                                    th:value="${stat.name()}" th:text="${stat.name()}">
+                                                </option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-3 ">
+                                    <div class="row">
+                                        <div class="cell-md-12" style="margin-top: 5px;">
+                                            <span style="color:  #239EE3; padding: 10px; font-weight:500;">Customer
+                                                Segmentation: </span>
+                                            <select class="form-control" th:field="*{cusSegment}"
+                                                data-cls-option="fg-cyan" data-cls-selected-item="bg-teal fg-white">
+                                                <option
+                                                    th:each="cs: ${T(imgr.com.iManager_App.ui.enums.EnumCS).values()}"
+                                                    th:value="${cs.name()}" th:text="${cs.name()}">
+                                                </option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-3 ">
+                                    <div class="row">
+                                        <div class="cell-md-12" style="margin-top: 5px;">
+                                            <span style="color:  #239EE3; padding: 10px; font-weight:500;">Growth:
+                                            </span>
+                                            <select class="form-control" th:field="*{growth}" data-cls-option="fg-cyan"
+                                                data-cls-selected-item="bg-teal fg-white">
+                                                <option
+                                                    th:each="gr: ${T(imgr.com.iManager_App.ui.enums.EnumLevels).values()}"
+                                                    th:value="${gr.name()}" th:text="${gr.name()}">
+                                                </option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row ">
+
+                                <div class="col-md-3 ">
+                                    <div class="row">
+                                        <div class="cell-md-12" style="margin-top: 5px;">
+                                            <span style="color:  #239EE3; padding: 10px; font-weight:500;">Conviction:
+                                            </span>
+                                            <select class="form-control" th:field="*{conviction}"
+                                                data-cls-option="fg-cyan" data-cls-selected-item="bg-teal fg-white">
+                                                <option
+                                                    th:each="cv: ${T(imgr.com.iManager_App.ui.enums.EnumLevels).values()}"
+                                                    th:value="${cv.name()}" th:text="${cv.name()}">
+                                                </option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="cell-md-3">
+                                    <div class="row" style="margin-top: -15px;">
+                                        <div class="cell-md-12">
+                                            <input type="text" data-role="materialinput"
+                                                placeholder="Earnings Growth Longevity"
+                                                data-icon="<span class='mif-calendar'>"
+                                                data-label="Earnings Growth Longevity (years)" data-cls-line="bg-cyan"
+                                                data-cls-label="fg-cyan" data-cls-informer="fg-lightCyan"
+                                                data-cls-icon="fg-darkCyan" th:field="*{longevitygr}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="cell-md-3">
+                                    <div class="row" style="margin-top: -15px;">
+                                        <div class="cell-md-12">
+                                            <input type="text" data-role="materialinput"
+                                                placeholder="Max Allocation to Portfolio"
+                                                data-icon="<span class='mif-chart-pie'>"
+                                                data-label="Max Allocation in Portfolio to the scrip"
+                                                data-informer="Choose 3/5/7 percent" data-cls-line="bg-cyan"
+                                                data-cls-label="fg-cyan" data-cls-informer="fg-lightCyan"
+                                                data-cls-icon="fg-darkCyan" th:field="*{size}">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="row ">
+
+                                <div class="col-md-3">
+                                    <div class="row" style="margin-top: 5px;">
+                                        <div class="cell-md-12">
+
+                                            <input type="text" data-role="materialinput"
+                                                placeholder="Base Case Earnings CAGR expected"
+                                                data-icon="<span class='mif-barbell'>"
+                                                data-label="Base Case Earnings CAGR expected" data-cls-label="fg-cyan"
+                                                data-cls-informer="fg-lightCyan" data-cls-icon="fg-darkCyan"
+                                                th:field="*{fwdepsgrbase}">
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="row" style="margin-top: 5px;">
+                                        <div class="cell-md-12">
+
+                                            <input type="text" data-role="materialinput"
+                                                placeholder="Base Case Terminal PE Ratio"
+                                                data-icon="<span class='mif-barbell'>"
+                                                data-label="Base Case Terminal PE Ratio" data-cls-label="fg-cyan"
+                                                data-cls-informer="fg-lightCyan" data-cls-icon="fg-darkCyan"
+                                                th:field="*{fwdpebase}">
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
                             </div>
 
 
-                            <div class="col-md-3 ">
-                                <div class="row">
-                                    <div class="cell-md-12" style="margin-top: 5px;">
-                                        <span style="color:  #239EE3; padding: 10px; font-weight:500;">Status: </span>
-                                        <select class="form-control" th:field="*{status}" data-cls-option="fg-cyan"
-                                            data-cls-selected-item="bg-teal fg-white">
-                                            <option
-                                                th:each="stat : ${T(imgr.com.iManager_App.ui.enums.EnumWLStatus).values()}"
-                                                th:value="${stat.name()}" th:text="${stat.name()}">
-                                            </option>
-                                        </select>
+                            <div class="row ">
 
+                                <div class="col-md-3">
+                                    <div class="row" style="margin-top: 5px;">
+                                        <div class="cell-md-12">
+
+                                            <input type="text" data-role="materialinput"
+                                                placeholder="Bull Case Earnings CAGR expected"
+                                                data-icon="<span class='mif-thumbs-up'>"
+                                                data-label="Bull Case Earnings CAGR expected" data-cls-label="fg-cyan"
+                                                data-cls-informer="fg-lightCyan" data-cls-icon="fg-darkCyan"
+                                                th:field="*{fwdepsgrbull}">
+
+
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+
+                                <div class="col-md-3">
+                                    <div class="row" style="margin-top: 5px;">
+                                        <div class="cell-md-12">
+
+                                            <input type="text" data-role="materialinput"
+                                                placeholder="Bull Case Terminal PE Ratio"
+                                                data-icon="<span class='mif-thumbs-up'>"
+                                                data-label="Bull Case Terminal PE Ratio" data-cls-label="fg-cyan"
+                                                data-cls-informer="fg-lightCyan" data-cls-icon="fg-darkCyan"
+                                                th:field="*{fwdpebull}">
 
 
-                            <div class="col-md-3 ">
-                                <div class="row">
-                                    <div class="cell-md-12" style="margin-top: 5px;">
-                                        <span style="color:  #239EE3; padding: 10px; font-weight:500;">Customer
-                                            Segmentation: </span>
-                                        <select class="form-control" th:field="*{cusSegment}" data-cls-option="fg-cyan"
-                                            data-cls-selected-item="bg-teal fg-white">
-                                            <option th:each="cs: ${T(imgr.com.iManager_App.ui.enums.EnumCS).values()}"
-                                                th:value="${cs.name()}" th:text="${cs.name()}">
-                                            </option>
-                                        </select>
-
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+
+                                <div class="col-md-3">
+                                    <div class="row" style="margin-top: 5px;">
+                                        <div class="cell-md-12">
+
+                                            <input type="text" data-role="materialinput" placeholder="Bull Weight Ratio"
+                                                data-icon="<span class='mif-thumbs-up'>" data-label="Bull Weight Ratio"
+                                                data-cls-label="fg-cyan" data-cls-informer="fg-lightCyan"
+                                                data-cls-icon="fg-darkCyan" th:field="*{bullWtRatio}">
 
 
-                            <div class="col-md-3 ">
-                                <div class="row">
-                                    <div class="cell-md-12" style="margin-top: 5px;">
-                                        <span style="color:  #239EE3; padding: 10px; font-weight:500;">Growth: </span>
-                                        <select class="form-control" th:field="*{growth}" data-cls-option="fg-cyan"
-                                            data-cls-selected-item="bg-teal fg-white">
-                                            <option
-                                                th:each="gr: ${T(imgr.com.iManager_App.ui.enums.EnumLevels).values()}"
-                                                th:value="${gr.name()}" th:text="${gr.name()}">
-                                            </option>
-                                        </select>
-
+                                        </div>
                                     </div>
                                 </div>
+
+
+
+
                             </div>
 
-                        </div>
-                        <div class="row ">
-
-                            <div class="col-md-3 ">
-                                <div class="row">
-                                    <div class="cell-md-12" style="margin-top: 5px;">
-                                        <span style="color:  #239EE3; padding: 10px; font-weight:500;">Conviction:
-                                        </span>
-                                        <select class="form-control" th:field="*{conviction}" data-cls-option="fg-cyan"
-                                            data-cls-selected-item="bg-teal fg-white">
-                                            <option
-                                                th:each="cv: ${T(imgr.com.iManager_App.ui.enums.EnumLevels).values()}"
-                                                th:value="${cv.name()}" th:text="${cv.name()}">
-                                            </option>
-                                        </select>
-
-                                    </div>
-                                </div>
+                            <div class="row flex-justify-end"
+                                style="padding-right: 50px; padding-top: 5px; padding-bottom: 40px">
+                                <button class="button mini primary rounded outline" style="margin-left: 0px">
+                                    <span class="mif-floppy-disk" style="margin-left: 0px"> </span> <span
+                                        style="margin-left: 3px">Save</span>
+                                </button>
                             </div>
 
-                            <div class="cell-md-3">
-                                <div class="row" style="margin-top: -15px;">
-                                    <div class="cell-md-12">
-                                        <input type="text" data-role="materialinput"
-                                            placeholder="Earnings Growth Longevity"
-                                            data-icon="<span class='mif-calendar'>"
-                                            data-label="Earnings Growth Longevity (years)" data-cls-line="bg-cyan"
-                                            data-cls-label="fg-cyan" data-cls-informer="fg-lightCyan"
-                                            data-cls-icon="fg-darkCyan" th:field="*{longevitygr}">
-                                    </div>
-                                </div>
-                            </div>
+                        </form>
 
-                            <div class="cell-md-3">
-                                <div class="row" style="margin-top: -15px;">
-                                    <div class="cell-md-12">
-                                        <input type="text" data-role="materialinput"
-                                            placeholder="Max Allocation to Portfolio"
-                                            data-icon="<span class='mif-chart-pie'>"
-                                            data-label="Max Allocation in Portfolio to the scrip"
-                                            data-informer="Choose 3/5/7 percent" data-cls-line="bg-cyan"
-                                            data-cls-label="fg-cyan" data-cls-informer="fg-lightCyan"
-                                            data-cls-icon="fg-darkCyan" th:field="*{size}">
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </div>
-
-                        <div class="row ">
-
-                            <div class="col-md-3">
-                                <div class="row" style="margin-top: 5px;">
-                                    <div class="cell-md-12">
-
-                                        <input type="text" data-role="materialinput"
-                                            placeholder="Base Case Earnings CAGR expected"
-                                            data-icon="<span class='mif-barbell'>"
-                                            data-label="Base Case Earnings CAGR expected" data-cls-label="fg-cyan"
-                                            data-cls-informer="fg-lightCyan" data-cls-icon="fg-darkCyan"
-                                            th:field="*{fwdepsgrbase}">
-
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="row" style="margin-top: 5px;">
-                                    <div class="cell-md-12">
-
-                                        <input type="text" data-role="materialinput"
-                                            placeholder="Base Case Terminal PE Ratio"
-                                            data-icon="<span class='mif-barbell'>"
-                                            data-label="Base Case Terminal PE Ratio" data-cls-label="fg-cyan"
-                                            data-cls-informer="fg-lightCyan" data-cls-icon="fg-darkCyan"
-                                            th:field="*{fwdpebase}">
-
-
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-
-                        </div>
-
-
-                        <div class="row ">
-
-                            <div class="col-md-3">
-                                <div class="row" style="margin-top: 5px;">
-                                    <div class="cell-md-12">
-
-                                        <input type="text" data-role="materialinput"
-                                            placeholder="Bull Case Earnings CAGR expected"
-                                            data-icon="<span class='mif-thumbs-up'>"
-                                            data-label="Bull Case Earnings CAGR expected" data-cls-label="fg-cyan"
-                                            data-cls-informer="fg-lightCyan" data-cls-icon="fg-darkCyan"
-                                            th:field="*{fwdepsgrbull}">
-
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="row" style="margin-top: 5px;">
-                                    <div class="cell-md-12">
-
-                                        <input type="text" data-role="materialinput"
-                                            placeholder="Bull Case Terminal PE Ratio"
-                                            data-icon="<span class='mif-thumbs-up'>"
-                                            data-label="Bull Case Terminal PE Ratio" data-cls-label="fg-cyan"
-                                            data-cls-informer="fg-lightCyan" data-cls-icon="fg-darkCyan"
-                                            th:field="*{fwdpebull}">
-
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="row" style="margin-top: 5px;">
-                                    <div class="cell-md-12">
-
-                                        <input type="text" data-role="materialinput" placeholder="Bull Weight Ratio"
-                                            data-icon="<span class='mif-thumbs-up'>" data-label="Bull Weight Ratio"
-                                            data-cls-label="fg-cyan" data-cls-informer="fg-lightCyan"
-                                            data-cls-icon="fg-darkCyan" th:field="*{bullWtRatio}">
-
-
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-
-                        </div>
-
-                        <div class="row flex-justify-end"
-                            style="padding-right: 50px; padding-top: 5px; padding-bottom: 40px">
-                            <button class="button mini primary rounded outline" style="margin-left: 0px">
-                                <span class="mif-floppy-disk" style="margin-left: 0px"> </span> <span
-                                    style="margin-left: 3px">Save</span>
-                            </button>
-                        </div>
-
-                    </form>
+                    </div>
 
                 </div>
-
             </div>
+
+
         </div>
 
 
-    </div>
-
-
 
 
     </div>
-    </div>
-    <!-- URL config Form Row - Ends  -->
-    </div>
+
 
     <script src="https://cdn.metroui.org.ua/5.0.6/metro.js"></script>
 </body>

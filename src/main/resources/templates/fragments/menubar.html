@@ -17,54 +17,52 @@
 </head>
 
 <body>
-    <div class="container-fluid" th:fragment="iMgrAppBar(userDetails)">
-        <div data-role="appbar" data-expand-point="lg">
-            <a href="#" class="brand no-hover">
-                <span style="width: 55px;" class="p-2 border bd-dark border-radius">
-                    <img th:src="@{/images/iMgr.png}" src="../../static/images/iMgr.png" width="40" height="25"
-                        style="margin-left: 1px;">
+    <div th:fragment="iMgrAppBar(userDetails)">
+        <nav data-role="appbar" class="border-bottom bd-default" data-expand-point="xs"
+            style="background-color: light1;">
+            <span class=" no-wrap brand app-bar-item-static " style="background-color: light1;"><a
+                    class="app-bar-item-static no-decor bg-light1" href="/"><img th:src="@{/images/iMgr.png}"
+                        src="../../static/images/iMgr.png" height="32" /><span
+                        class="text-bold">iManager</span></a></span>
 
-                </span>
-            </a>
-
-            <ul class="app-bar-menu" style="margin-left: 10px; background-color: transparent;">
+            <ul class="app-bar-menu ml-auto" style="padding-right: 20px;">
 
                 <li th:if="${userDetails.role=='ADMIN'}">
-                    <a href="#" class="dropdown-toggle">Administrators</a>
+                    <a href="#" class="dropdown-toggle marker-light">Watchlist</a>
+
                     <ul class="d-menu" data-role="dropdown">
 
+                        <li><a th:href="@{/wl/db}">
+                                <span class="icon">
+                                    <span class="mif-dashboard fg-darkGray" style="margin-right:5px;"></span>
+                                </span>
+                                Watchlist Dashboard
+                            </a></li>
+
+                        <li><a th:href="@{/wl/addNew}">
+                                <span class="icon">
+                                    <span class="mif-add-post fg-darkGray" style="margin-right:5px;"></span>
+                                </span>
+                                Add Scrip to Watchlist
+                            </a></li>
 
                         <li class="divider bg-lightGray"></li>
-
                         <li>
-                            <a href="#" class="dropdown-toggle"><span class="icon">
-                                    <span class="mif-filter_list_alt fg-darkGray" style="margin-right:5px;"></span>
-                                </span>Watchlist</a>
-                            <ul class="d-menu" data-role="dropdown">
-                                <li><a th:href="@{/wl/db}">
-                                        <span class="icon">
-                                            <span class="mif-dashboard fg-darkGray" style="margin-right:5px;"></span>
-                                        </span>
-                                        Watchlist Dashboard
-                                    </a></li>
-                                <li><a th:href="@{/wl/addNew}">
-                                        <span class="icon">
-                                            <span class="mif-post_add fg-darkGray" style="margin-right:5px;"></span>
-                                        </span>
-                                        Add New Scrip to Watchlist
-                                    </a></li>
-                                <li class="divider bg-lightGray"></li>
-                                <li>
-                                    <a th:href="@{/wl/token}">
-                                        <span class="icon">
-                                            <span class="mif-supervised_user_circle fg-darkGray"
-                                                style="margin-right:5px;"></span>
-                                        </span>
-                                        Manage Token(s)
-                                    </a>
-                                </li>
-                            </ul>
+                            <a th:href="@{/wl/token}">
+                                <span class="icon">
+                                    <span class="mif-supervised-user-circle fg-darkGray"
+                                        style="margin-right:5px;"></span>
+                                </span>
+                                Manage Token(s)
+                            </a>
                         </li>
+                    </ul>
+                </li>
+
+                <li th:if="${userDetails.role=='ADMIN'}">
+                    <a href="#" class="dropdown-toggle marker-light">Studio</a>
+
+                    <ul class="d-menu" data-role="dropdown">
 
                         <li>
 
@@ -77,21 +75,60 @@
 
 
                         </li>
+
                         <li>
                             <a th:href="@{/strategies/list}">
                                 <span class="icon">
-                                    <span class="mif-developer_board fg-darkGray" style="margin-right:5px;"></span>
+                                    <span class="mif-category fg-darkGray" style="margin-right:5px;"></span>
                                 </span>
-                               Strategies
+                                Strategies
                             </a>
 
 
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li th:if="${userDetails.role=='ADMIN'}">
+                    <a href="#" class="dropdown-toggle marker-light">Scrips</a>
+
+                    <ul class="d-menu" data-role="dropdown">
+                        <li><a th:href="@{/scrips/list}">
+                                <span class="icon">
+                                    <span class="mif-coding fg-darkGray" style="margin-right:5px;"></span>
+                                </span>
+                                Scrips List
+                            </a></li>
+                        <li><a th:href="@{/scrips/addNew}">
+                                <span class="icon">
+                                    <span class="mif-add-business fg-darkGray" style="margin-right:5px;"></span>
+                                </span>
+                                Add New Scrip
+                            </a></li>
+                        <li class="divider bg-lightGray"></li>
+                        <li>
+                            <a th:href="@{/scrips/upload}">
+                                <span class="icon">
+                                    <span class="mif-database-upload fg-darkGray" style="margin-right:5px;"></span>
+                                </span>
+                                Upload Scrips (.csv)
+                            </a>
+                        </li>
+
+                        <li>
+                            <a th:href="@{/scrips/rename}">
+                                <span class="icon">
+                                    <span class="mif-data-exchange fg-darkGray" style="margin-right:5px;"></span>
+                                </span>
+                                Rename Scrip
+                            </a>
                         </li>
                     </ul>
                 </li>
 
                 <li th:if="${userDetails.role=='ADMIN' or userDetails.role=='GENERAL_USER'}">
-                    <a href="#" class="dropdown-toggle">Portfolio</a>
+                    <a href="#" class="dropdown-toggle marker-light">Portfolio</a>
                     <ul class="d-menu" data-role="dropdown">
                         <li>
                             <a th:href="@{/pf/}">
@@ -111,6 +148,16 @@
                             </a>
                         </li>
 
+                        <li>
+                            <a th:href="@{/pf/consolwl}">
+                                <span class="icon">
+                                    <span class="mif-connected-data fg-darkGray" style="margin-right:5px;"></span>
+                                </span>
+                                Consolidated View
+                            </a>
+                        </li>
+                        
+
 
 
 
@@ -118,7 +165,7 @@
                 </li>
 
                 <li>
-                    <a href="#" class="dropdown-toggle">Profile</a>
+                    <a href="#" class="dropdown-toggle marker-light">Profile</a>
                     <ul class="d-menu" data-role="dropdown">
                         <li>
                             <a>
@@ -145,7 +192,7 @@
 
 
             </ul>
-        </div>
+        </nav>
 
 
 

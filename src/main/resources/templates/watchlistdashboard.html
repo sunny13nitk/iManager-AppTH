@@ -71,242 +71,262 @@
 </head>
 
 <body>
-    <!-- Top Menu Bar Fragment -->
-    <div th:replace="~{fragments/menubar :: iMgrAppBar(userDetails=${userDetails})}"></div>
-    <!-- Table Row  -->
 
-    <div class="row" style="padding: 10px;margin-top: 50px; overflow: auto;" th:if="${wlList !=null}">
-        <div class="cell-md-auto">
-            <table class="table subcompact striped table-border cell-border row-hover scrolldown" data-role="table"
-                data-rows='-1' data-horizontal-scroll="true">
-                <thead>
-                    <tr>
-                        <th data-cls-column="text-center" align="center">Actions</th>
-                        <th data-name="scrip" align="left" class="sortable-column sort-asc"
-                            data-cls-column=" text-left">Scrip</th>
-
-                        <th data-name="rating" class="sortable-column" data-cls-column="text-center">Rating</th>
-
-                        <th data-name="avgReturns" class="sortable-column " data-format="float"
-                            data-cls-column=" text-center; fg-darkBlue ; ">Ret. (avg)</th>
-
-                        <th data-name="err" class="sortable-column " data-format="float"
-                            data-cls-column=" text-center; fg-darkBlue ; ">ERR</th>
-
-
-                        <th data-name="mcapCr" class="sortable-column pl-6" data-format="number"
-                            data-cls-column=" text-center">
-                            Mkt. Cap</th>
-
-                        <th data-name="longEPSCAGR" class="sortable-column" data-format="number"
-                            data-cls-column=" text-center">
-                            Span</th>
-
-                        <th data-name="dailyPL" data-format="number" data-cls-column=" text-center">Day P&L</th>
-
-                        <th data-name="price2StrongBuy" data-format="money" data-cls-column=" text-center">Best Buy
-                        </th>
-
-                        <th data-name="cmp" data-format="money" data-cls-column=" text-center">
-                            CMP</th>
-
-                        <th data-name="deltaStrongBuyCMP" data-format="float" data-cls-column=" text-center">Delta</th>
-
-                        <th data-name="currpe" data-sortable="true" data-format="float"
-                            data-cls-column=" text-center; fg-darkTeal ; ">
-                            Curr PE</th>
-
-                        <th data-name="pe5y" data-format="float" data-cls-column=" text-center; fg-darkTeal ; ">
-                            PE 5Y</th>
-
-                        <th data-name="peg" data-sortable="true" data-format="float"
-                            data-cls-column=" text-center; fg-darkTeal ; ">
-                            PEG</th>
-
-                        <th data-name="mcap2sales" data-sortable="true" data-format="float"
-                            data-cls-column=" text-center; fg-darkTeal ; ">
-                            M2R</th>
-
-                        <th data-name="mcap2sales3y" data-sortable="true" data-format="float"
-                            data-cls-column=" text-center; fg-darkTeal ; ">
-                            M2R3Y</th>
-
-                        <th data-name="epsttm" data-sortable="true" data-format="float" data-cls-column=" text-center">
-                            EPS TTM</th>
-
-                        <th data-name="revgr3y" data-sortable="true" data-format="float"
-                            data-cls-column=" text-center; fg-darkMauve ; ">
-                            Rev. GR-3Y</th>
-
-                        <th data-name="patgr3y" data-sortable="true" data-format="float"
-                            data-cls-column=" text-center; fg-darkMauve ; ">
-                            PAT GR-3Y</th>
-
-                        <th data-name="ttmpatgr" data-sortable="true" data-format="float"
-                            data-cls-column=" text-center; fg-darkMauve ; ">
-                            PAT GR-TTM</th>
-
-                        <th data-name="baseCaseEPSCAGR" data-sortable="true" data-format="float"
-                            data-cls-column=" text-center bg-lightLime">
-                            Base EPS CAGR</th>
-
-                        <th data-name="baseCaseTermPE" data-format="float" data-cls-column=" text-center bg-lightLime">
-                            Base-Term. PE</th>
-                        <th data-name="baseCaseTP" data-format="money" data-cls-column=" text-center bg-lightLime">
-                            Base-Target</th>
-                        <th data-name="baseCaseRetCAGR" data-format="float" data-sortable="true"
-                            data-cls-column=" text-center bg-lightLime">
-                            Base-CAGR Returns</th>
-
-                        <th data-name="bullCaseEPSCAGR" data-sortable="true" data-format="float"
-                            data-cls-column=" text-center bg-lightEmerald">
-                            Bull EPS CAGR</th>
-                        <th data-name="bullCaseTermPE" data-format="float"
-                            data-cls-column=" text-center bg-lightEmerald">
-                            Bull-Term. PE</th>
-                        <th data-name="bullCaseTP" data-format="money" data-cls-column=" text-center bg-lightEmerald">
-                            Bull-Target</th>
-                        <th data-name="bullCaseRetCAGR" data-format="float"
-                            data-cls-column=" text-center bg-lightEmerald" data-sortable="true">
-                            Bull-CAGR Returns</th>
-
-                        <th data-name="bullwtRatio" data-format="float" data-cls-column=" text-center bg-lightMauve">
-                            Bull Wt.</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-
-                    <tr th:each="wl : ${wlList}">
-
-
-                        <td style="text-align: center;">
-                            <a class="button rounded mini outline" th:href="@{'/wl/db/'+${wl.scrip}}"
-                                style="color: black; background: transparent" data-role="hint" data-hint-position="top"
-                                data-cls-hint="bg-LightGreen fg-black" data-hint-text="Details"><span
-                                    class="mif-news icon" style="margin-left: 0px"></span></a>
-
-                            <a class="button rounded mini outline" th:href="@{'/hc/nav/'+${wl.scrip}}"
-                                target="_blank" style="color: black; background: transparent" data-role="hint"
-                                data-hint-position="top" data-cls-hint="bg-LightGreen fg-black"
-                                data-hint-text="Health Check"><span class="mif-brackets-hexagon"
-                                    style="margin-left: 0px"></span></a>
-
-                            <a class="button rounded mini outline" th:href="@{'/wl/pfScan/'+${wl.scrip}}"
-                                target="_blank" style="color: black; background: transparent" data-role="hint"
-                                data-hint-position="top" data-cls-hint="bg-LightGreen fg-black"
-                                data-hint-text="Scan PF"><span class="mif-codescan icon"
-                                    style="margin-left: 0px"></span></a>
-
-                            <a class="button rounded mini outline" th:href=" ${wl.notesLink}" target="_blank"
-                                style="color: black; background: transparent" data-role="hint" data-hint-position="top"
-                                data-cls-hint="bg-LightGreen fg-black" data-hint-text="Notes"><span class="mif-list2"
-                                    style="margin-left: 0px"></span></a>
-
-
-                        </td>
-
-
-                        <td> <span class="tally"
-                                style="font-weight: bold; background-color: #FAFAFA; color: rgb(93, 93, 93);"
-                                th:text="${wl.scrip}"></span></td>
-
-
-                        <td style="text-align: center; " th:if="${wl.rating == 'Buy'}">
-                            <span class="tally"
-                                style="font-weight: bolder; background-color: #E9F7F0; color: darkgreen;"
-                                th:text="${wl.rating}"></span>
-                        </td>
-
-                        <td style="text-align: center; " th:if="${wl.rating == 'Accumulate'}">
-                            <span class="tally"
-                                style="font-weight: bolder; background-color: #f6f6d6; color: darkgoldenrod;"
-                                th:text="${wl.rating}"></span>
-                        </td>
-
-                        <td style="text-align: center; " th:if="${wl.rating == 'StrongBuy'}">
-                            <span class="tally"
-                                style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);"
-                                th:text="${wl.rating}"></span>
-                        </td>
-
-                        <td style="text-align: center; " th:if="${wl.rating == 'Hold'}">
-                            <span class="tally" style="font-weight: bolder; background-color: #e1feff; color: darkblue;"
-                                th:text="${wl.rating}"></span>
-                        </td>
-
-                        <td style="text-align: center; " th:if="${wl.rating == 'Sell'}">
-                            <span class="tally"
-                                style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
-                                th:text="${wl.rating}"></span>
-                        </td>
-
-
-
-
-                        <!-- <td> <span class="tally" style="font-weight: bolder; background-color: #FAFAFA; color:#4862B7"
-                                th:text="${wl.avgReturns}"></span></td> -->
-                        <td th:text="${wl.avgReturns}"></td>
-                        <td th:text="${wl.err}"></td>
-                        <td th:text="${wl.mcapCr}"></td>
-
-                        <!-- <td> <span class="tally"
-                                style="font-weight: bolder; background-color: #FAFAFA; color: rgb(118, 118, 118);"
-                                th:text="${wl.mcapCr}"></span></td> -->
-                        <td th:text=" ${wl.longEPSCAGR}"></td>
-
-                        <td style="text-align: center; " th:if="!${#strings.startsWith(wl.dailyPL,'-')}">
-                            <span class="tally"
-                                style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);"
-                                th:text="${wl.dailyPL}"></span>
-                        </td>
-
-                        <td style="text-align: center; " th:if="
-                        ${#strings.startsWith(wl.dailyPL,'-')}">
-                            <span class="tally"
-                                style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
-                                th:text="${wl.dailyPL}"></span>
-                        </td>
-                        <td> <span class="tally"
-                                style="font-weight: bolder; background-color: #FAFAFA; color: rgb(118, 118, 118);"
-                                th:text="${wl.price2StrongBuy}"></span></td>
-
-                        <td> <span class="tally"
-                                style="font-weight: bolder; background-color: #FAFAFA; color: rgb(118, 118, 118);"
-                                th:text="${wl.cmp}"></span></td>
-
-                        <td> <span class="tally"
-                                style="font-weight: bolder; background-color: #FAFAFA; color: rgb(118, 118, 118);"
-                                th:text="${wl.deltaStrongBuyCMP}"></span></td>
-
-                        <td th:text="${wl.currpe}"></td>
-                        <td th:text="${wl.pe5y}"></td>
-                        <td th:text="${wl.peg}"></td>
-                        <td th:text="${wl.mcap2sales}"></td>
-                        <td th:text="${wl.mcap2sales3y}"></td>
-
-                        <td> <span class="tally" style=" background-color: #FAFAFA; color:#4862B7"
-                                th:text="${wl.epsttm}"></span></td>
-                        <td th:text="${wl.revgr3y}"></td>
-                        <td th:text="${wl.patgr3y}"></td>
-                        <td th:text="${wl.ttmpatgr}"></td>
-                        <td th:text="${wl.baseCaseEPSCAGR}"></td>
-                        <td th:text="${wl.baseCaseTermPE}"></td>
-                        <td th:text="${wl.baseCaseTP}"></td>
-                        <td th:text="${wl.baseCaseRetCAGR}"></td>
-                        <td th:text="${wl.bullCaseEPSCAGR}"></td>
-                        <td th:text="${wl.bullCaseTermPE}"></td>
-                        <td th:text="${wl.bullCaseTP}"></td>
-                        <td th:text="${wl.bullCaseRetCAGR}"></td>
-                        <td th:text="${wl.bullwtRatio}"></td>
-
-                    </tr>
-
-                </tbody>
-            </table>
+    <div class="row-12" style="padding: 0px; margin: 0px;">
+        <!-- Top Menu Bar Fragment -->
+        <div class="col-xs-12" style="padding: 0px; margin: 0px;">
+            <div th:replace="~{fragments/menubar :: iMgrAppBar(userDetails=${userDetails})}"></div>
         </div>
 
+
+        <!-- Table Row  -->
+
+        <div class="row" style="padding: 10px;margin-top: 50px; overflow: auto;" th:if="${wlList !=null}">
+            <div class="cell-md-auto">
+                <table class="table subcompact striped table-border cell-border row-hover scrolldown" data-role="table"
+                    data-rows='-1' data-horizontal-scroll="true">
+                    <thead>
+                        <tr>
+                            <th data-cls-column="text-center" align="center">Actions</th>
+                            <th data-name="scrip" align="left" class="sortable-column sort-asc"
+                                data-cls-column=" text-left">Scrip</th>
+
+                            <th data-name="rating" class="sortable-column" data-cls-column="text-center">Rating</th>
+
+                            <th data-name="avgReturns" class="sortable-column " data-format="float"
+                                data-cls-column=" text-center; fg-darkBlue ; ">Ret. (avg)</th>
+
+                            <th data-name="err" class="sortable-column " data-format="float"
+                                data-cls-column=" text-center; fg-darkBlue ; ">ERR</th>
+
+
+                            <th data-name="mcapCr" class="sortable-column pl-6" data-format="number"
+                                data-cls-column=" text-center">
+                                Mkt. Cap</th>
+
+                            <th data-name="longEPSCAGR" class="sortable-column" data-format="number"
+                                data-cls-column=" text-center">
+                                Span</th>
+
+                            <th data-name="dailyPL" data-format="number" data-cls-column=" text-center">Day P&L</th>
+
+                            <th data-name="price2StrongBuy" data-format="money" data-cls-column=" text-center">Best Buy
+                            </th>
+
+                            <th data-name="cmp" data-format="money" data-cls-column=" text-center">
+                                CMP</th>
+
+                            <th data-name="deltaStrongBuyCMP" data-format="float" data-cls-column=" text-center">Delta
+                            </th>
+
+                            <th data-name="currpe" data-sortable="true" data-format="float"
+                                data-cls-column=" text-center; fg-darkTeal ; ">
+                                Curr PE</th>
+
+                            <th data-name="pe5y" data-format="float" data-cls-column=" text-center; fg-darkTeal ; ">
+                                PE 5Y</th>
+
+                            <th data-name="peg" data-sortable="true" data-format="float"
+                                data-cls-column=" text-center; fg-darkTeal ; ">
+                                PEG</th>
+
+                            <th data-name="mcap2sales" data-sortable="true" data-format="float"
+                                data-cls-column=" text-center; fg-darkTeal ; ">
+                                M2R</th>
+
+                            <th data-name="mcap2sales3y" data-sortable="true" data-format="float"
+                                data-cls-column=" text-center; fg-darkTeal ; ">
+                                M2R3Y</th>
+
+                            <th data-name="epsttm" data-sortable="true" data-format="float"
+                                data-cls-column=" text-center">
+                                EPS TTM</th>
+
+                            <th data-name="revgr3y" data-sortable="true" data-format="float"
+                                data-cls-column=" text-center; fg-darkMauve ; ">
+                                Rev. GR-3Y</th>
+
+                            <th data-name="patgr3y" data-sortable="true" data-format="float"
+                                data-cls-column=" text-center; fg-darkMauve ; ">
+                                PAT GR-3Y</th>
+
+                            <th data-name="ttmpatgr" data-sortable="true" data-format="float"
+                                data-cls-column=" text-center; fg-darkMauve ; ">
+                                PAT GR-TTM</th>
+
+                            <th data-name="size" data-sortable="true" data-cls-column=" text-center; fg-darkBlue ; ">
+                                PF. Size(%)</th>
+
+                            <th data-name="baseCaseEPSCAGR" data-sortable="true" data-format="float"
+                                data-cls-column=" text-center bg-lightLime">
+                                Base EPS CAGR</th>
+
+                            <th data-name="baseCaseTermPE" data-format="float"
+                                data-cls-column=" text-center bg-lightLime">
+                                Base-Term. PE</th>
+                            <th data-name="baseCaseTP" data-format="money" data-cls-column=" text-center bg-lightLime">
+                                Base-Target</th>
+                            <th data-name="baseCaseRetCAGR" data-format="float" data-sortable="true"
+                                data-cls-column=" text-center bg-lightLime">
+                                Base-CAGR Returns</th>
+
+                            <th data-name="bullCaseEPSCAGR" data-sortable="true" data-format="float"
+                                data-cls-column=" text-center bg-lightEmerald">
+                                Bull EPS CAGR</th>
+                            <th data-name="bullCaseTermPE" data-format="float"
+                                data-cls-column=" text-center bg-lightEmerald">
+                                Bull-Term. PE</th>
+                            <th data-name="bullCaseTP" data-format="money"
+                                data-cls-column=" text-center bg-lightEmerald">
+                                Bull-Target</th>
+                            <th data-name="bullCaseRetCAGR" data-format="float"
+                                data-cls-column=" text-center bg-lightEmerald" data-sortable="true">
+                                Bull-CAGR Returns</th>
+
+                            <th data-name="bullwtRatio" data-format="float"
+                                data-cls-column=" text-center bg-lightMauve">
+                                Bull Wt.</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+
+                        <tr th:each="wl : ${wlList}">
+
+
+                            <td style="text-align: center;">
+                                <a class="button rounded mini outline" th:href="@{'/wl/db/'+${wl.scrip}}"
+                                    style="color: black; background: transparent" data-role="hint"
+                                    data-hint-position="top" data-cls-hint="bg-LightGreen fg-black"
+                                    data-hint-text="Details"><span class="mif-news icon"
+                                        style="margin-left: 0px"></span></a>
+
+                                <a class="button rounded mini outline" th:href="@{'/hc/nav/'+${wl.scrip}}"
+                                    target="_blank" style="color: black; background: transparent" data-role="hint"
+                                    data-hint-position="top" data-cls-hint="bg-LightGreen fg-black"
+                                    data-hint-text="Health Check"><span class="mif-brackets-hexagon"
+                                        style="margin-left: 0px"></span></a>
+
+                                <a class="button rounded mini outline" th:href="@{'/wl/pfScan/'+${wl.scrip}}"
+                                    target="_blank" style="color: black; background: transparent" data-role="hint"
+                                    data-hint-position="top" data-cls-hint="bg-LightGreen fg-black"
+                                    data-hint-text="Scan PF"><span class="mif-codescan icon"
+                                        style="margin-left: 0px"></span></a>
+
+                                <a class="button rounded mini outline" th:href=" ${wl.notesLink}" target="_blank"
+                                    style="color: black; background: transparent" data-role="hint"
+                                    data-hint-position="top" data-cls-hint="bg-LightGreen fg-black"
+                                    data-hint-text="Notes"><span class="mif-file-text"
+                                        style="margin-left: 0px"></span></a>
+
+
+                            </td>
+
+
+                            <td> <span class="tally"
+                                    style="font-weight: bold; background-color: #FAFAFA; color: rgb(93, 93, 93);"
+                                    th:text="${wl.scrip}"></span></td>
+
+
+                            <td style="text-align: center; " th:if="${wl.rating == 'Buy'}">
+                                <span class="tally"
+                                    style="font-weight: bolder; background-color: #E9F7F0; color: darkgreen;"
+                                    th:text="${wl.rating}"></span>
+                            </td>
+
+                            <td style="text-align: center; " th:if="${wl.rating == 'Accumulate'}">
+                                <span class="tally"
+                                    style="font-weight: bolder; background-color: #f6f6d6; color: darkgoldenrod;"
+                                    th:text="${wl.rating}"></span>
+                            </td>
+
+                            <td style="text-align: center; " th:if="${wl.rating == 'StrongBuy'}">
+                                <span class="tally"
+                                    style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);"
+                                    th:text="${wl.rating}"></span>
+                            </td>
+
+                            <td style="text-align: center; " th:if="${wl.rating == 'Hold'}">
+                                <span class="tally"
+                                    style="font-weight: bolder; background-color: #e1feff; color: darkblue;"
+                                    th:text="${wl.rating}"></span>
+                            </td>
+
+                            <td style="text-align: center; " th:if="${wl.rating == 'Sell'}">
+                                <span class="tally"
+                                    style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
+                                    th:text="${wl.rating}"></span>
+                            </td>
+
+
+
+
+                            <!-- <td> <span class="tally" style="font-weight: bolder; background-color: #FAFAFA; color:#4862B7"
+                                th:text="${wl.avgReturns}"></span></td> -->
+                            <td th:text="${wl.avgReturns}"></td>
+                            <td th:text="${wl.err}"></td>
+                            <td th:text="${wl.mcapCr}"></td>
+
+                            <!-- <td> <span class="tally"
+                                style="font-weight: bolder; background-color: #FAFAFA; color: rgb(118, 118, 118);"
+                                th:text="${wl.mcapCr}"></span></td> -->
+                            <td th:text=" ${wl.longEPSCAGR}"></td>
+
+                            <td style="text-align: center; " th:if="!${#strings.startsWith(wl.dailyPL,'-')}">
+                                <span class="tally"
+                                    style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);"
+                                    th:text="${wl.dailyPL}"></span>
+                            </td>
+
+                            <td style="text-align: center; " th:if="
+                        ${#strings.startsWith(wl.dailyPL,'-')}">
+                                <span class="tally"
+                                    style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
+                                    th:text="${wl.dailyPL}"></span>
+                            </td>
+                            <td> <span class="tally"
+                                    style="font-weight: bolder; background-color: #FAFAFA; color: rgb(118, 118, 118);"
+                                    th:text="${wl.price2StrongBuy}"></span></td>
+
+                            <td> <span class="tally"
+                                    style="font-weight: bolder; background-color: #FAFAFA; color: rgb(118, 118, 118);"
+                                    th:text="${wl.cmp}"></span></td>
+
+                            <td> <span class="tally"
+                                    style="font-weight: bolder; background-color: #FAFAFA; color: rgb(118, 118, 118);"
+                                    th:text="${wl.deltaStrongBuyCMP}"></span></td>
+
+                            <td th:text="${wl.currpe}"></td>
+                            <td th:text="${wl.pe5y}"></td>
+                            <td th:text="${wl.peg}"></td>
+                            <td th:text="${wl.mcap2sales}"></td>
+                            <td th:text="${wl.mcap2sales3y}"></td>
+
+                            <td> <span class="tally" style=" background-color: #FAFAFA; color:#4862B7"
+                                    th:text="${wl.epsttm}"></span></td>
+                            <td th:text="${wl.revgr3y}"></td>
+                            <td th:text="${wl.patgr3y}"></td>
+                            <td th:text="${wl.ttmpatgr}"></td>
+                            <td> <span class="tally" style=" background-color: #FAFAFA; color:#4862B7"
+                                    th:text="${wl.size}"></span></td>
+                            <td th:text="${wl.baseCaseEPSCAGR}"></td>
+                            <td th:text="${wl.baseCaseTermPE}"></td>
+                            <td th:text="${wl.baseCaseTP}"></td>
+                            <td th:text="${wl.baseCaseRetCAGR}"></td>
+                            <td th:text="${wl.bullCaseEPSCAGR}"></td>
+                            <td th:text="${wl.bullCaseTermPE}"></td>
+                            <td th:text="${wl.bullCaseTP}"></td>
+                            <td th:text="${wl.bullCaseRetCAGR}"></td>
+                            <td th:text="${wl.bullwtRatio}"></td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
     </div>
     <!-- Metro 4 -->
     <script src="https://cdn.metroui.org.ua/5.0.6/metro.js"></script>

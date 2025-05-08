@@ -16,39 +16,42 @@
 </head>
 
 <body>
-    <!-- Top Menu Bar Fragment -->
-    <div th:replace="~{fragments/menubar :: iMgrAppBar}"></div>
-
-
-
-    <!-- Token ocnfig - Starts  -->
-    <div class="colspan-5" style="margin-top: 50px;padding: 20px;">
-        <div class="card bg-white bd-lightCyan" style="padding: 20px; width:60%;">
-            <h6 style="color:  #239EE3; background-color: #F7FCFE;padding: 10px; ">Please re-enter password for API(s)
-                Principal Propogation
-            </h6>
-
-
-            <form th:object="${credentials}" th:action="@{'/pp'} " method="post">
-
-                <div class="cell-9" style="margin-top: 15px; margin-bottom: 10px;">
-                    <input type="password" data-role="materialinput" placeholder="Password"
-                        data-icon="<span class='mif-key'>" data-label="Password"
-                        data-informer="Enter password used for login" data-cls-line="bg-cyan" data-cls-label="fg-cyan"
-                        data-cls-informer="fg-lightCyan" data-cls-icon="fg-darkCyan" th:field="*{password}">
-                </div>
-
-
-                <div class="cell-11 offset-10" style="margin-top: 10px; margin-bottom: 10px;">
-                    <button class="button rounded" style="background-color: #239EE3; color: white">
-                        <span class="mif-floppy-disk" style="margin-left: 0px"> </span> <span
-                            style="margin-left: 3px">Save</span>
-                    </button>
-                </div>
-            </form>
+    <div class="row-12" style="padding: 0px; margin: 0px;">
+        <div class="col-xs-12" style="padding: 0px; margin: 0px;">
+            <div th:replace="~{fragments/menubar :: iMgrAppBar(userDetails=${userDetails})}"></div>
         </div>
-    </div>
-    <!-- URL config Form Row - Ends  -->
+
+
+        <!-- Token ocnfig - Starts  -->
+        <div class="colspan-5" style="margin-top: 50px;padding: 20px;">
+            <div class="card bg-white bd-lightCyan" style="padding: 20px; width:60%;">
+                <h6 style="color:  #239EE3; background-color: #F7FCFE;padding: 10px; ">Please re-enter password for
+                    API(s)
+                    Principal Propogation
+                </h6>
+
+
+                <form th:object="${credentials}" th:action="@{'/pp'} " method="post">
+
+                    <div class="cell-9" style="margin-top: 15px; margin-bottom: 10px;">
+                        <input type="password" data-role="materialinput" placeholder="Password"
+                            data-icon="<span class='mif-key'>" data-label="Password"
+                            data-informer="Enter password used for login" data-cls-line="bg-cyan"
+                            data-cls-label="fg-cyan" data-cls-informer="fg-lightCyan" data-cls-icon="fg-darkCyan"
+                            th:field="*{password}">
+                    </div>
+
+
+                    <div class="cell-11 offset-10" style="margin-top: 10px; margin-bottom: 10px;">
+                        <button class="button rounded" style="background-color: #239EE3; color: white">
+                            <span class="mif-floppy-disk" style="margin-left: 0px"> </span> <span
+                                style="margin-left: 3px">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- URL config Form Row - Ends  -->
     </div>
 
     <script src="https://cdn.metroui.org.ua/5.0.6/metro.js"></script>

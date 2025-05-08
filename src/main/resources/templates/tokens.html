@@ -17,59 +17,63 @@
 
 <body>
     <!-- Top Menu Bar Fragment -->
-    <div th:replace="~{fragments/menubar :: iMgrAppBar(userDetails=${userDetails})}"></div>
+    <div class="row-12" style="padding: 0px; margin: 0px;">
+        <div class="col-xs-12" style="padding: 0px; margin: 0px;">
+            <div th:replace="~{fragments/menubar :: iMgrAppBar(userDetails=${userDetails})}"></div>
+        </div>
 
 
 
-    <!-- Token ocnfig - Starts  -->
-    <div class="colspan-5" style="margin-top: 50px;padding: 20px;">
-        <div class="card bg-white bd-lightCyan" style="padding: 20px; width:60%;">
-            <h6 style="color:  #239EE3; background-color: #F7FCFE;padding: 10px; ">Maintain
-                Token(s)</h6>
 
-            <!--Error Messages Row - Starts -->
+        <!-- Token ocnfig - Starts  -->
+        <div class="colspan-5" style="margin-top: 50px;padding: 20px; ">
+            <div class="card bg-white bd-lightCyan" style="padding: 20px; width:60%;">
+                <h6 style="color:  #239EE3; background-color: #F7FCFE;padding: 10px; ">Maintain
+                    Token(s)</h6>
 
-            <div class="col-xs-15">
-                <div th:if="!${#strings.isEmpty(message)}">
-                    <!-- Check for Form error -->
-                    <div data-role="panel" data-title-caption="Error(s)" data-collapsed="false" data-collapsible="true"
-                        data-cls-panel="shadow-3" data-cls-title="bg-lightCyan fg-white"
-                        data-cls-content="bg-white fg-cyan">
-                        <div class="cell-10">
-                            <label style="text-align: left; padding: 8px;" th:text="${message}"></label>
+                <!--Error Messages Row - Starts -->
+
+                <div class="col-xs-15">
+                    <div th:if="!${#strings.isEmpty(message)}">
+                        <!-- Check for Form error -->
+                        <div data-role="panel" data-title-caption="Error(s)" data-collapsed="false"
+                            data-collapsible="true" data-cls-panel="shadow-3" data-cls-title="bg-lightCyan fg-white"
+                            data-cls-content="bg-white fg-cyan">
+                            <div class="cell-10">
+                                <label style="text-align: left; padding: 8px;" th:text="${message}"></label>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <!--Error Messages Row - Ends -->
+                <form th:object="${sctoken}" th:action="@{'/wl/token'} " method="post">
+
+                    <div class="cell-9" style="margin-top: 15px; margin-bottom: 10px;">
+                        <input type="text" data-role="materialinput" placeholder="CSRF Token"
+                            data-icon="<span class='mif-key'>" data-label="CSRF Token"
+                            data-informer="Enter screener csrf token" data-cls-line="bg-cyan" data-cls-label="fg-cyan"
+                            data-cls-informer="fg-lightCyan" data-cls-icon="fg-darkCyan" th:field="*{token}">
+                    </div>
+
+                    <div class="cell-9" style="margin-top: 15px; margin-bottom: 10px;">
+                        <input type="text" data-role="materialinput" placeholder="Session Id"
+                            data-icon="<span class='mif-key'>" data-label="Session Id"
+                            data-informer="Enter screener session id" data-cls-line="bg-cyan" data-cls-label="fg-cyan"
+                            data-cls-informer="fg-lightCyan" data-cls-icon="fg-darkCyan" th:field="*{sessionid}">
+                    </div>
+
+
+                    <div class="cell-11 offset-10" style="margin-top: 10px; margin-bottom: 10px;">
+                        <button class="button rounded" style="background-color: #239EE3; color: white">
+                            <span class="mif-floppy-disk" style="margin-left: 0px"> </span> <span
+                                style="margin-left: 3px">Save</span>
+                        </button>
+                    </div>
+                </form>
             </div>
-
-            <!--Error Messages Row - Ends -->
-            <form th:object="${sctoken}" th:action="@{'/wl/token'} " method="post">
-
-                <div class="cell-9" style="margin-top: 15px; margin-bottom: 10px;">
-                    <input type="text" data-role="materialinput" placeholder="CSRF Token"
-                        data-icon="<span class='mif-key'>" data-label="CSRF Token"
-                        data-informer="Enter screener csrf token" data-cls-line="bg-cyan" data-cls-label="fg-cyan"
-                        data-cls-informer="fg-lightCyan" data-cls-icon="fg-darkCyan" th:field="*{token}">
-                </div>
-
-                <div class="cell-9" style="margin-top: 15px; margin-bottom: 10px;">
-                    <input type="text" data-role="materialinput" placeholder="Session Id"
-                        data-icon="<span class='mif-key'>" data-label="Session Id"
-                        data-informer="Enter screener session id" data-cls-line="bg-cyan" data-cls-label="fg-cyan"
-                        data-cls-informer="fg-lightCyan" data-cls-icon="fg-darkCyan" th:field="*{sessionid}">
-                </div>
-
-
-                <div class="cell-11 offset-10" style="margin-top: 10px; margin-bottom: 10px;">
-                    <button class="button rounded" style="background-color: #239EE3; color: white">
-                        <span class="mif-floppy-disk" style="margin-left: 0px"> </span> <span
-                            style="margin-left: 3px">Save</span>
-                    </button>
-                </div>
-            </form>
         </div>
-    </div>
-    <!-- URL config Form Row - Ends  -->
+        <!-- URL config Form Row - Ends  -->
     </div>
 
     <script src="https://cdn.metroui.org.ua/5.0.6/metro.js"></script>

@@ -16,51 +16,52 @@
 </head>
 
 <body>
-    <!-- Top Menu Bar Fragment -->
-    <div th:replace="~{fragments/menubar :: iMgrAppBar(userDetails=${userDetails})}"></div>
-
-
-
-    <!-- Token ocnfig - Starts  -->
-    <div class="colspan-5" style="margin-top: 50px;padding: 20px;">
-        <div class="card bg-white bd-lightCyan" style="padding: 20px; width:96%;">
-            <h6 style="color:  #239EE3; background-color: #F7FCFE;padding: 10px; ">Scrips Health Checkup</h6>
-
-
-
-
-            <!-- Select Scrips To Add -->
-            <div style="margin-top: 10px;">
-                <div data-role="panel" data-title-caption="Select Scrip to proceed with Healthcheck"
-                    data-collapsed="false" data-collapsible="true" data-cls-title="bg-white fg-cyan"
-                    data-cls-panel="bd-lightCyan padding:5px">
-
-                    <form th:object="${selScrip}" th:action="@{'/hc/selScrip'} " method="post">
-                        <div class="colspan-5 offset-1" style="margin-top: 5px; margin-bottom: 10px">
-                            <label style="color:  #239EE3">Select Scrip</label> <select data-role="select"
-                                name="selScrip" th:field="*{scripName}" data-add-empty-value="true" class="input">
-                                <!-- Param List Beans -->
-                                <option th:each="scrip : ${scrips}" th:value="${scrip}" th:selected="${scrip}"
-                                    th:text="${scrip}"></option>
-                            </select>
-                        </div>
-
-                        <div class="row flex-justify-end"
-                            style="padding-right: 20px; padding-top: 5px; padding-bottom: 20px">
-
-                            <button class="button small primary rounded outline">
-                                <span class="mif-next" style="margin-left: 0px"> </span> <span
-                                    style="margin-left: 3px">Proceed</span>
-                            </button>
-                        </div>
-
-                    </form>
-                </div>
-            </div>
-
-
+    <div class="row-12" style="padding: 0px; margin: 0px;">
+        <div class="col-xs-12" style="padding: 0px; margin: 0px;">
+            <div th:replace="~{fragments/menubar :: iMgrAppBar(userDetails=${userDetails})}"></div>
         </div>
-        <!-- URL config Form Row - Ends  -->
+
+        <!-- Token ocnfig - Starts  -->
+        <div class="colspan-5" style="margin-top: 50px;padding: 20px;">
+            <div class="card bg-white bd-lightCyan" style="padding: 20px; width:96%;">
+                <h6 style="color:  #239EE3; background-color: #F7FCFE;padding: 10px; ">Scrips Health Checkup</h6>
+
+
+
+
+                <!-- Select Scrips To Add -->
+                <div style="margin-top: 10px;">
+                    <div data-role="panel" data-title-caption="Select Scrip to proceed with Healthcheck"
+                        data-collapsed="false" data-collapsible="true" data-cls-title="bg-white fg-cyan"
+                        data-cls-panel="bd-lightCyan padding:5px">
+
+                        <form th:object="${selScrip}" th:action="@{'/hc/selScrip'} " method="post">
+                            <div class="colspan-5 offset-1" style="margin-top: 5px; margin-bottom: 10px">
+                                <label style="color:  #239EE3">Select Scrip</label> <select data-role="select"
+                                    name="selScrip" th:field="*{scripName}" data-add-empty-value="true" class="input">
+                                    <!-- Param List Beans -->
+                                    <option th:each="scrip : ${scrips}" th:value="${scrip}" th:selected="${scrip}"
+                                        th:text="${scrip}"></option>
+                                </select>
+                            </div>
+
+                            <div class="row flex-justify-end"
+                                style="padding-right: 20px; padding-top: 5px; padding-bottom: 20px">
+
+                                <button class="button small primary rounded outline">
+                                    <span class="mif-next" style="margin-left: 0px"> </span> <span
+                                        style="margin-left: 3px">Proceed</span>
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- URL config Form Row - Ends  -->
+        </div>
     </div>
 
     <script src="https://cdn.metroui.org.ua/5.0.6/metro.js"></script>

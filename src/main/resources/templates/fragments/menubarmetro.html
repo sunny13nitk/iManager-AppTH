@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html class="light-theme scrollbar-type-1 sb-darkViolet" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>iManager</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Metro 4 -->
+    <link rel="stylesheet" href="/vendor/metro/metro.css" />
+    <link rel="stylesheet" href="/css/index.css" />
+    <!-- <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4.3.2/css/metro-all.min.css"> -->
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/current/icons.css">
+
+
+</head>
+
+<body class="m4-cloak" th:fragment="iMgrAppBar(userDetails)">
+    <nav class="border-bottom bd-default" data-role="app-bar" data-expand-point="xl" style="background-color: light1;">
+        <span class=" no-wrap brand app-bar-item-static " style="background-color: light1;"><a
+                class="app-bar-item-static no-decor bg-light1" href="/"><img th:src="@{/images/iMgr.png}"
+                    src="../../static/images/iMgr.png" height="32" /><span class="text-bold">iManager</span></a></span>
+
+
+        <ul class="app-bar-menu ml-auto" style="padding-right: 20px;" >
+
+            <li th:if="${userDetails.role=='ADMIN'}">
+                <a href="#" class="dropdown-toggle marker-light">Watchlist</a>
+
+                <ul class="d-menu" data-role="dropdown">
+
+                    <li><a th:href="@{/wl/db}">
+                            <span class="icon">
+                                <span class="mif-dashboard fg-darkGray" style="margin-right:5px;"></span>
+                            </span>
+                            Watchlist Dashboard
+                        </a></li>
+
+                    <li><a th:href="@{/wl/addNew}">
+                            <span class="icon">
+                                <span class="mif-add-post fg-darkGray" style="margin-right:5px;"></span>
+                            </span>
+                            Add Scrip to Watchlist
+                        </a></li>
+
+                    <li class="divider bg-lightGray"></li>
+                    <li>
+                        <a th:href="@{/wl/token}">
+                            <span class="icon">
+                                <span class="mif-supervised-user-circle fg-darkGray" style="margin-right:5px;"></span>
+                            </span>
+                            Manage Token(s)
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li th:if="${userDetails.role=='ADMIN'}">
+                <a href="#" class="dropdown-toggle marker-light">Studio</a>
+
+                <ul class="d-menu" data-role="dropdown">
+
+                    <li>
+
+                        <a th:href="@{/hc/}">
+                            <span class="icon">
+                                <span class="mif-brackets-hexagon fg-darkGray" style="margin-right:5px;"></span>
+                            </span>
+                            Scrips Healthcheck
+                        </a>
+
+
+                    </li>
+
+                    <li>
+                        <a th:href="@{/strategies/list}">
+                            <span class="icon">
+                                <span class="mif-category fg-darkGray" style="margin-right:5px;"></span>
+                            </span>
+                            Strategies
+                        </a>
+
+
+                    </li>
+
+                </ul>
+            </li>
+
+            <li th:if="${userDetails.role=='ADMIN'}">
+                <a href="#" class="dropdown-toggle marker-light">Scrips</a>
+
+                <ul class="d-menu" data-role="dropdown">
+                    <li><a th:href="@{/scrips/list}">
+                            <span class="icon">
+                                <span class="mif-coding fg-darkGray" style="margin-right:5px;"></span>
+                            </span>
+                            Scrips List
+                        </a></li>
+                    <li><a th:href="@{/scrips/addNew}">
+                            <span class="icon">
+                                <span class="mif-add-business fg-darkGray" style="margin-right:5px;"></span>
+                            </span>
+                            Add New Scrip
+                        </a></li>
+                    <li class="divider bg-lightGray"></li>
+                    <li>
+                        <a th:href="@{/scrips/upload}">
+                            <span class="icon">
+                                <span class="mif-database-upload fg-darkGray" style="margin-right:5px;"></span>
+                            </span>
+                            Upload Scrips (.csv)
+                        </a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{/scrips/rename}">
+                            <span class="icon">
+                                <span class="mif-data-exchange fg-darkGray" style="margin-right:5px;"></span>
+                            </span>
+                            Rename Scrip
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li th:if="${userDetails.role=='ADMIN' or userDetails.role=='GENERAL_USER'}">
+                <a href="#" class="dropdown-toggle marker-light">Portfolio</a>
+                <ul class="d-menu" data-role="dropdown">
+                    <li>
+                        <a th:href="@{/pf/}">
+                            <span class="icon">
+                                <span class="mif-databases fg-darkGray" style="margin-right:5px;"></span>
+                            </span>
+                            My Portfolio
+                        </a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{/pf/upload}">
+                            <span class="icon">
+                                <span class="mif-file-upload fg-darkGray" style="margin-right:5px;"></span>
+                            </span>
+                            Update Portfolio
+                        </a>
+                    </li>
+
+
+
+
+                </ul>
+            </li>
+
+            <li>
+                <a href="#" class="dropdown-toggle marker-light">Profile</a>
+                <ul class="d-menu" data-role="dropdown">
+                    <li>
+                        <a>
+                            <span class="icon">
+                                <span class="mif-user fg-darkGray" style="margin-right:5px;"></span>
+                            </span>
+                            <label th:text="${userDetails.username}"></label>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/login}">
+                            <span class="icon">
+                                <span class="mif-exit fg-darkGray" style="margin-right:5px;"></span>
+                            </span>
+                            Logout
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+
+
+
+
+
+        </ul>
+
+        <script src="/vendor/metro/metro.js"></script>
+        <script src="/js/default/metro.js"></script>
+</body>
+
+</html>

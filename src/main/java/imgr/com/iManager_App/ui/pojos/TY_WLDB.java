@@ -40,6 +40,7 @@ public class TY_WLDB
     private double bullCaseRetCAGR;
     private double bullwtRatio;
     private double peg;
+    private int size;
     private List<TY_KeyValueDouble> exitKeyVals = new ArrayList<TY_KeyValueDouble>();
     private String notesLink;
 
