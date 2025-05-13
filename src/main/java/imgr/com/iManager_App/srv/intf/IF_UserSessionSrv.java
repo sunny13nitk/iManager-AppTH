@@ -10,6 +10,7 @@ import imgr.com.iManager_App.srv.pojos.TY_UserSessionInfo;
 import imgr.com.iManager_App.ui.enums.EnumVWNames;
 import imgr.com.iManager_App.ui.pojos.CUS_StgyBean;
 import imgr.com.iManager_App.ui.pojos.EN_Watchlist;
+import imgr.com.iManager_App.ui.pojos.TY_ConsolPF;
 import imgr.com.iManager_App.ui.pojos.TY_PF;
 import imgr.com.iManager_App.ui.pojos.TY_PFItem;
 import imgr.com.iManager_App.ui.pojos.TY_ScripAnalysisData;
@@ -65,4 +66,13 @@ public interface IF_UserSessionSrv
     public void setStrategies(List<CUS_StgyBean> strategies);
 
     public List<CUS_StgyBean> getStrategies();
+
+    public void setPFWLConsol(TY_ConsolPF pfWLConsol);
+
+    public TY_ConsolPF getPFWLConsol();
+
+    public boolean setMV(ModelAndView mv);
+
+    public ModelAndView getMV();
+
 }

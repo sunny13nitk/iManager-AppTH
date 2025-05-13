@@ -24,6 +24,7 @@ import imgr.com.iManager_App.ui.constants.VWNamesDirectory;
 import imgr.com.iManager_App.ui.enums.EnumVWNames;
 import imgr.com.iManager_App.ui.pojos.CUS_StgyBean;
 import imgr.com.iManager_App.ui.pojos.EN_Watchlist;
+import imgr.com.iManager_App.ui.pojos.TY_ConsolPF;
 import imgr.com.iManager_App.ui.pojos.TY_Credentials;
 import imgr.com.iManager_App.ui.pojos.TY_DestinationsSuffix;
 import imgr.com.iManager_App.ui.pojos.TY_PF;
@@ -289,6 +290,40 @@ public class CL_UserSessionSrv implements IF_UserSessionSrv
     public List<CUS_StgyBean> getStrategies()
     {
         return this.userInfo.getStrategies();
+    }
+
+    @Override
+    public void setPFWLConsol(TY_ConsolPF pfWLConsol)
+    {
+        this.userInfo.setPfWLConsol(pfWLConsol);
+    }
+
+    @Override
+    public TY_ConsolPF getPFWLConsol()
+    {
+        return this.userInfo.getPfWLConsol();
+    }
+
+    @Override
+    public boolean setMV(ModelAndView mv)
+    {
+        boolean isSet = false;
+        if (mv != null)
+        {
+            if (mv.getModel() != null)
+            {
+                this.userInfo.setMv(mv);
+                isSet = true;
+            }
+
+        }
+        return isSet;
+    }
+
+    @Override
+    public ModelAndView getMV()
+    {
+        return this.userInfo.getMv();
     }
 
 }

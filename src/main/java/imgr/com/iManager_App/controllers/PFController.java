@@ -119,6 +119,12 @@ public class PFController
         return VWNamesDirectory.getViewName(EnumVWNames.Home, true);
     }
 
+    @GetMapping("/consolwl")
+    public String showPFWLConsol(Model model)
+    {
+        return null;
+    }
+
     @PostMapping("/uploadPF")
     public String handlePFUpload(@RequestParam("file") MultipartFile file, Model model) throws Exception
     {

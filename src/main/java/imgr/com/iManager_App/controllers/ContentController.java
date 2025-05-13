@@ -6,6 +6,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import imgr.com.iManager_App.srv.intf.IF_UserSessionSrv;
 import imgr.com.iManager_App.srv.pojos.TY_Login;
@@ -89,6 +90,20 @@ public class ContentController
     public String userHome()
     {
         return "userhome";
+    }
+
+    @GetMapping("/back")
+    public ModelAndView navigateBackGlobal()
+    {
+        if (userSessSrv != null)
+        {
+            ModelAndView mv = userSessSrv.getMV();
+            if (mv != null)
+            {
+                return mv;
+            }
+        }
+        return new ModelAndView("error");
     }
 
 }
