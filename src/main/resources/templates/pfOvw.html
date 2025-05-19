@@ -257,23 +257,23 @@
 
                             <tr th:each="pfItem : ${pf.pfItems}">
 
-
-                                <td style="text-align: center;"><a class="button rounded mini outline"
-                                        th:href="@{'/pf/txn/'+${pfItem.scrip}}"
-                                        style="color: black; background: transparent" data-role="hint"
-                                        data-hint-position="top" data-cls-hint="bg-LightGreen fg-black"
-                                        data-hint-text="Transact"><span class="mif-coins icon"
-                                            style="margin-left: 0px"></span></a>
+                                <td style="text-align: center;">
                                     <a class="button rounded mini outline" th:href="@{'/pf/sim/'+${pfItem.scrip}}"
                                         style="color: black; background: transparent" data-role="hint"
                                         data-hint-position="top" data-cls-hint="bg-LightGreen fg-black"
-                                        data-hint-text="Simulate"><span class="mif-sunrise icon"
+                                        data-hint-text="Simulate"><span class="mif-lab icon"
                                             style="margin-left: 0px"></span></a>
 
                                     <a class="button rounded mini outline" th:href="@{'/wl/db/'+${pfItem.scrip}}"
                                         target="_blank" style="color: black; background: transparent" data-role="hint"
                                         data-hint-position="top" data-cls-hint="bg-LightGreen fg-black"
                                         data-hint-text="Watchlist View - ERR"><span class="mif-add-task icon"
+                                            style="margin-left: 0px"></span></a>
+
+                                    <a class="button rounded mini outline" th:href=" ${pfItem.notesUrl}" target="_blank"
+                                        style="color: black; background: transparent" data-role="hint"
+                                        data-hint-position="top" data-cls-hint="bg-LightGreen fg-black"
+                                        data-hint-text="Notes"><span class="mif-file-text"
                                             style="margin-left: 0px"></span></a>
                                 </td>
 

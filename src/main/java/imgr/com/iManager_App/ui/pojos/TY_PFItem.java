@@ -28,4 +28,5 @@ public class TY_PFItem
     private String plAbsM;
     private double plPerDay;
     private String plPerDayM;
+    private String notesUrl;
 }

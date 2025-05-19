@@ -17,10 +17,13 @@ public class TY_ConsolPFWLItem
     private double err;
     private double dailyPL;
     private int alloc;
-    private String investmentsS;
+    private String investmentsM;
     private double perInvPF;
-    private String currValS;
+    private String currValM;
     private double perCMPPF;
     private EnumAllocations allocStatus;
+    private double nettPLPer;
+    private String nettPLAbsM;
+    private String notesUrl;
 
 }
