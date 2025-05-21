@@ -11,5 +11,5 @@ public interface IF_PFSrvClient
 
     public boolean updateUserPortfolio(MultipartFile file) throws Exception;
 
-    //public TY_ConsolPF
+    public TY_ConsolPF getConsolidatedPF(String token, boolean refresh) throws Exception;
 }

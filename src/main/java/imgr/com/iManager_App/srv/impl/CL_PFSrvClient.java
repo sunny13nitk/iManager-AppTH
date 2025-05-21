@@ -25,12 +25,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import imgr.com.iManager_App.srv.intf.IF_PFSrvClient;
 import imgr.com.iManager_App.srv.intf.IF_UserSessionSrv;
+import imgr.com.iManager_App.srv.intf.IF_WatchlistSrvClient;
 import imgr.com.iManager_App.ui.constants.GC_Constants;
+import imgr.com.iManager_App.ui.enums.EnumAllocations;
 import imgr.com.iManager_App.ui.pojos.CSVPF;
+import imgr.com.iManager_App.ui.pojos.TY_ConsolPF;
+import imgr.com.iManager_App.ui.pojos.TY_ConsolPFWLItem;
 import imgr.com.iManager_App.ui.pojos.TY_DestinationsSuffix;
 import imgr.com.iManager_App.ui.pojos.TY_PF;
+import imgr.com.iManager_App.ui.pojos.TY_PFItem;
+import imgr.com.iManager_App.ui.pojos.TY_WLDB;
 import imgr.com.iManager_App.utilities.CSV2POJOUtility;
 import imgr.com.iManager_App.utilities.StringsUtility;
+import imgr.com.iManager_App.utilities.UtilDecimaltoMoneyString;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,6 +48,8 @@ public class CL_PFSrvClient implements IF_PFSrvClient
 {
 
     private final TY_DestinationsSuffix dS;
+
+    private final IF_WatchlistSrvClient wlSrvClient;
 
     private final IF_UserSessionSrv userSessionSrv;
 
@@ -200,6 +209,134 @@ public class CL_PFSrvClient implements IF_PFSrvClient
         }
 
         return isUpdated;
+    }
+
+    @Override
+    public TY_ConsolPF getConsolidatedPF(String token, boolean refresh) throws Exception
+    {
+        TY_ConsolPF consolPF = null;
+        if (StringUtils.hasText(token) && userSessionSrv != null)
+        {
+            if (!refresh)
+            {
+                if (userSessionSrv.getPFWLConsol() != null)
+                {
+                    return userSessionSrv.getPFWLConsol();
+                }
+
+                if (CollectionUtils.isNotEmpty(userSessionSrv.getUserSessionInformation().getWlDBList())
+                        && userSessionSrv.getUserSessionInformation().getUserPF() != null)
+                {
+                    consolPF = prepareConsolidatedPF(userSessionSrv.getUserSessionInformation().getWlDBList(),
+                            userSessionSrv.getUserSessionInformation().getUserPF());
+                }
+                else
+                {
+                    if (userSessionSrv.getUserSessionInformation().getUserPF() == null)
+                    {
+                        userSessionSrv.setUserPF(getPortfolioDetails4User(token));
+                    }
+                    if (CollectionUtils.isEmpty(userSessionSrv.getUserSessionInformation().getWlDBList()))
+                    {
+                        userSessionSrv.setWLDB(wlSrvClient.getWatchlistDb(token));
+                    }
+                    consolPF = prepareConsolidatedPF(userSessionSrv.getUserSessionInformation().getWlDBList(),
+                            userSessionSrv.getUserSessionInformation().getUserPF());
+                }
+
+            }
+            else
+            {
+                userSessionSrv.setUserPF(getPortfolioDetails4User(token));
+                userSessionSrv.setWLDB(wlSrvClient.getWatchlistDb(token));
+                consolPF = prepareConsolidatedPF(userSessionSrv.getUserSessionInformation().getWlDBList(),
+                        userSessionSrv.getUserSessionInformation().getUserPF());
+            }
+        }
+
+        return consolPF;
+    }
+
+    private TY_ConsolPF prepareConsolidatedPF(List<TY_WLDB> wlDBList, TY_PF userPF)
+    {
+        TY_ConsolPF pfWLConsol = new TY_ConsolPF();
+        if (wlDBList != null && userPF != null)
+        {
+            pfWLConsol.setPfHeader(userPF.getPfHeader());
+
+            int maxsize = userPF.getPfItems().size();
+            int i = 1;
+            for (TY_PFItem pfItem : userPF.getPfItems())
+            {
+                log.info("Scanning " + i + " of " + maxsize);
+                i++;
+                TY_ConsolPFWLItem pfConItem = new TY_ConsolPFWLItem();
+                TY_WLDB wlDB = wlDBList.stream().filter(wl -> wl.getScrip().equalsIgnoreCase(pfItem.getScrip()))
+                        .findFirst().orElse(null);
+                if (wlDB != null)
+                {
+                    pfConItem.setScrip(wlDB.getScrip());
+                    pfConItem.setRating(wlDB.getRating());
+                    pfConItem.setAvgReturns(wlDB.getAvgReturns());
+                    pfConItem.setErr(wlDB.getErr());
+                    pfConItem.setDailyPL(pfItem.getDaysChgD());
+                    pfConItem.setAlloc(wlDB.getSize());
+                    pfConItem.setInvestmentsM(pfItem.getInvM());
+                    pfConItem.setPerInvPF(pfItem.getPerByInv());
+                    pfConItem.setCurrValM(pfItem.getCurValM());
+                    pfConItem.setPerCMPPF(pfItem.getPerByCurVal());
+
+                    if (pfItem.getCurVal() < pfItem.getInv())
+                    {
+                        if (Double.compare(wlDB.getSize(), pfItem.getPerByInv()) > 0)
+                        {
+                            pfConItem.setAllocStatus(EnumAllocations.UNDER.toString());
+                        }
+                        else
+                        {
+                            pfConItem.setAllocStatus(EnumAllocations.OVER.toString());
+                        }
+
+                        double deltaallocAmnt = Math.abs(wlDB.getSize() - pfItem.getPerByInv())
+                                * userPF.getPfHeader().getTotalInvestment() * .01;
+                        String amntDelta = UtilDecimaltoMoneyString.getMoneyStringforDecimal(deltaallocAmnt, 1);
+                        if (pfConItem.getAllocStatus().equalsIgnoreCase(EnumAllocations.OVER.toString()))
+                        {
+                            amntDelta = "-" + amntDelta;
+                        }
+                        pfConItem.setDeltaallocAmntM(amntDelta);
+                    }
+                    else
+                    {
+                        if (Double.compare(wlDB.getSize(), pfItem.getPerByCurVal()) > 0)
+                        {
+                            pfConItem.setAllocStatus(EnumAllocations.UNDER.toString());
+                        }
+                        else
+                        {
+                            pfConItem.setAllocStatus(EnumAllocations.OVER.toString());
+                        }
+
+                        double deltaallocAmnt = Math.abs(wlDB.getSize() - pfItem.getPerByCurVal())
+                                * userPF.getPfHeader().getTotalInvestment() * .01;
+                        String amntDelta = UtilDecimaltoMoneyString.getMoneyStringforDecimal(deltaallocAmnt, 1);
+                        if (pfConItem.getAllocStatus().equalsIgnoreCase(EnumAllocations.OVER.toString()))
+                        {
+                            amntDelta = "-" + amntDelta;
+                        }
+                        pfConItem.setDeltaallocAmntM(amntDelta);
+                    }
+
+                    pfConItem.setNettPLPer(pfItem.getPlPer());
+                    pfConItem.setNettPLAbsM(pfItem.getPlAbsM());
+                    pfConItem.setNotesUrl(wlDB.getNotesLink());
+
+                    pfWLConsol.getPfItems().add(pfConItem);
+                }
+
+            }
+        }
+        return pfWLConsol;
     }
 
 }

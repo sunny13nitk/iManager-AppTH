@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="scrollbar-type-1 sb-steel">
+
+<head>
+
+    <title>iManager</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Metro 4 -->
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/5.0.6/metro.css">
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/current/icons.css">
+
+    <!-- <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4.3.2/css/metro-all.min.css"> -->
+
+    <style>
+        table.scrolldown {
+            width: 100%;
+
+            /* border-collapse: collapse; */
+            border-spacing: 0;
+            border: 2px solid black;
+        }
+
+        /* To display the block as level element */
+        table.scrolldown tbody,
+        table.scrolldown thead {
+            display: block;
+        }
+
+        thead tr th {
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+        }
+
+        table.scrolldown tbody {
+
+            /* Set the height of table body */
+            height: 570px;
+
+            /* Set vertical scroll */
+            overflow-y: auto;
+
+            /* Hide the horizontal scroll */
+            overflow-x: hidden;
+        }
+
+        tbody {
+            border-top: 2px solid black;
+        }
+
+        tbody td,
+
+        thead th {
+            width: 110px;
+            border-right: 2px solid black;
+            text-align: center;
+        }
+
+        th {
+            text-align: center;
+        }
+
+        td {
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="row-12" style="padding: 0px; margin: 0px;">
+        <div class="col-xs-12" style="padding: 0px; margin: 0px;">
+            <div th:replace="~{fragments/menubar :: iMgrAppBar(userDetails=${userDetails})}"></div>
+        </div>
+        <div class="grid">
+            <!-- Header Row -->
+            <div class="row flex-justify-center" style="margin-top: 80px;">
+                <h4 style="color:  #239EE3; ">
+                    <span class="mif-databases fg-cyan" style="margin-right:5px;"></span>
+                    My Portfolio
+
+                    <a href="#" class="button info cycle small outline" th:href="@{/pf/refreshCons}" role="button"
+                        style="margin-left: 10px;margin-bottom: +6px;">
+                        <span class="mif-refresh  mif-2x"></span>
+                    </a>
+                </h4>
+
+            </div>
+            <div class="row ">
+
+                <div class="card bg-white bd-lightCyan" style=" width:90%; margin-top: -15px;">
+                    <div class="row">
+                        <div class="cell-md-3" style="padding: 20px;">
+                            <blockquote class="right-side">
+                                <h4 style="color:  #239EE3; " th:text="${pf.pfHeader.totalInvestmentM}">93.87 Lacs</h4>
+                                <small style="color: #1880BB; font-weight: medium;">Total Investments</small>
+                            </blockquote>
+                        </div>
+
+
+                        <div class="cell-md-3" style="padding: 20px;">
+
+                            <blockquote class="right-side"
+                                th:if="${pf.pfHeader.totalCurrentValue > pf.pfHeader.totalInvestment}">
+                                <h4 style="color:  #239EE3; ">
+                                    <span class="mif-arrow-drop-up mif-2x fg-darkGreen" style="margin-top: -5px;">
+                                    </span>
+                                    <span th:text="${pf.pfHeader.totalCurrentValueM}" style="margin-top: -15px;"></span>
+                                </h4>
+                                <small style="color: #1880BB; font-weight: medium;">Current Value</small>
+                            </blockquote>
+
+                            <blockquote class="right-side"
+                                th:if="${pf.pfHeader.totalCurrentValue < pf.pfHeader.totalInvestment}">
+                                <h4 style="color:  #239EE3; ">
+                                    <span class="mif-arrow-drop-down mif-2x fg-red" style="margin-top: -5px;"> </span>
+                                    <span th:text="${pf.pfHeader.totalCurrentValueM}" style="margin-top: -15px;"></span>
+                                </h4>
+                                <small style="color: #1880BB; font-weight: medium;">Current Value</small>
+                            </blockquote>
+                        </div>
+
+
+                        <div class="cell-md-3" style="padding: 20px;">
+                            <blockquote class="right-side" th:if="${pf.pfHeader.dayPLPer >=0}">
+                                <h4> <span class=" tally"
+                                        style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);"
+                                        th:text="${pf.pfHeader.dayPLM}">-98.1 K </span>
+                                    <span class="tally"
+                                        style="font-weight: bolder;font-size:medium ;   background-color: #C4E9D7; color: rgb(6, 144, 66);"
+                                        th:text="${pf.pfHeader.dayPLPer}"> -1.2 </span> <span class="tally"
+                                        style="font-weight: bolder;font-size:medium; background-color: #C4E9D7; color: rgb(6, 144, 66); margin-left: -12px;">
+                                        %
+                                    </span>
+                                </h4>
+
+                                <small style="color: #1880BB; font-weight: medium;">Day's P&L</small>
+                            </blockquote>
+
+                            <blockquote class="right-side" th:if="${pf.pfHeader.dayPLPer <0}">
+                                <h4> <span class=" tally"
+                                        style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
+                                        th:text="${pf.pfHeader.dayPLM}">-98.1 K </span>
+                                    <span class="tally"
+                                        style="font-weight: bolder;font-size:medium ;   background-color: #faeeea; color: rgb(169, 13, 13);"
+                                        th:text="${pf.pfHeader.dayPLPer}"> -1.2 </span> <span class="tally"
+                                        style="font-weight: bolder;font-size:medium; background-color: #faeeea; color: rgb(169, 13, 13); margin-left: -12px;">
+                                        %
+                                    </span>
+                                </h4>
+
+                                <small style="color: #1880BB; font-weight: medium;">Day's P&L</small>
+                            </blockquote>
+                        </div>
+
+
+                        <div class="cell-md-3" style="padding: 20px;">
+                            <blockquote class="right-side" th:if="${pf.pfHeader.totalPLPer >=0}">
+                                <h4> <span class=" tally"
+                                        style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);"
+                                        th:text="${pf.pfHeader.totalPLM}">-98.1 K </span>
+                                    <span class="tally"
+                                        style="font-weight: bolder;font-size:medium ;   background-color: #C4E9D7; color: rgb(6, 144, 66);"
+                                        th:text="${pf.pfHeader.totalPLPer}"> -1.2 </span> <span class="tally"
+                                        style="font-weight: bolder;font-size:medium; background-color: #C4E9D7; color: rgb(6, 144, 66); margin-left: -12px;">
+                                        %
+                                    </span>
+                                </h4>
+
+                                <small style="color: #1880BB; font-weight: medium;">Nett. P&L</small>
+                            </blockquote>
+
+                            <blockquote class="right-side" th:if="${pf.pfHeader.totalPLPer <0}">
+                                <h4> <span class=" tally"
+                                        style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
+                                        th:text="${pf.pfHeader.totalPLM}">-98.1 K </span>
+                                    <span class="tally"
+                                        style="font-weight: bolder;font-size:medium ;   background-color: #faeeea; color: rgb(169, 13, 13);"
+                                        th:text="${pf.pfHeader.totalPLPer}"> -1.2 </span> <span class="tally"
+                                        style="font-weight: bolder;font-size:medium; background-color: #faeeea; color: rgb(169, 13, 13); margin-left: -12px;">
+                                        %
+                                    </span>
+                                </h4>
+
+                                <small style="color: #1880BB; font-weight: medium;">Nett. P&L</small>
+                            </blockquote>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row" th:if="${pf.pfItems !=null}" style="padding: 10px;">
+                <div class="cell-12">
+                    <table class="table compact striped table-border cell-border row-hover scrolldown" data-role="table"
+                        data-rows='-1' data-show-search="true" data-show-table-info="false" data-show-pagination="false"
+                        data-show-rows-steps="false" data-horizontal-scroll="true">
+                        <thead>
+                            <tr>
+                                <th data-cls-column="text-center" align="center">Actions</th>
+                                <th data-name="scrip" align="left" class="sortable-column sort-asc"
+                                    data-cls-column=" text-left">Scrip</th>
+
+                                <th data-name="rating" class="sortable-column" data-cls-column="text-center">Rating</th>
+
+                                <th data-name="avgReturns" class="sortable-column " data-format="float"
+                                    data-cls-column=" text-center; fg-darkBlue ; ">Ret. (avg)</th>
+
+                                <th data-name="err" class="sortable-column " data-format="float"
+                                    data-cls-column=" text-center; fg-darkBlue ; ">ERR</th>
+
+                                <th data-name="dailyPL" data-format="number" data-cls-column=" text-center">
+                                    Day's P&L</th>
+
+                                <th data-name="investmentsM" data-format="number" data-cls-column=" text-center">
+                                    Investment</th>
+
+                                <th data-name="perInvPF" data-format="number" class="sortable-column"
+                                    data-cls-column=" text-center">Inv %
+                                </th>
+
+                                <th data-name="curValM" data-format="number" data-cls-column=" text-center">
+                                    Curr. Val</th>
+
+                                <th data-name="perCMPPF" data-format="float" data-cls-column=" text-center"
+                                    class="sortable-column">CMP %
+                                </th>
+
+                                <th data-name="alloc" class="sortable-column" data-cls-column="text-center">Max Alloc.
+                                </th>
+
+                                <th data-name="allocStatus" data-format="float" data-cls-column="text-center">
+                                    Alloc. Status</th>
+
+                                <th data-name="deltaallocAmntM" data-format="float" data-cls-column="text-center">
+                                    Delta Amnt.</th>
+
+
+                                <th data-name="nettPLPer" data-format="float" class="sortable-column"
+                                    data-cls-column=" text-center; fg-darkTeal ; ">
+                                    P&L %</th>
+
+                                <th data-name="nettPLAbsM" data-format="number"
+                                    data-cls-column=" text-center; fg-darkTeal ; ">
+                                    P&L Abs.</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+
+                            <tr th:each="pfItem : ${pf.pfItems}">
+
+                                <td style="text-align: center;">
+                                    <a class="button rounded mini outline" th:href="@{'/pf/sim/'+${pfItem.scrip}}"
+                                        style="color: black; background: transparent" data-role="hint"
+                                        data-hint-position="top" data-cls-hint="bg-LightGreen fg-black"
+                                        data-hint-text="Simulate"><span class="mif-lab icon"
+                                            style="margin-left: 0px"></span></a>
+
+                                    <a class="button rounded mini outline" th:href="@{'/wl/db/'+${pfItem.scrip}}"
+                                        target="_blank" style="color: black; background: transparent" data-role="hint"
+                                        data-hint-position="top" data-cls-hint="bg-LightGreen fg-black"
+                                        data-hint-text="Watchlist View - ERR"><span class="mif-add-task icon"
+                                            style="margin-left: 0px"></span></a>
+
+                                    <a class="button rounded mini outline" th:href=" ${pfItem.notesUrl}" target="_blank"
+                                        style="color: black; background: transparent" data-role="hint"
+                                        data-hint-position="top" data-cls-hint="bg-LightGreen fg-black"
+                                        data-hint-text="Notes"><span class="mif-file-text"
+                                            style="margin-left: 0px"></span></a>
+                                </td>
+
+
+
+                                <td> <span class="tally"
+                                        style="font-weight: bold; background-color: #FAFAFA; color: rgb(93, 93, 93);"
+                                        th:text="${pfItem.scrip}"></span></td>
+
+                                <td style="text-align: center; " th:if="${pfItem.rating == 'Buy'}">
+                                    <span class="tally"
+                                        style="font-weight: bolder; background-color: #E9F7F0; color: darkgreen;"
+                                        th:text="${pfItem.rating}"></span>
+                                </td>
+
+                                <td style="text-align: center; " th:if="${pfItem.rating == 'Accumulate'}">
+                                    <span class="tally"
+                                        style="font-weight: bolder; background-color: #f6f6d6; color: darkgoldenrod;"
+                                        th:text="${pfItem.rating}"></span>
+                                </td>
+
+                                <td style="text-align: center; " th:if="${pfItem.rating == 'StrongBuy'}">
+                                    <span class="tally"
+                                        style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);"
+                                        th:text="${pfItem.rating}"></span>
+                                </td>
+
+                                <td style="text-align: center; " th:if="${pfItem.rating == 'Hold'}">
+                                    <span class="tally"
+                                        style="font-weight: bolder; background-color: #e1feff; color: darkblue;"
+                                        th:text="${pfItem.rating}"></span>
+                                </td>
+
+                                <td style="text-align: center; " th:if="${pfItem.rating == 'Sell'}">
+                                    <span class="tally"
+                                        style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
+                                        th:text="${pfItem.rating}"></span>
+                                </td>
+
+                                <td th:text="${pfItem.avgReturns}"></td>
+
+                                <td th:text="${pfItem.err}"></td>
+
+
+                                <td style="text-align: center; " th:if="${pfItem.dailyPL >=0}">
+                                    <span class="tally"
+                                        style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);"
+                                        th:text="${pfItem.dailyPL}"></span>
+                                </td>
+
+                                <td style="text-align: center; " th:if="${pfItem.dailyPL <0}">
+                                    <span class="tally"
+                                        style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
+                                        th:text="${pfItem.dailyPL}"></span>
+                                </td>
+
+                                <td th:text="${pfItem.investmentsM}"></td>
+                                <td th:text="${pfItem.perInvPF}"></td>
+                                <td th:text="${pfItem.currValM}"></td>
+                                <td th:text="${pfItem.perCMPPF}"></td>
+                                <td th:text="${pfItem.alloc}"></td>
+
+                                <td style="text-align: center; " th:if="${pfItem.allocStatus == 'UNDER'}">
+                                    <span class="tally"
+                                        style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);"
+                                        th:text="${pfItem.allocStatus}"></span>
+                                </td>
+
+                                <td style="text-align: center; " th:if="${pfItem.allocStatus == 'OVER'}">
+                                    <span class="tally"
+                                        style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
+                                        th:text="${pfItem.allocStatus}"></span>
+                                </td>
+
+                                <td th:text="${pfItem.deltaallocAmntM}"></td>
+
+
+                                <td style="text-align: center; " th:if="${pfItem.nettPLPer >=0}">
+                                    <span class="tally"
+                                        style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);"
+                                        th:text="${pfItem.nettPLPer}"></span>
+                                </td>
+
+                                <td style="text-align: center; " th:if="${pfItem.nettPLPer <0}">
+                                    <span class="tally"
+                                        style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
+                                        th:text="${pfItem.nettPLPer}"></span>
+                                </td>
+
+                                <td style="text-align: center; " th:if="${pfItem.nettPLPer >=0}">
+                                    <span class="tally"
+                                        style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);"
+                                        th:text="${pfItem.nettPLAbsM}"></span>
+                                </td>
+
+                                <td style="text-align: center; " th:if="${pfItem.nettPLPer <0}">
+                                    <span class="tally"
+                                        style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
+                                        th:text="${pfItem.nettPLAbsM}"></span>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Metro 4 -->
+    <script src="https://cdn.metroui.org.ua/5.0.6/metro.js"></script>
+    <!-- <script src="https://cdn.metroui.org.ua/v4.3.2/js/metro.min.js"></script> -->
+</body>
+
+</html>

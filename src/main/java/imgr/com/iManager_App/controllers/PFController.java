@@ -16,6 +16,7 @@ import imgr.com.iManager_App.srv.intf.IF_PFSrvClient;
 import imgr.com.iManager_App.srv.intf.IF_UserSessionSrv;
 import imgr.com.iManager_App.ui.constants.VWNamesDirectory;
 import imgr.com.iManager_App.ui.enums.EnumVWNames;
+import imgr.com.iManager_App.ui.pojos.TY_ConsolPF;
 import imgr.com.iManager_App.ui.pojos.TY_PF;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -122,9 +123,67 @@ public class PFController
     @GetMapping("/consolwl")
     public String showPFWLConsol(Model model)
     {
-        return null;
+        if (pfSrv != null && userSessionSrv != null)
+        {
+            String token = userSessionSrv.getScreenerToken();
+            if (StringUtils.hasText(token))
+            {
+                TY_ConsolPF pf = null;
+                try
+                {
+                    pf = pfSrv.getConsolidatedPF(token, false);
+                    userSessionSrv.setPFWLConsol(pf);
+
+                    if (pf != null)
+                    {
+                        log.info("Portfolio bound.. for user");
+                        model.addAttribute("pf", pf);
+                        model.addAttribute("userDetails", userSessionSrv.getUserDetails());
+                        return VWNamesDirectory.getViewName(EnumVWNames.ConsolPF, false);
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw new EX_UserSession(e.getLocalizedMessage());
+                }
+
+            }
+        }
+        return VWNamesDirectory.getViewName(EnumVWNames.Home, true);
     }
 
+
+    @GetMapping("/refrshCons")
+    public String refreshPFWLConsol(Model model)
+    {
+        if (pfSrv != null && userSessionSrv != null)
+        {
+            String token = userSessionSrv.getScreenerToken();
+            if (StringUtils.hasText(token))
+            {
+                TY_ConsolPF pf = null;
+                try
+                {
+                    pf = pfSrv.getConsolidatedPF(token, true);
+                    userSessionSrv.setPFWLConsol(pf);
+
+                    if (pf != null)
+                    {
+                        log.info("Portfolio bound.. for user");
+                        model.addAttribute("pf", pf);
+                        model.addAttribute("userDetails", userSessionSrv.getUserDetails());
+                        return VWNamesDirectory.getViewName(EnumVWNames.ConsolPF, false);
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw new EX_UserSession(e.getLocalizedMessage());
+                }
+
+            }
+        }
+        return VWNamesDirectory.getViewName(EnumVWNames.Home, true);
+    }
     @PostMapping("/uploadPF")
     public String handlePFUpload(@RequestParam("file") MultipartFile file, Model model) throws Exception
     {

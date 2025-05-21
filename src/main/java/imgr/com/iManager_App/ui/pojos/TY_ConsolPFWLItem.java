@@ -1,7 +1,5 @@
 package imgr.com.iManager_App.ui.pojos;
 
-import imgr.com.iManager_App.ui.enums.EnumAllocations;
-import imgr.com.iManager_App.ui.enums.EnumWLRating;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class TY_ConsolPFWLItem
 {
     private String scrip;
-    private EnumWLRating rating; // EnumWLRating
+    private String rating; // EnumWLRating
     private double avgReturns;
     private double err;
     private double dailyPL;
@@ -21,7 +19,8 @@ public class TY_ConsolPFWLItem
     private double perInvPF;
     private String currValM;
     private double perCMPPF;
-    private EnumAllocations allocStatus;
+    private String allocStatus;
+    private String deltaallocAmntM;
     private double nettPLPer;
     private String nettPLAbsM;
     private String notesUrl;
