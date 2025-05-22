@@ -1,4 +1,4 @@
-package imgr.com.iManager_App.controllers;
+package imgr.com.iManager_App.controllers.routes;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package imgr.com.iManager_App.controllers;
+package imgr.com.iManager_App.controllers.routes;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -27,6 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class TestController
 {
+    // Remove the explicit 'log' field if present, as @Slf4j generates it
+    // automatically.
     private final String token = "";
     private final IF_UserSessionSrv userSessSrv;
 

@@ -1,4 +1,4 @@
-package imgr.com.iManager_App.controllers;
+package imgr.com.iManager_App.controllers.routes;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
