@@ -153,7 +153,7 @@ public class PFController
     }
 
 
-    @GetMapping("/refrshCons")
+    @GetMapping("/refreshCons")
     public String refreshPFWLConsol(Model model)
     {
         if (pfSrv != null && userSessionSrv != null)
