@@ -105,10 +105,11 @@
 
                             <blockquote class="right-side"
                                 th:if="${pf.pfHeader.totalCurrentValue > pf.pfHeader.totalInvestment}">
+
                                 <h4 style="color:  #239EE3; ">
-                                    <span class="mif-arrow-drop-up mif-2x fg-darkGreen" style="margin-top: -5px;">
+                                    <span class="mif-arrow-drop-up mif-2x fg-darkGreen"
+                                        th:text="${pf.pfHeader.totalCurrentValueM}">
                                     </span>
-                                    <span th:text="${pf.pfHeader.totalCurrentValueM}" style="margin-top: -15px;"></span>
                                 </h4>
                                 <small style="color: #1880BB; font-weight: medium;">Current Value</small>
                             </blockquote>
@@ -116,8 +117,9 @@
                             <blockquote class="right-side"
                                 th:if="${pf.pfHeader.totalCurrentValue < pf.pfHeader.totalInvestment}">
                                 <h4 style="color:  #239EE3; ">
-                                    <span class="mif-arrow-drop-down mif-2x fg-red" style="margin-top: -5px;"> </span>
-                                    <span th:text="${pf.pfHeader.totalCurrentValueM}" style="margin-top: -15px;"></span>
+                                    <span class="mif-arrow-drop-down mif-2x fg-red"
+                                        th:text="${pf.pfHeader.totalCurrentValueM}"> </span>
+
                                 </h4>
                                 <small style="color: #1880BB; font-weight: medium;">Current Value</small>
                             </blockquote>
