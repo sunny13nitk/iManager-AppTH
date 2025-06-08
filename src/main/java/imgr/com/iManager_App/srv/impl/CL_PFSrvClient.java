@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.net.IDN;
 import java.net.URI;
 import java.net.URL;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.http.HttpEntity;
@@ -23,17 +26,21 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import imgr.com.iManager_App.exceptions.EX_UserSession;
 import imgr.com.iManager_App.srv.intf.IF_PFSrvClient;
 import imgr.com.iManager_App.srv.intf.IF_UserSessionSrv;
 import imgr.com.iManager_App.srv.intf.IF_WatchlistSrvClient;
 import imgr.com.iManager_App.ui.constants.GC_Constants;
 import imgr.com.iManager_App.ui.enums.EnumAllocations;
 import imgr.com.iManager_App.ui.pojos.CSVPF;
+import imgr.com.iManager_App.ui.pojos.EN_Watchlist;
 import imgr.com.iManager_App.ui.pojos.TY_ConsolPF;
 import imgr.com.iManager_App.ui.pojos.TY_ConsolPFWLItem;
 import imgr.com.iManager_App.ui.pojos.TY_DestinationsSuffix;
+import imgr.com.iManager_App.ui.pojos.TY_OppcostPFReport;
 import imgr.com.iManager_App.ui.pojos.TY_PF;
 import imgr.com.iManager_App.ui.pojos.TY_PFItem;
+import imgr.com.iManager_App.ui.pojos.TY_PFSubs;
 import imgr.com.iManager_App.ui.pojos.TY_WLDB;
 import imgr.com.iManager_App.utilities.CSV2POJOUtility;
 import imgr.com.iManager_App.utilities.StringsUtility;
@@ -255,6 +262,125 @@ public class CL_PFSrvClient implements IF_PFSrvClient
         }
 
         return consolPF;
+    }
+
+    @Override
+    public TY_OppcostPFReport getOppCostPFReport(String token, boolean refresh) throws Exception
+    {
+
+        TY_OppcostPFReport oppCostReport = null;
+        TY_ConsolPF pf = null;
+        if (userSessionSrv != null)
+        {
+            if (CollectionUtils.isNotEmpty(userSessionSrv.getUserSessionInformation().getWlEntities()))
+            {
+                try
+                {
+                    pf = userSessionSrv.getPFWLConsol();
+                    if (pf == null)
+                    {
+                        pf = this.getConsolidatedPF(token, true);
+                        userSessionSrv.setPFWLConsol(pf);
+                    }
+
+                    if (pf != null)
+                    {
+                        oppCostReport = new TY_OppcostPFReport();
+                        log.info("Portfolio bound.. for user");
+                        pf.getPfItems().sort(Comparator.comparing(TY_ConsolPFWLItem::getAvgReturns));
+                        // Get Under Allocations Scrip[s]
+                        List<TY_ConsolPFWLItem> reversedSortedPFItems = pf.getPfItems().stream()
+                                .filter(e -> e.getAllocStatus().equalsIgnoreCase(EnumAllocations.UNDER.toString()))
+                                .collect(Collectors.toList());
+                        // Sort by Avg Returns in descending order
+                        reversedSortedPFItems.stream()
+                                .sorted(Comparator.comparing(TY_ConsolPFWLItem::getAvgReturns).reversed())
+                                .collect(Collectors.toList());
+                        for (TY_ConsolPFWLItem pfwlItem : pf.getPfItems())
+                        {
+                            // Get Avg returns of Each Scrip in PF and add the threshold needed to replace
+                            double avgReturns2CMP = pfwlItem.getAvgReturns() + GC_Constants.minmRetGap;
+                            boolean isEligible = false;
+
+                            // Get Scrips that have higher Avg. Returns
+                            List<TY_ConsolPFWLItem> options2Replace = reversedSortedPFItems.stream()
+                                    .filter(e -> e.getAvgReturns() >= avgReturns2CMP).collect(Collectors.toList());
+
+                            // For Each of replacement candidates
+                            for (TY_ConsolPFWLItem pfwlItem2 : options2Replace)
+                            {
+                                isEligible = true;
+                                // Get Watchlist DB details for Span,Conviction, Catg. etc..
+                                Optional<EN_Watchlist> wlTHtemO = userSessionSrv.getUserSessionInformation()
+                                        .getWlEntities().stream().filter(w -> w.getScrip().equals(pfwlItem2.getScrip()))
+                                        .findFirst();
+
+                                if (wlTHtemO.isPresent())
+                                {
+                                    // Seek if the Scrip is already in Unallocated PF replacements list
+                                    Optional<TY_PFSubs> pfSubsO = oppCostReport.getPfReplCurrPFUnAlloc().stream()
+                                            .filter(s -> s.getScrip().equals(pfwlItem2.getScrip())).findFirst();
+                                    // In case Not present, add to Unallocated PF replacements list
+                                    if (!pfSubsO.isPresent())
+                                    {
+                                        oppCostReport.getPfReplCurrPFUnAlloc()
+                                                .add(getSubs4PFItem(pfwlItem, wlTHtemO.get()));
+                                    }
+                                }
+                            }
+
+                            // For Each in Watchlist that have avg returns more than the PF Item
+                            // Get from /user session the Watchlist and scan for scrips having returns more
+                            // than the PF Item
+
+                            if (isEligible)
+                            {
+                                Optional<EN_Watchlist> wlTHtemO = userSessionSrv.getUserSessionInformation()
+                                        .getWlEntities().stream().filter(w -> w.getScrip().equals(pfwlItem.getScrip()))
+                                        .findFirst();
+
+                                if (wlTHtemO.isPresent())
+                                {
+                                    oppCostReport.getPfRCandidates().add(getSubs4PFItem(pfwlItem, wlTHtemO.get()));
+                                }
+                            }
+
+                        }
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw new EX_UserSession(e.getLocalizedMessage());
+                }
+            }
+        }
+
+        return oppCostReport;
+
+    }
+
+    private TY_PFSubs getSubs4PFItem(TY_ConsolPFWLItem pfwlItem, EN_Watchlist wlEnt)
+    {
+        TY_PFSubs pfSubs = new TY_PFSubs();
+        pfSubs.setScrip(pfwlItem.getScrip());
+        pfSubs.setAvgReturns(pfwlItem.getAvgReturns());
+        pfSubs.setErr(pfwlItem.getErr());
+        pfSubs.setConviction(wlEnt.getConviction().toString());
+        pfSubs.setSpan(wlEnt.getLongevitygr());
+        pfSubs.setGrowth(wlEnt.getGrowth().toString());
+        pfSubs.setCusSegment(wlEnt.getCusSegment().toString());
+        pfSubs.setAlloc(pfwlItem.getAlloc());
+        pfSubs.setInvestmentsM(pfwlItem.getInvestmentsM());
+        pfSubs.setPerInvPF(pfwlItem.getPerInvPF());
+        pfSubs.setCurrValM(pfwlItem.getCurrValM());
+        pfSubs.setPerCMPPF(pfwlItem.getPerCMPPF());
+        pfSubs.setAllocStatus(pfwlItem.getAllocStatus());
+        pfSubs.setDeltaallocAmntM(pfwlItem.getDeltaallocAmntM());
+        pfSubs.setNettPLPer(pfwlItem.getNettPLPer());
+        pfSubs.setNettPLAbsM(pfwlItem.getNettPLAbsM());
+
+        return pfSubs;
     }
 
     private TY_ConsolPF prepareConsolidatedPF(List<TY_WLDB> wlDBList, TY_PF userPF)

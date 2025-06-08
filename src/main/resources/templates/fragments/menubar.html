@@ -25,7 +25,7 @@
                         src="../../static/images/iMgr.png" height="32" /><span
                         class="text-bold">iManager</span></a></span>
 
-            <ul class="app-bar-menu ml-auto" style="padding-right: 20px;">
+            <ul class="app-bar-menu ml-auto" style="padding-right: 50px;">
 
                 <li th:if="${userDetails.role=='ADMIN'}">
                     <a href="#" class="dropdown-toggle marker-light">Watchlist</a>
@@ -154,6 +154,15 @@
                                     <span class="mif-connected-data fg-darkGray" style="margin-right:5px;"></span>
                                 </span>
                                 Consolidated View
+                            </a>
+                        </li>
+
+                        <li>
+                            <a th:href="@{/pf/ai}">
+                                <span class="icon">
+                                    <span class="mif-category fg-darkGray" style="margin-right:5px;"></span>
+                                </span>
+                                Opportunity Cost Analysis
                             </a>
                         </li>
                         

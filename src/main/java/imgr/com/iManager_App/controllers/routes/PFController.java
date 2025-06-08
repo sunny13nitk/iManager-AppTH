@@ -17,6 +17,7 @@ import imgr.com.iManager_App.srv.intf.IF_UserSessionSrv;
 import imgr.com.iManager_App.ui.constants.VWNamesDirectory;
 import imgr.com.iManager_App.ui.enums.EnumVWNames;
 import imgr.com.iManager_App.ui.pojos.TY_ConsolPF;
+import imgr.com.iManager_App.ui.pojos.TY_OppcostPFReport;
 import imgr.com.iManager_App.ui.pojos.TY_PF;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -152,7 +153,6 @@ public class PFController
         return VWNamesDirectory.getViewName(EnumVWNames.Home, true);
     }
 
-
     @GetMapping("/refreshCons")
     public String refreshPFWLConsol(Model model)
     {
@@ -184,6 +184,36 @@ public class PFController
         }
         return VWNamesDirectory.getViewName(EnumVWNames.Home, true);
     }
+
+    @GetMapping("/ai")
+    public String showOppCostAnalysis(Model model)
+    {
+        if (pfSrv != null && userSessionSrv != null)
+        {
+            String token = userSessionSrv.getScreenerToken();
+            if (StringUtils.hasText(token))
+            {
+                TY_OppcostPFReport oppCostPFReport = null;
+                try
+                {
+                    oppCostPFReport = pfSrv.getOppCostPFReport(token, false);
+                    if (oppCostPFReport != null)
+                    {
+                        log.info("Opp Cost Analysis bound.. for user");
+                        model.addAttribute("oppCostPFReport", oppCostPFReport);
+                        model.addAttribute("userDetails", userSessionSrv.getUserDetails());
+                        // return VWNamesDirectory.getViewName(EnumVWNames.OppCostAnalysis, false);
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw new EX_UserSession(e.getLocalizedMessage());
+                }
+            }
+        }
+        return null;
+    }
+
     @PostMapping("/uploadPF")
     public String handlePFUpload(@RequestParam("file") MultipartFile file, Model model) throws Exception
     {
