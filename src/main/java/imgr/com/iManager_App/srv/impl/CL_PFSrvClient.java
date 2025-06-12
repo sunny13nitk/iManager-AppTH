@@ -269,7 +269,6 @@ public class CL_PFSrvClient implements IF_PFSrvClient
     {
 
         TY_OppcostPFReport oppCostReport = null;
-        TY_ConsolPF pf = null;
         if (userSessionSrv != null)
         {
             // Mandatory to have User Session Watchlist and Watchlist Entitities details
@@ -277,117 +276,16 @@ public class CL_PFSrvClient implements IF_PFSrvClient
             if (CollectionUtils.isNotEmpty(userSessionSrv.getUserSessionInformation().getWlEntities())
                     && CollectionUtils.isNotEmpty(userSessionSrv.getUserSessionInformation().getWlDBList()))
             {
-                try
-                {
-                    pf = userSessionSrv.getPFWLConsol();
-                    if (pf == null)
-                    {
-                        pf = this.getConsolidatedPF(token, true);
-                        userSessionSrv.setPFWLConsol(pf);
-                    }
+                oppCostReport = processOppCostReport(token, oppCostReport);
+            }
 
-                    if (pf != null)
-                    {
-                        oppCostReport = new TY_OppcostPFReport();
-                        log.info("Portfolio bound.. for user");
-                        pf.getPfItems().sort(Comparator.comparing(TY_ConsolPFWLItem::getAvgReturns));
-                        // Get Under Allocations Scrip[s]
-                        List<TY_ConsolPFWLItem> reversedSortedPFItems = pf.getPfItems().stream()
-                                .filter(e -> e.getAllocStatus().equalsIgnoreCase(EnumAllocations.UNDER.toString()))
-                                .collect(Collectors.toList());
-                        // Sort by Avg Returns in descending order
-                        reversedSortedPFItems.stream()
-                                .sorted(Comparator.comparing(TY_ConsolPFWLItem::getAvgReturns).reversed())
-                                .collect(Collectors.toList());
-                        for (TY_ConsolPFWLItem pfwlItem : pf.getPfItems())
-                        {
-                            // Get Avg returns of Each Scrip in PF and add the threshold needed to replace
-                            if (pfwlItem.getAvgReturns() < GC_Constants.replRetThreshold)
-                            {
+            else
+            {
 
-                                double avgReturns2CMP = pfwlItem.getAvgReturns() + GC_Constants.minmRetGap;
-                                boolean isEligible = false;
-
-                                // Get Scrips that have higher Avg. Returns
-                                List<TY_ConsolPFWLItem> options2Replace = reversedSortedPFItems.stream()
-                                        .filter(e -> e.getAvgReturns() >= avgReturns2CMP).collect(Collectors.toList());
-
-                                // For Each of replacement candidates
-                                for (TY_ConsolPFWLItem pfwlItem2 : options2Replace)
-                                {
-                                    isEligible = true;
-                                    // Get Watchlist DB details for Span,Conviction, Catg. etc..
-                                    Optional<EN_Watchlist> wlTHtemO = userSessionSrv.getUserSessionInformation()
-                                            .getWlEntities().stream()
-                                            .filter(w -> w.getScrip().equals(pfwlItem2.getScrip())).findFirst();
-
-                                    if (wlTHtemO.isPresent())
-                                    {
-                                        // Seek if the Scrip is already in Unallocated PF replacements list
-                                        Optional<TY_PFSubs> pfSubsO = oppCostReport.getPfReplCurrPFUnAlloc().stream()
-                                                .filter(s -> s.getScrip().equals(pfwlItem2.getScrip())).findFirst();
-                                        // In case Not present, add to Unallocated PF replacements list
-                                        if (!pfSubsO.isPresent())
-                                        {
-                                            oppCostReport.getPfReplCurrPFUnAlloc()
-                                                    .add(getSubs4PFItem(pfwlItem2, wlTHtemO.get()));
-                                        }
-                                    }
-                                }
-
-                                // REmove the scrips from WL that are already in PF
-                                List<TY_WLDB> wlDBList = userSessionSrv.getUserSessionInformation().getWlDBList();
-                                List<TY_ConsolPFWLItem> pfItems = pf.getPfItems();
-                                wlDBList = wlDBList.stream()
-                                        .filter(wl -> pfItems.stream()
-                                                .noneMatch(pfItem -> pfItem.getScrip().equalsIgnoreCase(wl.getScrip())))
-                                        .collect(Collectors.toList());
-
-                                // Now, For Each in Watchlist that have avg returns more than the PF Item
-                                // Get from /user session the Watchlist and scan for scrips having returns more
-                                // than the PF Item
-                                List<TY_WLDB> wloptions2Replace = wlDBList.stream()
-                                        .filter(e -> e.getAvgReturns() >= avgReturns2CMP).collect(Collectors.toList());
-                                // For Each of replacement candidates
-                                for (TY_WLDB wlItem : wloptions2Replace)
-                                {
-                                    isEligible = true;
-                                    // Get Watchlist DB details for Span,Conviction, Catg. etc..
-                                    Optional<EN_Watchlist> wlTHtemO = userSessionSrv.getUserSessionInformation()
-                                            .getWlEntities().stream()
-                                            .filter(w -> w.getScrip().equals(wlItem.getScrip())).findFirst();
-                                    // Seek if the Scrip is already in Undeployed WL replacements list
-                                    Optional<TY_PFSubs> pfSubsO = oppCostReport.getPfReplWLUndeployed().stream()
-                                            .filter(s -> s.getScrip().equals(wlItem.getScrip())).findFirst();
-                                    // In case Not present, add to Undeployed WL replacements list
-                                    if (!pfSubsO.isPresent())
-                                    {
-                                        oppCostReport.getPfReplWLUndeployed().add(getSubs4PFItem(wlItem, wlTHtemO.get(),
-                                                pf.getPfHeader().getTotalInvestment()));
-                                    }
-                                }
-
-                                if (isEligible)
-                                {
-                                    Optional<EN_Watchlist> wlTHtemO = userSessionSrv.getUserSessionInformation()
-                                            .getWlEntities().stream()
-                                            .filter(w -> w.getScrip().equals(pfwlItem.getScrip())).findFirst();
-
-                                    if (wlTHtemO.isPresent())
-                                    {
-                                        oppCostReport.getPfRCandidates().add(getSubs4PFItem(pfwlItem, wlTHtemO.get()));
-                                    }
-                                }
-
-                            }
-                        }
-
-                    }
-                }
-                catch (Exception e)
-                {
-                    throw new EX_UserSession(e.getLocalizedMessage());
-                }
+                userSessionSrv.setWLDB(wlSrvClient.getWatchlistDb(token));
+                userSessionSrv.setWLFundamentals(wlSrvClient.getWLFundamentalAnalysis());
+                userSessionSrv.setWLThesis(wlSrvClient.getWatchlistThesis());
+                oppCostReport = processOppCostReport(token, oppCostReport);
             }
         }
 
@@ -395,10 +293,124 @@ public class CL_PFSrvClient implements IF_PFSrvClient
 
     }
 
+    private TY_OppcostPFReport processOppCostReport(String token, TY_OppcostPFReport oppCostReport)
+    {
+        TY_ConsolPF pf;
+        try
+        {
+            pf = userSessionSrv.getPFWLConsol();
+            if (pf == null)
+            {
+                pf = this.getConsolidatedPF(token, true);
+                userSessionSrv.setPFWLConsol(pf);
+            }
+
+            if (pf != null)
+            {
+                oppCostReport = new TY_OppcostPFReport();
+                log.info("Portfolio bound.. for user");
+                pf.getPfItems().sort(Comparator.comparing(TY_ConsolPFWLItem::getAvgReturns));
+                // Get Under Allocations Scrip[s]
+                List<TY_ConsolPFWLItem> reversedSortedPFItems = pf.getPfItems().stream()
+                        .filter(e -> e.getAllocStatus().equalsIgnoreCase(EnumAllocations.UNDER.toString()))
+                        .collect(Collectors.toList());
+                // Sort by Avg Returns in descending order
+                reversedSortedPFItems.stream().sorted(Comparator.comparing(TY_ConsolPFWLItem::getAvgReturns).reversed())
+                        .collect(Collectors.toList());
+                for (TY_ConsolPFWLItem pfwlItem : pf.getPfItems())
+                {
+                    // Get Avg returns of Each Scrip in PF and add the threshold needed to replace
+                    if (pfwlItem.getAvgReturns() < GC_Constants.replRetThreshold)
+                    {
+
+                        double avgReturns2CMP = pfwlItem.getAvgReturns() + GC_Constants.minmRetGap;
+                        boolean isEligible = false;
+
+                        // Get Scrips that have higher Avg. Returns
+                        List<TY_ConsolPFWLItem> options2Replace = reversedSortedPFItems.stream()
+                                .filter(e -> e.getAvgReturns() >= avgReturns2CMP).collect(Collectors.toList());
+
+                        // For Each of replacement candidates
+                        for (TY_ConsolPFWLItem pfwlItem2 : options2Replace)
+                        {
+                            isEligible = true;
+                            // Get Watchlist DB details for Span,Conviction, Catg. etc..
+                            Optional<EN_Watchlist> wlTHtemO = userSessionSrv.getUserSessionInformation().getWlEntities()
+                                    .stream().filter(w -> w.getScrip().equals(pfwlItem2.getScrip())).findFirst();
+
+                            if (wlTHtemO.isPresent())
+                            {
+                                // Seek if the Scrip is already in Unallocated PF replacements list
+                                Optional<TY_PFSubs> pfSubsO = oppCostReport.getPfReplCurrPFUnAlloc().stream()
+                                        .filter(s -> s.getScrip().equals(pfwlItem2.getScrip())).findFirst();
+                                // In case Not present, add to Unallocated PF replacements list
+                                if (!pfSubsO.isPresent())
+                                {
+                                    oppCostReport.getPfReplCurrPFUnAlloc()
+                                            .add(getSubs4PFItem(pfwlItem2, wlTHtemO.get()));
+                                }
+                            }
+                        }
+
+                        // REmove the scrips from WL that are already in PF
+                        List<TY_WLDB> wlDBList = userSessionSrv.getUserSessionInformation().getWlDBList();
+                        List<TY_ConsolPFWLItem> pfItems = pf.getPfItems();
+                        wlDBList = wlDBList.stream()
+                                .filter(wl -> pfItems.stream()
+                                        .noneMatch(pfItem -> pfItem.getScrip().equalsIgnoreCase(wl.getScrip())))
+                                .collect(Collectors.toList());
+
+                        // Now, For Each in Watchlist that have avg returns more than the PF Item
+                        // Get from /user session the Watchlist and scan for scrips having returns more
+                        // than the PF Item
+                        List<TY_WLDB> wloptions2Replace = wlDBList.stream()
+                                .filter(e -> e.getAvgReturns() >= avgReturns2CMP).collect(Collectors.toList());
+                        // For Each of replacement candidates
+                        for (TY_WLDB wlItem : wloptions2Replace)
+                        {
+                            isEligible = true;
+                            // Get Watchlist DB details for Span,Conviction, Catg. etc..
+                            Optional<EN_Watchlist> wlTHtemO = userSessionSrv.getUserSessionInformation().getWlEntities()
+                                    .stream().filter(w -> w.getScrip().equals(wlItem.getScrip())).findFirst();
+                            // Seek if the Scrip is already in Undeployed WL replacements list
+                            Optional<TY_PFSubs> pfSubsO = oppCostReport.getPfReplWLUndeployed().stream()
+                                    .filter(s -> s.getScrip().equals(wlItem.getScrip())).findFirst();
+                            // In case Not present, add to Undeployed WL replacements list
+                            if (!pfSubsO.isPresent())
+                            {
+                                oppCostReport.getPfReplWLUndeployed().add(
+                                        getSubs4PFItem(wlItem, wlTHtemO.get(), pf.getPfHeader().getTotalInvestment()));
+                            }
+                        }
+
+                        if (isEligible)
+                        {
+                            Optional<EN_Watchlist> wlTHtemO = userSessionSrv.getUserSessionInformation().getWlEntities()
+                                    .stream().filter(w -> w.getScrip().equals(pfwlItem.getScrip())).findFirst();
+
+                            if (wlTHtemO.isPresent())
+                            {
+                                oppCostReport.getPfRCandidates().add(getSubs4PFItem(pfwlItem, wlTHtemO.get()));
+                            }
+                        }
+
+                    }
+                }
+
+            }
+        }
+        catch (Exception e)
+        {
+            throw new EX_UserSession(e.getLocalizedMessage());
+        }
+        return oppCostReport;
+    }
+
     private TY_PFSubs getSubs4PFItem(TY_WLDB wlItem, EN_Watchlist wlEnt, double totalInv)
     {
         TY_PFSubs pfSubs = new TY_PFSubs();
         pfSubs.setScrip(wlItem.getScrip());
+        pfSubs.setRating(wlItem.getRating());
         pfSubs.setAvgReturns(wlItem.getAvgReturns());
         pfSubs.setErr(wlItem.getErr());
         pfSubs.setConviction(wlEnt.getConviction().toString());
@@ -423,6 +435,7 @@ public class CL_PFSrvClient implements IF_PFSrvClient
     {
         TY_PFSubs pfSubs = new TY_PFSubs();
         pfSubs.setScrip(pfwlItem.getScrip());
+        pfSubs.setRating(pfwlItem.getRating());
         pfSubs.setAvgReturns(pfwlItem.getAvgReturns());
         pfSubs.setErr(pfwlItem.getErr());
         pfSubs.setConviction(wlEnt.getConviction().toString());

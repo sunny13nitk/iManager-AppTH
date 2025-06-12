@@ -202,7 +202,7 @@ public class PFController
                         log.info("Opp Cost Analysis bound.. for user");
                         model.addAttribute("oppCostPFReport", oppCostPFReport);
                         model.addAttribute("userDetails", userSessionSrv.getUserDetails());
-                        // return VWNamesDirectory.getViewName(EnumVWNames.OppCostAnalysis, false);
+                        return VWNamesDirectory.getViewName(EnumVWNames.OppCost, false);
                     }
                 }
                 catch (Exception e)
@@ -211,7 +211,7 @@ public class PFController
                 }
             }
         }
-        return null;
+        return VWNamesDirectory.getViewName(EnumVWNames.Home, true);
     }
 
     @PostMapping("/uploadPF")

@@ -39,6 +39,7 @@ public class VWNamesDirectory
         viewsDescMap.add(new TY_ViewMappings(EnumVWNames.StgyList, "/strategies/list", "stgyList"));
         viewsDescMap.add(new TY_ViewMappings(EnumVWNames.StgyResults, "/strategies/exec/{stgyName}", "stgyResults"));
         viewsDescMap.add(new TY_ViewMappings(EnumVWNames.ConsolPF, "/consolwl/", "pfConsOvw"));
+        viewsDescMap.add(new TY_ViewMappings(EnumVWNames.OppCost, "/pf/ai", "OppCostVw"));
 
         return viewsDescMap;
     }

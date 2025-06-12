@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>iManager</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Metro 4 -->
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/5.0.6/metro.css">
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/current/icons.css">
+
+
+</head>
+
+<body>
+    <!-- Top Menu Bar Fragment -->
+    <div class="row-12" style="padding: 0px; margin: 0px;">
+        <div class="col-xs-12" style="padding: 0px; margin: 0px;">
+            <div th:replace="~{fragments/menubar :: iMgrAppBar(userDetails=${userDetails})}"></div>
+        </div>
+
+        <div cell-4 offset-3 class="text-center">
+            <h5 style="color: #3FC08A;"><span class="mif-category" style="margin-right:5px;"></span> Opportunity
+                Cost Analysis </h5>
+        </div>
+        <div data-role="splitter" style="padding: 10px;" data-gutter-size="10">
+
+            <div style="padding: 10px;">
+                <h6 style="color: #493FC0; "> Replacement(s) Proposals</h6>
+                <grid style="overflow: auto;" th:if="${not #lists.isEmpty({oppCostPFReport.pfRCandidates})}">
+
+                    <div th:each="repl : ${oppCostPFReport.pfRCandidates}">
+                        <div class="cell-md-9 border bd-default radius" style="margin-top: 15px;">
+                            <div class="d-flex flex-column flex-align-center flex-justify-center p-6">
+                                <div class="h4 mb-0" id="height"><a class="no-decor"
+                                        th:href="@{'/wl/db/'+${repl.scrip}}" target="_blank"
+                                        style="color: #7742BD;">ABB</a>
+                                </div>
+                                <div class="reduce-4" style="margin-top: 5px;">
+
+                                    <!-- Rating -->
+                                    <span class="tally" th:if="${repl.rating == 'Accumulate'}"
+                                        style="font-weight: bolder; background-color: #f6f6d6; color: darkgoldenrod;"
+                                        th:text="${repl.rating}">Accumulate</span>
+
+                                    <span class="tally" th:if="${repl.rating == 'Buy'}"
+                                        style="font-weight: bolder; background-color: #E9F7F0; color: darkgreen;"
+                                        th:text="${repl.rating}">Buy</span>
+
+                                    <span class="tally" th:if="${wlItem.rating == 'StrongBuy'}"
+                                        style="font-weight: bolder; background-color: #C4E9D7; color: rgb(6, 144, 66);"
+                                        th:text="${repl.rating}"> </span>
+
+                                    <span class="tally" th:if="${wlItem.rating == 'Hold'}"
+                                        style="font-weight: bolder; background-color: #e1feff; color: darkblue;"
+                                        th:text="${repl.rating} "></span>
+
+                                    <span class="tally" th:if="${wlItem.rating == 'Sell'}"
+                                        style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
+                                        th:text="${repl.rating} "></span>
+
+
+                                    <!-- Avg Returns and ERR -->
+                                    <span class="text-muted">Avg. Returns</span><span class="ml-1 mr-1" id="height-slot"
+                                        th:text="${repl.avgReturns}">14.7</span><span
+                                        style="margin-left: -3px;">%</span>
+                                    <span class="text-muted">ERR</span><span class="ml-1 mr-1" id="height-slot"
+                                        th:text="${repl.err}">16.7</span><span style="margin-left: -3px;">%</span>
+
+                                </div>
+
+                                <div class="reduce-4" style="margin-top: 5px;">
+                                    <!-- Conviction -->
+                                    <span class="tally"
+                                        style="font-weight: bolder; background-color: #E9F7F0; color: darkgreen;"
+                                        th:text="${repl.conviction}">VeryHigh</span>
+
+                                    <!-- Growth -->
+                                    <span class="tally"
+                                        style="font-weight: bolder; background-color: #d8f1f9; color: rgb(13, 133, 177);"
+                                        th:text="${repl.growth}">High</span>
+
+                                    <!-- Sector -->
+                                    <span class="tally"
+                                        style="font-weight: bolder; background-color: #F1F9D8; color: #7E5CE6;"
+                                        th:text="${repl.cusSegment}">B2B_B2G</span>
+
+                                    <!-- Span -->
+                                    <span class="text-muted">Span</span><span class="ml-1 mr-1" id="height-slot"
+                                        th:text="${repl.span}">5</span>
+
+                                    <!-- Alloc -->
+                                    <span class="text-muted">Alloc</span><span class="ml-1 mr-1" id="height-slot"
+                                        th:text="${repl.alloc}">3</span>
+
+                                </div>
+
+                                <div class="reduce-4" style="margin-top: 5px;">
+                                    <!-- Inv -->
+                                    <span class="text-muted">Inv.</span><span class="ml-1 mr-1" id="height-slot"
+                                        th:text="${repl.investmentsM}">2.86
+                                        Lacs</span>
+
+                                    <!-- Val -->
+                                    <span class="text-muted">Val.</span><span class="ml-1 mr-1" id="height-slot"
+                                        th:text="${repl.currValM}">2.81
+                                        Lacs</span>
+
+                                    <!-- P&L-->
+                                    <span class="text-muted">P&L </span><span class="ml-1 mr-1" id="height-slot"
+                                        th:text="${repl.nettPLAbsM}">-5.03K</span>
+
+                                    <!-- P&L % -->
+
+
+                                    <span class="tally" th:if="${repl.nettPLPer < 0}"
+                                        style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
+                                        th:text="${repl.nettPLPer} "> -1.12 <span
+                                            style="margin-left: -3px;">%</span></span>
+
+                                    <span class="tally" th:if="${repl.nettPLPer > 0}"
+                                        style="font-weight: bolder; background-color: #E9F7F0; color: darkgreen;"
+                                        th:text="${repl.nettPLPer} "> 1.12 <span
+                                            style="margin-left: -3px;">%</span></span>
+
+                                </div>
+
+                                <div class="reduce-4" style="margin-top: 5px;">
+                                    <!-- Deployment Status -->
+                                    <span class="tally" th:if="${repl.allocStatus == 'OVER'}"
+                                        style="font-weight: bolder; background-color: #faeeea; color: rgb(169, 13, 13);"
+                                        th:text="${wlItem.allocStatus} "> OVER</span>
+
+                                    <span class="tally" th:if="${repl.allocStatus == 'UNDER'}"
+                                        style="font-weight: bolder; background-color: #E9F7F0; color: darkgreen;"
+                                        th:text="${wlItem.allocStatus} "> UNDER</span>
+
+                                    <!-- Depl Delta -->
+                                    <span class="text-muted">Delta</span><span class="ml-1 mr-1" id="height-slot"
+                                        th:text="${repl.deltaallocAmntM} ">2.81
+                                        Lacs</span>
+
+                                    <!-- % PF Inv -->
+                                    <span class="text-muted">PF Inv</span><span class="ml-1 mr-1" id="height-slot"
+                                        th:text="${repl.perInvPF} ">2.81</span><span style="margin-left: -3px;">%</span>
+
+                                    <!-- % PF CMP -->
+
+                                    <span class="text-muted">PF Val</span><span class="ml-1 mr-1" id="height-slot"
+                                        th:text="${repl.perCMPPF} ">2.81</span><span style="margin-left: -3px;">%</span>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </grid>
+            </div>
+            <div style="padding: 10px;">
+                <h6 style="color: #35CA41;"> Substitiute(s) Proposals - PF</h6>
+
+            </div>
+            <div style="padding: 10px;">
+                <h6 style="color: #CA8B35 ;"> Substitiute(s) Proposals - Watchlist</h6>
+
+            </div>
+
+
+        </div>
+
+
+
+
+    </div>
+
+    <script src="https://cdn.metroui.org.ua/5.0.6/metro.js"></script>
+</body>
+
+</html>

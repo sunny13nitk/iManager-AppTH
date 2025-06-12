@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class TY_PFSubs
 {
     private String scrip;
+    private String rating;
     private double avgReturns;
     private double err;
     private String cusSegment;
