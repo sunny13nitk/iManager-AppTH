@@ -13,4 +13,5 @@ public class TY_SCCMP
     private double cmp;
     private String chpct;
     private double mcapCr;
+    private double divYield;
 }
