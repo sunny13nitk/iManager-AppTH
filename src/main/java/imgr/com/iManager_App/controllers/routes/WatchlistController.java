@@ -410,6 +410,7 @@ public class WatchlistController
                         wlExis.setConviction(wlT.getConviction());
                         wlExis.setCusSegment(wlT.getCusSegment());
                         wlExis.setDateUpdated(UtilDurations.getTodaysDate());
+                        wlExis.setScriptype(wlT.getScriptype());
                         wlExis.setFwdepsgrbase(wlT.getFwdepsgrbase());
                         wlExis.setFwdpebase(wlT.getFwdpebase());
                         wlExis.setFwdepsgrbull(wlT.getFwdepsgrbull());

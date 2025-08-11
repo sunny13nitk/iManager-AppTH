@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import imgr.com.iManager_App.ui.enums.EnumCS;
 import imgr.com.iManager_App.ui.enums.EnumLevels;
+import imgr.com.iManager_App.ui.enums.EnumScripType;
 import imgr.com.iManager_App.ui.enums.EnumWLStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -34,6 +35,7 @@ public class EN_Watchlist
     @PastOrPresent
     private Date dateUpdated;
     private EnumWLStatus status;
+    private EnumScripType scriptype;
     @JsonIgnoreProperties(
     { "watchlistref" })
     private List<EN_SCReferences> references = new ArrayList<EN_SCReferences>();

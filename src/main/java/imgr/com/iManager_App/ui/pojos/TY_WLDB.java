@@ -14,6 +14,7 @@ public class TY_WLDB
 {
     private String scrip;
     private String rating; // EnumWLRating
+    private String scriptype;
     private double avgReturns;
     private double err;
     private double mcapCr;
