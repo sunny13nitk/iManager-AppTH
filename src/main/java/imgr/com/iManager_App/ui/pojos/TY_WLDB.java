@@ -42,6 +42,8 @@ public class TY_WLDB
     private double bullwtRatio;
     private double peg;
     private int size;
+    private double idx52Wk;
+    private double ocfPAT5Y; // OCF to PAT ratio for 5 years
     private List<TY_KeyValueDouble> exitKeyVals = new ArrayList<TY_KeyValueDouble>();
     private String notesLink;
 
